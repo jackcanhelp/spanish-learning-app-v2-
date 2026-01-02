@@ -1,0 +1,2755 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#D84315">
+    <meta name="description" content="30天西班牙語完整課程 - 從發音到實戰對話">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <title>🇪🇸 西班牙語速成學院</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Spanish-inspired Color Palette */
+            --sunset-orange: #FF6B35;
+            --deep-red: #D84315;
+            --golden-yellow: #FFA726;
+            --warm-cream: #FFF8E1;
+            --olive-green: #7CB342;
+            --midnight-blue: #1A237E;
+            --soft-white: #FAFAFA;
+            --charcoal: #212121;
+            --success: #66BB6A;
+            --error: #EF5350;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #FF6B35 0%, #D84315 100%);
+            --gradient-accent: linear-gradient(135deg, #FFA726 0%, #FF6B35 100%);
+            --gradient-dark: linear-gradient(135deg, #1A237E 0%, #3949AB 100%);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to bottom, #FFF8E1 0%, #FFE0B2 50%, #FFCCBC 100%);
+            background-attachment: fixed;
+            color: var(--charcoal);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Decorative Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(216, 67, 21, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 100px;
+        }
+
+        /* Header Section */
+        .app-header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .app-title {
+            font-family: 'Crimson Text', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .app-subtitle {
+            font-size: 1.1rem;
+            color: #5D4037;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .flag-emoji {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 15px;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        /* Tab Navigation */
+        .tab-container {
+            background: white;
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 8px;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--deep-red);
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(216, 67, 21, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Controls Panel */
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+            margin-bottom: 25px;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            border: 3px solid transparent;
+            background-image: 
+                linear-gradient(white, white),
+                var(--gradient-accent);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            animation: fadeIn 0.8s ease-out 0.3s both;
+        }
+
+        select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #E0E0E0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: white;
+            color: var(--charcoal);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        select:hover {
+            border-color: var(--sunset-orange);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--deep-red);
+            box-shadow: 0 0 0 3px rgba(216, 67, 21, 0.1);
+        }
+
+        .progress-bar {
+            background: #F5F5F5;
+            height: 8px;
+            border-radius: 10px;
+            margin-top: 18px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Speed Control */
+        .speed-control {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #FFE082;
+        }
+
+        .speed-control label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--deep-red);
+        }
+
+        .speed-icon {
+            font-size: 1.3rem;
+        }
+
+        .speed-label {
+            font-size: 0.95rem;
+        }
+
+        .speed-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .speed-mark {
+            font-size: 1.2rem;
+            user-select: none;
+        }
+
+        #speedSlider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right, #FFE082 0%, var(--sunset-orange) 50%, var(--deep-red) 100%);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        #speedSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border: 3px solid var(--sunset-orange);
+            transition: all 0.3s;
+        }
+
+        #speedSlider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        #speedSlider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border: 3px solid var(--sunset-orange);
+            transition: all 0.3s;
+        }
+
+        #speedSlider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .speed-value {
+            display: inline-block;
+            min-width: 50px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--deep-red);
+            font-size: 1rem;
+            background: #FFF3E0;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-left: 10px;
+        }
+
+        /* Voice Selection */
+        .voice-control {
+            margin-top: 15px;
+        }
+
+        .voice-control label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--deep-red);
+        }
+
+        .voice-icon {
+            font-size: 1.3rem;
+        }
+
+        #voiceSelect {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #E0E0E0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background: white;
+            color: var(--charcoal);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #voiceSelect:hover {
+            border-color: var(--sunset-orange);
+        }
+
+        #voiceSelect:focus {
+            outline: none;
+            border-color: var(--deep-red);
+            box-shadow: 0 0 0 3px rgba(216, 67, 21, 0.1);
+        }
+
+        .voice-gender-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .male-badge {
+            background: #E3F2FD;
+            color: #1976D2;
+        }
+
+        .female-badge {
+            background: #FCE4EC;
+            color: #C2185B;
+        }
+
+        /* Audio Unlock Banner */
+        .audio-unlock-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            z-index: 2000;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+            display: none;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .audio-unlock-banner.show {
+            display: block;
+        }
+
+        .audio-unlock-banner h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .audio-unlock-banner p {
+            margin: 0 0 15px 0;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .btn-unlock-audio {
+            background: white;
+            color: var(--deep-red);
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .btn-unlock-audio:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-unlock-audio:active {
+            transform: scale(0.95);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Pronunciation Guide Styles */
+        .pronunciation-intro {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            border-left: 6px solid var(--sunset-orange);
+        }
+
+        .pronunciation-intro h2 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2rem;
+            color: var(--deep-red);
+            margin-bottom: 15px;
+        }
+
+        .pronunciation-intro p {
+            font-size: 1.05rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .pronunciation-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .pronunciation-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border-left: 4px solid var(--golden-yellow);
+        }
+
+        .pronunciation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .pronunciation-card h3 {
+            font-size: 1.4rem;
+            color: var(--deep-red);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pronunciation-card h3::before {
+            content: '🎯';
+            font-size: 1.6rem;
+        }
+
+        .pronunciation-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        .pronunciation-table th {
+            text-align: left;
+            padding: 12px 15px;
+            background: var(--gradient-accent);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .pronunciation-table th:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .pronunciation-table th:last-child {
+            border-radius: 0 8px 8px 0;
+        }
+
+        .pronunciation-table td {
+            padding: 14px 15px;
+            background: #FAFAFA;
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        .pronunciation-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .letter-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--deep-red);
+        }
+
+        .sound-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sound-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(216, 67, 21, 0.3);
+        }
+
+        .sound-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Lesson Card Styles */
+        .card {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 4px solid transparent;
+            animation: slideInUp 0.5s ease-out backwards;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            border-left-color: var(--sunset-orange);
+        }
+
+        /* 規則說明卡片特殊樣式 */
+        .rule-card {
+            background: linear-gradient(135deg, #FFF9F0 0%, #FFF3E0 100%);
+            border-left: 4px solid var(--deep-red);
+        }
+
+        .rule-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(216, 67, 21, 0.15);
+            border-left-color: var(--deep-red);
+        }
+
+        .rule-card .card-main {
+            cursor: default;
+        }
+
+        .rule-card .es {
+            color: var(--deep-red);
+            font-size: 1.3rem;
+        }
+
+        .rule-card .zh {
+            color: #8D6E63;
+            font-weight: 600;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.05s; }
+        .card:nth-child(2) { animation-delay: 0.1s; }
+        .card:nth-child(3) { animation-delay: 0.15s; }
+        .card:nth-child(4) { animation-delay: 0.2s; }
+        .card:nth-child(5) { animation-delay: 0.25s; }
+
+        .card-main {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.05));
+            transition: width 0.4s;
+        }
+
+        .card:hover .card-main::before {
+            width: 100%;
+        }
+
+        .text-group {
+            flex-grow: 1;
+            margin-right: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .es {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            display: block;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .zh {
+            font-size: 1.05rem;
+            color: #757575;
+            font-weight: 500;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-speak {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(216, 67, 21, 0.3);
+        }
+
+        .btn-speak:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 20px rgba(216, 67, 21, 0.4);
+        }
+
+        .btn-speak:active {
+            transform: scale(0.9);
+        }
+
+        .btn-detail {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #FFF3E0;
+            color: var(--sunset-orange);
+            font-size: 1.3rem;
+            border: 2px solid #FFE0B2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-detail:hover {
+            background: var(--golden-yellow);
+            color: white;
+            border-color: var(--golden-yellow);
+            transform: scale(1.1);
+        }
+
+        .btn-detail.active {
+            background: var(--golden-yellow);
+            color: white;
+            border-color: var(--golden-yellow);
+            transform: rotate(180deg);
+        }
+
+        /* Detail Box */
+        .detail-box {
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFF3E0 100%);
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-top: 2px dashed #FFE082;
+        }
+
+        .detail-content {
+            padding: 25px 0;
+            font-size: 1rem;
+            color: #5D4037;
+            line-height: 1.8;
+        }
+
+        .tip-label {
+            font-weight: 700;
+            color: var(--deep-red);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .example {
+            margin-top: 15px;
+            padding: 18px;
+            background: white;
+            border-radius: 12px;
+            border-left: 4px solid var(--sunset-orange);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .ex-text {
+            flex-grow: 1;
+            font-style: italic;
+            color: var(--charcoal);
+            font-weight: 500;
+        }
+
+        .ex-zh {
+            display: block;
+            font-size: 0.9rem;
+            color: #888;
+            font-style: normal;
+            margin-top: 6px;
+            font-weight: 400;
+        }
+
+        .btn-ex-speak {
+            width: 36px;
+            height: 36px;
+            font-size: 1.1rem;
+            background: transparent;
+            color: var(--sunset-orange);
+            border: 2px solid var(--sunset-orange);
+            border-radius: 50%;
+            margin-left: 12px;
+            flex-shrink: 0;
+        }
+
+        .btn-ex-speak:hover {
+            background: var(--sunset-orange);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Quiz Button */
+        .quiz-start-area {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .btn-quiz-start {
+            padding: 18px 40px;
+            border-radius: 50px;
+            background: var(--gradient-dark);
+            color: white;
+            font-weight: 700;
+            font-size: 1.15rem;
+            box-shadow: 0 8px 25px rgba(26, 35, 126, 0.3);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-quiz-start::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-quiz-start:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-quiz-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(26, 35, 126, 0.4);
+        }
+
+        .btn-quiz-start span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Quiz Modal */
+        .quiz-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .quiz-card {
+            background: white;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 24px;
+            padding: 40px 35px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .quiz-question {
+            font-size: 1.6rem;
+            color: var(--charcoal);
+            margin-bottom: 30px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 18px 25px;
+            border: 2px solid #E0E0E0;
+            background: white;
+            border-radius: 12px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--charcoal);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--sunset-orange);
+            background: #FFF3E0;
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+            animation: pulse 0.5s;
+        }
+
+        .option-btn.wrong {
+            background: var(--error);
+            color: white;
+            border-color: var(--error);
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .quiz-score {
+            font-size: 1.1rem;
+            color: var(--deep-red);
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-close-quiz {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            color: #999;
+            font-size: 2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .btn-close-quiz:hover {
+            background: #F5F5F5;
+            color: var(--charcoal);
+            transform: rotate(90deg);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Install Banner */
+        .install-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .install-banner.show {
+            display: flex;
+        }
+
+        .install-btn {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dismiss-btn {
+            background: none;
+            color: #999;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .app-title {
+                font-size: 2.2rem;
+            }
+
+            .tab-btn {
+                padding: 12px 10px;
+                font-size: 0.85rem;
+            }
+
+            .card-main {
+                padding: 15px;
+            }
+
+            .es {
+                font-size: 1.2rem;
+            }
+
+            .btn-speak, .btn-detail {
+                width: 42px;
+                height: 42px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <span class="flag-emoji">🇪🇸</span>
+            <h1 class="app-title">西班牙語速成學院</h1>
+            <p class="app-subtitle">30天從零到實戰對話 | 發音 → 6W問句 → 數字時間 → 生存必備</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <button class="tab-btn active" onclick="switchTab('pronunciation')">📚 發音教學</button>
+            <button class="tab-btn" onclick="switchTab('lessons')">🎯 每日課程</button>
+        </div>
+
+        <!-- Pronunciation Section -->
+        <div id="pronunciation-section" class="content-section active">
+            <div class="pronunciation-intro">
+                <h2>🎵 西班牙語發音基礎</h2>
+                <p>西班牙語是世界上發音最規律的語言之一！只要掌握發音規則，看到字就能唸出來。讓我們從基礎開始：</p>
+            </div>
+
+            <div class="pronunciation-grid">
+                <!-- Vowels -->
+                <div class="pronunciation-card">
+                    <h3>五個元音 (Vocales)</h3>
+                    <table class="pronunciation-table">
+                        <thead>
+                            <tr>
+                                <th>字母</th>
+                                <th>發音</th>
+                                <th>範例</th>
+                                <th>試聽</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="letter-display">A</td>
+                                <td>發「啊」，類似中文「阿」</td>
+                                <td>Amigo (朋友)</td>
+                                <td><button class="sound-btn" onclick="speak('Amigo')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">E</td>
+                                <td>發「欸」，類似中文「誒」</td>
+                                <td>España (西班牙)</td>
+                                <td><button class="sound-btn" onclick="speak('España')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">I</td>
+                                <td>發「衣」，類似中文「一」</td>
+                                <td>Isla (島嶼)</td>
+                                <td><button class="sound-btn" onclick="speak('Isla')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">O</td>
+                                <td>發「喔」，類似中文「哦」</td>
+                                <td>Ojo (眼睛)</td>
+                                <td><button class="sound-btn" onclick="speak('Ojo')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">U</td>
+                                <td>發「烏」，類似中文「屋」</td>
+                                <td>Uno (一)</td>
+                                <td><button class="sound-btn" onclick="speak('Uno')">🔊</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Special Letters -->
+                <div class="pronunciation-card">
+                    <h3>特殊字母</h3>
+                    <table class="pronunciation-table">
+                        <thead>
+                            <tr>
+                                <th>字母</th>
+                                <th>發音規則</th>
+                                <th>範例</th>
+                                <th>試聽</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="letter-display">H</td>
+                                <td>永遠不發音（啞音）</td>
+                                <td>Hola (你好)</td>
+                                <td><button class="sound-btn" onclick="speak('Hola')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">Ñ</td>
+                                <td>發「尼-呀」，像「onion」</td>
+                                <td>Mañana (明天)</td>
+                                <td><button class="sound-btn" onclick="speak('Mañana')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">LL</td>
+                                <td>發「耶」或「夜」</td>
+                                <td>Llamar (叫)</td>
+                                <td><button class="sound-btn" onclick="speak('Llamar')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">J</td>
+                                <td>發「呵」（喉音）</td>
+                                <td>Jefe (老闆)</td>
+                                <td><button class="sound-btn" onclick="speak('Jefe')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">RR</td>
+                                <td>彈舌音（顫音）</td>
+                                <td>Perro (狗)</td>
+                                <td><button class="sound-btn" onclick="speak('Perro')">🔊</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Consonants -->
+                <div class="pronunciation-card">
+                    <h3>重要輔音</h3>
+                    <table class="pronunciation-table">
+                        <thead>
+                            <tr>
+                                <th>字母</th>
+                                <th>發音規則</th>
+                                <th>範例</th>
+                                <th>試聽</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="letter-display">C</td>
+                                <td>在 e, i 前發「斯」；其他發「K」</td>
+                                <td>Cena (晚餐) / Casa (家)</td>
+                                <td><button class="sound-btn" onclick="speak('Cena, Casa')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">G</td>
+                                <td>在 e, i 前發「呵」；其他發「G」</td>
+                                <td>Gente (人們) / Gato (貓)</td>
+                                <td><button class="sound-btn" onclick="speak('Gente, Gato')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">Z</td>
+                                <td>發「斯」（西班牙）或「S」（拉美）</td>
+                                <td>Zapato (鞋)</td>
+                                <td><button class="sound-btn" onclick="speak('Zapato')">🔊</button></td>
+                            </tr>
+                            <tr>
+                                <td class="letter-display">V</td>
+                                <td>與 B 發音相同（較輕的「B」）</td>
+                                <td>Vino (酒)</td>
+                                <td><button class="sound-btn" onclick="speak('Vino')">🔊</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Accent Rules -->
+                <div class="pronunciation-card">
+                    <h3>重音規則 (Acentuación)</h3>
+                    <div style="padding: 10px 0; line-height: 2;">
+                        <p><strong>1️⃣ 有重音符號（áéíóú）</strong> → 重音在該母音</p>
+                        <p style="margin-left: 20px; color: #666;">範例: <span style="color: var(--deep-red); font-weight: bold;">café</span> (咖啡) 
+                        <button class="sound-btn" style="margin-left: 10px;" onclick="speak('café')">🔊</button></p>
+                        
+                        <p><strong>2️⃣ 沒有重音符號 + 結尾是母音/n/s</strong> → 重音在倒數第二音節</p>
+                        <p style="margin-left: 20px; color: #666;">範例: <span style="color: var(--deep-red); font-weight: bold;">casa</span> (家)
+                        <button class="sound-btn" style="margin-left: 10px;" onclick="speak('casa')">🔊</button></p>
+                        
+                        <p><strong>3️⃣ 沒有重音符號 + 結尾是其他輔音</strong> → 重音在最後一音節</p>
+                        <p style="margin-left: 20px; color: #666;">範例: <span style="color: var(--deep-red); font-weight: bold;">hotel</span> (旅館)
+                        <button class="sound-btn" style="margin-left: 10px;" onclick="speak('hotel')">🔊</button></p>
+                    </div>
+                </div>
+
+                <!-- Practice Section -->
+                <div class="pronunciation-card" style="border-left-color: var(--olive-green);">
+                    <h3>練習時間 🎯</h3>
+                    <div style="padding: 10px 0;">
+                        <p style="margin-bottom: 15px; font-weight: 600;">試著唸出以下單字，點擊🔊聽正確發音：</p>
+                        <div style="display: grid; gap: 12px;">
+                            <div style="background: #FAFAFA; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 1.2rem; font-weight: 700;">¡Buenas noches!</span>
+                                <button class="sound-btn" onclick="speak('¡Buenas noches!')">🔊</button>
+                            </div>
+                            <div style="background: #FAFAFA; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 1.2rem; font-weight: 700;">¿Cómo estás?</span>
+                                <button class="sound-btn" onclick="speak('¿Cómo estás?')">🔊</button>
+                            </div>
+                            <div style="background: #FAFAFA; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 1.2rem; font-weight: 700;">Muchas gracias</span>
+                                <button class="sound-btn" onclick="speak('Muchas gracias')">🔊</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lessons Section -->
+        <div id="lessons-section" class="content-section">
+            <div class="controls">
+                <select id="daySelect" onchange="renderContent()"></select>
+                <div class="progress-bar">
+                    <div id="progress" class="progress-fill"></div>
+                </div>
+                
+                <!-- 語速控制 -->
+                <div class="speed-control">
+                    <label for="speedSlider">
+                        <span class="speed-icon">🎚️</span>
+                        <span class="speed-label">語速調整</span>
+                    </label>
+                    <div class="speed-slider-container">
+                        <span class="speed-mark">🐢</span>
+                        <input type="range" id="speedSlider" min="0.5" max="1.5" step="0.1" value="0.9">
+                        <span class="speed-mark">🐰</span>
+                        <span class="speed-value" id="speedValue">0.9x</span>
+                    </div>
+                </div>
+
+                <!-- 語音選擇 -->
+                <div class="voice-control">
+                    <label for="voiceSelect">
+                        <span class="voice-icon">🎙️</span>
+                        <span class="speed-label">語音選擇</span>
+                    </label>
+                    <select id="voiceSelect">
+                        <option value="">載入中...</option>
+                    </select>
+                </div>
+            </div>
+            <div id="content"></div>
+        </div>
+    </div>
+
+    <!-- Quiz Overlay -->
+    <div class="quiz-overlay" id="quizOverlay">
+        <div class="quiz-card" id="quizCard"></div>
+    </div>
+
+    <!-- Install Banner -->
+    <div class="install-banner" id="installBanner">
+        <span>📱 安裝應用程式以離線使用</span>
+        <button class="install-btn" id="installBtn">安裝</button>
+        <button class="dismiss-btn" id="dismissBtn">×</button>
+    </div>
+
+    <!-- Audio Unlock Banner (for mobile) -->
+    <div class="audio-unlock-banner" id="audioUnlockBanner">
+        <h3>🔊 啟用聲音功能</h3>
+        <p>請點擊下方按鈕以啟用語音播放功能</p>
+        <button class="btn-unlock-audio" id="unlockAudioBtn">啟用聲音</button>
+    </div>
+
+    <script>
+        // Curriculum Data - 30天完整課程（前14天）
+        const curriculum = [
+            // ===== 第一週：基礎打底 (Day 1-7) =====
+            
+            {
+                title: "Day 1: 基礎發音與見面",
+                items: [
+                    { es: "¡Hola!", zh: "你好！", tip: "最通用的打招呼，H 不發音。", ex: "Hola, ¿qué tal?", ex_zh: "嗨，你好嗎？" },
+                    { es: "Buenos días.", zh: "早安", tip: "下午2點前都算早安。", ex: "Buenos días a todos.", ex_zh: "大家早安。" },
+                    { es: "Buenas tardes.", zh: "午安", tip: "日落前都用這個。", ex: "Buenas tardes, señora.", ex_zh: "女士，午安。" },
+                    { es: "Buenas noches.", zh: "晚安", tip: "晚上見面或睡前都說。", ex: "Buenas noches, hasta mañana.", ex_zh: "晚安，明天見。" },
+                    { es: "¿Cómo estás?", zh: "你好嗎？", tip: "Cómo (How) + Estás (Are you)。", ex: "Hola Ana, ¿cómo estás?", ex_zh: "嗨 Ana，你好嗎？" },
+                    { es: "Bien, gracias.", zh: "很好，謝謝。", tip: "標準回答套路。", ex: "Muy bien, gracias. ¿Y tú?", ex_zh: "非常好，謝謝。你呢？" },
+                    { es: "Mucho gusto.", zh: "很高興認識你。", tip: "Gusto = 樂趣/品味。", ex: "Soy Pablo, mucho gusto.", ex_zh: "我是 Pablo，很高興認識你。" },
+                    { es: "Adiós.", zh: "再見。", tip: "A Dios (向著上帝)。", ex: "Adiós, buen viaje.", ex_zh: "再見，旅途愉快。" },
+                    { es: "Hasta luego.", zh: "待會見", tip: "最常用的道別。", ex: "Me voy, hasta luego.", ex_zh: "我走了，待會見。" },
+                    { es: "Por favor.", zh: "請 / 麻煩了。", tip: "為了(Por) 恩惠(Favor)。", ex: "Un café, por favor.", ex_zh: "請給我一杯咖啡。" },
+                    { es: "Perdón.", zh: "不好意思 / 借過。", tip: "撞到人、要過路時用。", ex: "Perdón, ¿puedo pasar?", ex_zh: "不好意思，我可以過嗎？" }
+                ]
+            },
+            {
+                title: "Day 2: 自我介紹與基礎交流",
+                items: [
+                    { es: "Me llamo...", zh: "我叫...", tip: "動詞 Llamarse (自稱)。", ex: "Me llamo David.", ex_zh: "我叫大衛。" },
+                    { es: "Soy de Taiwán.", zh: "我來自台灣。", tip: "Ser (是) + de (from)。", ex: "Soy de Taipéi.", ex_zh: "我來自台北。" },
+                    { es: "Soy turista.", zh: "我是遊客。", tip: "Turista = Tourist。", ex: "No trabajo aquí, soy turista.", ex_zh: "我不在這裡工作，我是遊客。" },
+                    { es: "No hablo español.", zh: "我不會說西文。", tip: "Hablo (Speak)。", ex: "Lo siento, no hablo español.", ex_zh: "抱歉，我不會說西班牙文。" },
+                    { es: "Hablo un poco.", zh: "我會說一點點。", tip: "Un poco = A little bit。", ex: "Hablo un poco de inglés.", ex_zh: "我會說一點英文。" },
+                    { es: "¿Hablas inglés?", zh: "你會說英文嗎？", tip: "Hablas (You speak)。", ex: "¿Perdón, hablas inglés?", ex_zh: "不好意思，你會說英文嗎？" },
+                    { es: "No entiendo.", zh: "我聽不懂。", tip: "Entiendo (Understand)。", ex: "Hablas muy rápido, no entiendo.", ex_zh: "你說太快了，我聽不懂。" },
+                    { es: "Más despacio, por favor.", zh: "請慢一點。", tip: "Despacio = 慢慢地。", ex: "Repite más despacio, por favor.", ex_zh: "請慢一點重複一次。" },
+                    { es: "¿Qué significa...?", zh: "...是什麼意思？", tip: "指著看不懂的字問。", ex: "¿Qué significa 'Salida'?", ex_zh: "「Salida」是什麼意思？" },
+                    { es: "Sí / No", zh: "是 / 否", tip: "Sí 有重音符號。", ex: "Sí, por favor.", ex_zh: "是的，麻煩了。" },
+                    { es: "Gracias.", zh: "謝謝。", tip: "最重要的禮貌用語。", ex: "Muchas gracias.", ex_zh: "非常感謝。" }
+                ]
+            },
+            {
+                title: "Day 3: 6W 問句完整攻略",
+                items: [
+                    { es: "📌 疑問句基本規則", zh: "西班牙文問句的特色", tip: "西班牙文的疑問句有兩個特殊之處：<br>(1) 問句前後都有問號：¿...? 開頭是倒問號，結尾是正問號<br>(2) 疑問詞都有重音符號：所有疑問詞（qué, dónde, cuándo...）都要加重音符號，這樣才能跟一般詞彙區分<br><br>例如：¿Qué? (什麼？) vs que (that)", ex: "", ex_zh: "", noSound: true },
+                    { es: "📌 Qué 系列", zh: "什麼？", tip: "Qué 是最常用的疑問詞，可以單獨用，也可以跟動詞組合。<br><br>⚠️ 注意：Qué 永遠帶重音符號 é", ex: "", ex_zh: "", noSound: true },
+                    { es: "¿Qué?", zh: "什麼？", tip: "What - 最常用的問句字。", ex: "¿Qué es esto?", ex_zh: "這是什麼？" },
+                    { es: "¿Qué quieres?", zh: "你要什麼？", tip: "Qué + 動詞。Querer = Want (想要)。", ex: "¿Qué quieres comer?", ex_zh: "你想吃什麼？" },
+                    { es: "📌 Dónde 系列", zh: "哪裡？", tip: "Dónde 用來問地點、位置。可以單獨用，或搭配介系詞 de（從）、a（到）等等。<br><br>發音：dón-de，重音在第一音節", ex: "", ex_zh: "", noSound: true },
+                    { es: "¿Dónde?", zh: "哪裡？", tip: "Where - 問位置。", ex: "¿Dónde está el baño?", ex_zh: "廁所在哪裡？" },
+                    { es: "¿De dónde eres?", zh: "你從哪來？", tip: "De dónde = From where。詢問國籍/來源地。", ex: "¿De dónde eres? Soy de Taiwán.", ex_zh: "你從哪來？我來自台灣。" },
+                    { es: "📌 Cuándo vs Cuánto", zh: "時間 vs 數量", tip: "這兩個很容易搞混！<br>Cuándo (何時) 問的是「時間」<br>Cuánto (多少) 問的是「數量」或「程度」<br><br>💡 記憶技巧：<br>Cuándo 跟 cuando (when) 類似<br>Cuánto 跟 cantidad (數量) 類似", ex: "", ex_zh: "", noSound: true },
+                    { es: "¿Cuándo?", zh: "什麼時候？", tip: "When - 問時間。重音在 Cuán。", ex: "¿Cuándo vuelves?", ex_zh: "你什麼時候回來？" },
+                    { es: "¿Cuándo sale?", zh: "什麼時候出發？", tip: "問交通時間必備。Sale = 出發/離開。", ex: "¿Cuándo sale el bus?", ex_zh: "巴士什麼時候開？" },
+                    { es: "¿Cuánto?", zh: "多少？", tip: "How much - 問價錢/數量。單數形式。", ex: "¿Cuánto cuesta?", ex_zh: "多少錢？" },
+                    { es: "¿Cuántos años?", zh: "幾歲？", tip: "Cuántos (複數) + Años (年)。注意複數要加 s。", ex: "¿Cuántos años tienes?", ex_zh: "你幾歲？" },
+                    { es: "📌 Quién 系列", zh: "誰？", tip: "Quién 用來問人。可以單獨用，或搭配介系詞 con (跟)、de (的) 等等。發音：ki-én，像英文的 keen。", ex: "", ex_zh: "", noSound: true },
+                    { es: "¿Quién?", zh: "誰？", tip: "Who - 問人是誰。", ex: "¿Quién es ella?", ex_zh: "她是誰？" },
+                    { es: "¿Con quién?", zh: "跟誰？", tip: "Con = With (跟、和)。", ex: "¿Con quién viajas?", ex_zh: "你跟誰旅行？" },
+                    { es: "📌 Por qué vs Porque", zh: "最容易搞混！", tip: "這是最重要的區別！<br>Por qué（兩個字，有問號，有重音）= 為什麼？用來「問問題」<br>Porque（一個字，沒問號，沒重音）= 因為，用來「回答問題」<br><br>⚠️ 千萬別搞混！", ex: "", ex_zh: "", noSound: true },
+                    { es: "¿Por qué?", zh: "為什麼？", tip: "Why - 兩個字！Por(為了) + Qué(什麼)。", ex: "¿Por qué no?", ex_zh: "為什麼不？" },
+                    { es: "Porque...", zh: "因為...", tip: "一個字！沒問號，沒重音。", ex: "Porque estoy cansado.", ex_zh: "因為我累了。" },
+                    { es: "📌 Cómo 系列", zh: "如何？怎樣？", tip: "Cómo 用來問方式、狀態、程度。也可以表示驚訝或請對方重複（什麼？）。重音在 Có。", ex: "", ex_zh: "", noSound: true },
+                    { es: "¿Cómo?", zh: "如何？怎樣？", tip: "How - 也可表示「什麼？」。", ex: "¿Cómo estás?", ex_zh: "你好嗎？" },
+                    { es: "¿Cómo se dice?", zh: "怎麼說？", tip: "不知道怎麼說時用這句。Se dice = 它被說。", ex: "¿Cómo se dice 'book' en español?", ex_zh: "書用西班牙文怎麼說？" },
+                    { es: "📌 Cuál 系列", zh: "哪一個？", tip: "Cuál 用來在多個選項中做選擇。<br><br>跟 Qué 的差別：<br>Qué 問「什麼」（開放式）<br>Cuál 問「哪一個」（有限選項）<br><br>例如：<br>¿Qué quieres? (你要什麼？)<br>¿Cuál quieres? (你要哪一個？)", ex: "", ex_zh: "", noSound: true },
+                    { es: "¿Cuál?", zh: "哪一個？", tip: "Which - 在多個選項中選擇。", ex: "¿Cuál prefieres?", ex_zh: "你比較喜歡哪一個？" }
+                ]
+            },
+            {
+                title: "Day 4: 數字系統完全攻略",
+                items: [
+                    { es: "📌 規則一：基礎數字 (0-15)", zh: "這些必須背熟！", tip: "這15個數字是獨立的單字，沒有規則可循，只能死背。它們是所有其他數字的組成基礎，所以務必記熟。", ex: "", ex_zh: "", noSound: true },
+                    { es: "Cero", zh: "0", tip: "Zero。", ex: "Cero grados.", ex_zh: "零度。" },
+                    { es: "Uno, Dos, Tres", zh: "1, 2, 3", tip: "最基本三個。", ex: "Un café, dos cervezas, tres días.", ex_zh: "一杯咖啡、兩杯啤酒、三天。" },
+                    { es: "Cuatro, Cinco, Seis", zh: "4, 5, 6", tip: "4像Quattro，5像Cinco de Mayo。", ex: "Cinco minutos, seis meses.", ex_zh: "五分鐘、六個月。" },
+                    { es: "Siete, Ocho, Nueve", zh: "7, 8, 9", tip: "7=siete，8=ocho，9=nueve。", ex: "Siete euros, nueve horas.", ex_zh: "七歐元、九小時。" },
+                    { es: "Diez, Once, Doce", zh: "10, 11, 12", tip: "10=diez，11=once，12=doce。", ex: "Doce meses al año.", ex_zh: "一年十二個月。" },
+                    { es: "Trece, Catorce, Quince", zh: "13, 14, 15", tip: "15=quince 很重要（刻鐘）。", ex: "Quince minutos.", ex_zh: "十五分鐘。" },
+                    { es: "📌 規則二：16-19 連寫規則", zh: "四個特殊數字", tip: "16到19這四個數字的構成方式是：Diez（10）+ y（和）+ 個位數字，但是要連寫成一個字，而且 y 要變成 i。例如：Diez + y + Seis = Dieciséis（16）。注意拼法的變化！", ex: "", ex_zh: "", noSound: true },
+                    { es: "Dieciséis", zh: "16", tip: "拼法：Diez + y + Seis → Dieciséis。y變成i，全部連寫。", ex: "Tengo dieciséis años.", ex_zh: "我十六歲。" },
+                    { es: "Diecisiete", zh: "17", tip: "拼法：Diez + y + Siete → Diecisiete。", ex: "Diecisiete euros.", ex_zh: "十七歐元。" },
+                    { es: "Dieciocho", zh: "18", tip: "拼法：Diez + y + Ocho → Dieciocho。", ex: "Dieciocho días.", ex_zh: "十八天。" },
+                    { es: "Diecinueve", zh: "19", tip: "拼法：Diez + y + Nueve → Diecinueve。", ex: "Diecinueve minutos.", ex_zh: "十九分鐘。" },
+                    { es: "📌 規則三：20-29 連寫規則", zh: "只有這個範圍連寫！", tip: "20幾的數字組合方式：Veinte（20）+ 個位數字，連寫成一個字。例如：Veinte + Uno = Veintiuno（21）。注意：從30開始就不連寫了！這是唯一需要連寫的十位數範圍。", ex: "", ex_zh: "", noSound: true },
+                    { es: "Veinte", zh: "20", tip: "Twenty。這是基礎字。", ex: "Veinte años.", ex_zh: "二十歲。" },
+                    { es: "Veintiuno", zh: "21", tip: "拼法：Veinte + Uno → Veintiuno（連寫）。名詞前變成 Veintiún。", ex: "Veintiún euros.", ex_zh: "二十一歐元。" },
+                    { es: "Veintidós", zh: "22", tip: "拼法：Veinte + Dos → Veintidós（連寫）。", ex: "Veintidós de marzo.", ex_zh: "三月二十二日。" },
+                    { es: "Veintinueve", zh: "29", tip: "拼法：Veinte + Nueve → Veintinueve（連寫）。", ex: "Veintinueve días.", ex_zh: "二十九天。" },
+                    { es: "📌 規則四：30-99 分開寫規則", zh: "用 y 連接，分三個字！", tip: "從30開始的組合方式完全不同：整十數字 + y（和）+ 個位數字，分開寫成三個字。例如：Treinta（30）+ y + uno（1）= Treinta y uno（31）。記住：一定要有 y，而且要分開寫！", ex: "", ex_zh: "", noSound: true },
+                    { es: "Treinta", zh: "30", tip: "Thirty。規律：像 Tres（3）。", ex: "Treinta días.", ex_zh: "三十天。" },
+                    { es: "Treinta y uno", zh: "31", tip: "拼法：Treinta + y + uno（分開寫三個字！）", ex: "Treinta y un días.", ex_zh: "三十一天。" },
+                    { es: "Cuarenta", zh: "40", tip: "Forty。規律：像 Cuatro（4）。", ex: "Cuarenta minutos.", ex_zh: "四十分鐘。" },
+                    { es: "Cuarenta y dos", zh: "42", tip: "拼法：Cuarenta + y + dos（分開寫）。", ex: "Cuarenta y dos kilómetros.", ex_zh: "四十二公里。" },
+                    { es: "Cincuenta", zh: "50", tip: "Fifty。規律：像 Cinco（5）。", ex: "Cincuenta por ciento.", ex_zh: "百分之五十。" },
+                    { es: "Cincuenta y uno", zh: "51", tip: "拼法：Cincuenta + y + uno（分開寫）。絕對不能連寫！", ex: "Página cincuenta y uno.", ex_zh: "第五十一頁。" },
+                    { es: "Sesenta", zh: "60", tip: "Sixty。規律：像 Seis（6）。", ex: "Sesenta kilómetros.", ex_zh: "六十公里。" },
+                    { es: "Setenta", zh: "70", tip: "Seventy。規律：像 Siete（7）。", ex: "Setenta y cinco.", ex_zh: "七十五。" },
+                    { es: "Ochenta", zh: "80", tip: "Eighty。規律：像 Ocho（8）。", ex: "Ochenta euros.", ex_zh: "八十歐元。" },
+                    { es: "Noventa", zh: "90", tip: "Ninety。規律：像 Nueve（9）。", ex: "Noventa y nueve.", ex_zh: "九十九。" },
+                    { es: "📌 規則五：100 的兩種形式", zh: "Cien 還是 Ciento？", tip: "100 有兩個拼法，使用時機不同：(1) Cien：單獨使用或直接接名詞時用，例如「cien euros」（100歐元）。(2) Ciento：後面接其他數字時用，例如「ciento uno」（101）、「ciento cincuenta」（150）。記住：100整數用Cien，101以上用Ciento。", ex: "", ex_zh: "", noSound: true },
+                    { es: "Cien", zh: "100（單獨或接名詞）", tip: "用法：Cien euros、Cien personas。", ex: "Cien por ciento.", ex_zh: "百分之百。" },
+                    { es: "Ciento uno", zh: "101", tip: "拼法：Ciento + uno。101以上都用 Ciento 開頭！", ex: "Ciento cinco kilómetros.", ex_zh: "一百零五公里。" },
+                    { es: "Ciento cincuenta", zh: "150", tip: "拼法：Ciento + cincuenta。", ex: "Ciento cincuenta euros.", ex_zh: "一百五十歐元。" },
+                    { es: "📌 規則六：200-900 的變化", zh: "要變化，還分陰陽性！", tip: "200-900的組成：數字 + cientos。例如：Dos（2）+ cientos = Doscientos（200）。但要注意：(1) 500是Quinientos（不是Cincocientos），900是Novecientos（不是Nuevecientos）。(2) 要配合名詞的陰陽性：陽性名詞用 -os 結尾（doscientos euros），陰性名詞用 -as 結尾（doscientas personas）。", ex: "", ex_zh: "", noSound: true },
+                    { es: "Doscientos", zh: "200（陽性）", tip: "組成：Dos + cientos。陽性名詞用這個。", ex: "Doscientos euros.", ex_zh: "兩百歐元。" },
+                    { es: "Doscientas", zh: "200（陰性）", tip: "陰性形式：結尾變 -as。陰性名詞用這個。", ex: "Doscientas personas.", ex_zh: "兩百人（personas是陰性）。" },
+                    { es: "Trescientos", zh: "300", tip: "組成：Tres + cientos。", ex: "Trescientos cincuenta.", ex_zh: "三百五十。" },
+                    { es: "Quinientos", zh: "500", tip: "特殊拼法！不是 Cincocientos，是 Quinientos。", ex: "Quinientos dólares.", ex_zh: "五百美元。" },
+                    { es: "Novecientos", zh: "900", tip: "特殊拼法！不是 Nuevecientos，是 Novecientos。", ex: "Novecientos noventa y nueve.", ex_zh: "九百九十九。" },
+                    { es: "📌 規則七：1000 以上", zh: "Mil 永遠不變！", tip: "千位數的組成：數字 + mil。例如：Dos（2）+ mil = Dos mil（2000）。重點：(1) Mil 永遠是單數形式，不加 s。所以「三千」是 Tres mil，不是 Tres miles。(2) Mil 不分陰陽性，所有名詞都用同一個形式。年份的說法：2025 = Dos mil veinticinco（兩千二十五）。", ex: "", ex_zh: "", noSound: true },
+                    { es: "Mil", zh: "1000", tip: "Millennium（千禧年）。永遠是 mil！", ex: "Mil euros.", ex_zh: "一千歐元。" },
+                    { es: "Dos mil", zh: "2000", tip: "組成：Dos + mil。不能說 dos miles！", ex: "Dos mil pesos.", ex_zh: "兩千披索。" },
+                    { es: "Tres mil", zh: "3000", tip: "組成：Tres + mil。", ex: "Tres mil kilómetros.", ex_zh: "三千公里。" },
+                    { es: "Diez mil", zh: "10000", tip: "組成：Diez + mil。萬的說法。", ex: "Diez mil euros.", ex_zh: "一萬歐元。" },
+                    { es: "Dos mil veinticinco", zh: "2025（年份）", tip: "年份說法：兩千 + 二十五。", ex: "En el año dos mil veinticinco.", ex_zh: "在2025年。" },
+                    { es: "📌 規則八：百萬", zh: "記得加 de！", tip: "百萬的用法：(1) 單數：Un millón（一百萬）。(2) 複數：Dos millones、Tres millones（要加 -es）。(3) 最重要：後面接名詞時必須加 de！例如：Un millón de euros（一百萬歐元）、Dos millones de personas（兩百萬人）。絕對不能省略 de！", ex: "", ex_zh: "", noSound: true },
+                    { es: "Un millón", zh: "100萬", tip: "Million。複數是 millones。", ex: "Un millón de dólares.", ex_zh: "一百萬美元（記得加de）。" },
+                    { es: "Dos millones", zh: "200萬", tip: "複數：Millones。要加 de！", ex: "Dos millones de habitantes.", ex_zh: "兩百萬居民。" }
+                ]
+            },
+            
+            // ===== Day 5-7: 動詞基礎與第一週複習 =====
+            
+            {
+                title: "Day 5: 動詞基礎 - Ser vs Estar（含完整變化表）",
+                items: [
+                    { es: "📌 主詞代名詞（Subject Pronouns）", zh: "人稱代名詞完整表", tip: "單數：<br>Yo（我）、Tú（你，非正式）、Él（他）、Ella（她）、Usted（您，正式）<br><br>複數：<br>Nosotros/as（我們）、Vosotros/as（你們，西班牙用）、Ellos/Ellas（他們/她們）、Ustedes（你們/您們，拉丁美洲用）<br><br>💡 重點：<br>西班牙語通常省略主詞，因為動詞變化已經顯示主詞。Tú用於朋友，Usted用於長輩/陌生人。", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "📌 Ser vs Estar 基本區別", zh: "兩個「是」的不同", tip: "西班牙文有兩個「是」：Ser 和 Estar。<br>Ser 用於本質、身份、特徵（永久性的）。<br>Estar 用於狀態、位置、情緒（臨時性的）。<br><br>💡 記憶技巧：<br>Ser = 永遠如此、Estar = 暫時狀態", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "📌 Ser 動詞完整變化表（現在式）", zh: "Ser的六個變化", tip: "Yo soy（我是）<br>Tú eres（你是）<br>Él/Ella/Usted es（他/她/您是）<br>Nosotros/as somos（我們是）<br>Vosotros/as sois（你們是，西班牙）<br>Ellos/Ellas/Ustedes son（他們/她們/您們是）<br><br>💡 記憶技巧：<br>Soy → 我來自台灣<br>Eres → 你很高<br>Es → 它很漂亮<br>Somos → 我們是朋友<br>Son → 他們是遊客<br><br>⚠️ Ser是不規則動詞，每個變化都要記！", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo soy de Taiwán.", zh: "我來自台灣。", tip: "Ser第一人稱單數。", ex: "Yo soy estudiante.", ex_zh: "我是學生。" },
+                    { es: "Tú eres muy amable.", zh: "你很親切。", tip: "Ser第二人稱單數。", ex: "Tú eres mi amigo.", ex_zh: "你是我朋友。" },
+                    { es: "Él es alto.", zh: "他很高。", tip: "Ser第三人稱單數（他）。", ex: "Él es de España.", ex_zh: "他來自西班牙。" },
+                    { es: "Ella es bonita.", zh: "她很漂亮。", tip: "Ser第三人稱單數（她）。", ex: "Ella es profesora.", ex_zh: "她是老師。" },
+                    { es: "Nosotros somos turistas.", zh: "我們是遊客。", tip: "Ser第一人稱複數。", ex: "Somos de Asia.", ex_zh: "我們來自亞洲。" },
+                    { es: "Ellos son amigos.", zh: "他們是朋友。", tip: "Ser第三人稱複數。", ex: "Ellos son estudiantes.", ex_zh: "他們是學生。" },
+                    
+                    { es: "📌 Ser 的常見用法", zh: "本質、身份、特徵", tip: "Ser 用於：<br>(1) 身份：Soy estudiante（我是學生）<br>(2) 特徵：Es alto（他很高）<br>(3) 時間：Son las tres（三點了）<br>(4) 國籍/來源：Soy taiwanés（我是台灣人）<br>(5) 材質：Es de madera（木製的）<br>(6) 職業：Es médico（他是醫生）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Es caro/barato.", zh: "它貴/便宜。", tip: "Ser 表示價格的本質。", ex: "Este restaurante es caro.", ex_zh: "這間餐廳很貴。" },
+                    { es: "Es fácil/difícil.", zh: "它簡單/困難。", tip: "Ser 表示事物的特性。", ex: "El español es fácil.", ex_zh: "西班牙文很簡單。" },
+                    { es: "Es importante.", zh: "這很重要。", tip: "Ser 表示重要性。", ex: "Es importante llegar a tiempo.", ex_zh: "準時到達很重要。" },
+                    { es: "Son las tres.", zh: "三點了。", tip: "Ser 表示時間。", ex: "¿Qué hora es? Son las cinco.", ex_zh: "幾點？五點。" },
+                    
+                    { es: "📌 Estar 動詞完整變化表（現在式）", zh: "Estar的六個變化", tip: "Yo estoy（我在/我是）<br>Tú estás（你在/你是）<br>Él/Ella/Usted está（他/她/您在/是）<br>Nosotros/as estamos（我們在/是）<br>Vosotros/as estáis（你們在/是，西班牙）<br>Ellos/Ellas/Ustedes están（他們/她們/您們在/是）<br><br>💡 記憶技巧：<br>Estoy → 我在這裡<br>Estás → 你好嗎<br>Está → 關閉了<br>Estamos → 我們很好<br>Están → 他們很忙<br><br>⚠️ Estar也是不規則動詞！注意重音符號：estás, está, están", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo estoy aquí.", zh: "我在這裡。", tip: "Estar第一人稱單數。", ex: "Estoy en Madrid.", ex_zh: "我在馬德里。" },
+                    { es: "Tú estás cansado.", zh: "你累了。", tip: "Estar第二人稱單數。", ex: "¿Estás bien?", ex_zh: "你還好嗎？" },
+                    { es: "Él está en casa.", zh: "他在家。", tip: "Estar第三人稱單數（他）。", ex: "Él está ocupado.", ex_zh: "他很忙。" },
+                    { es: "Ella está feliz.", zh: "她很開心。", tip: "Estar第三人稱單數（她）。", ex: "Ella está aquí.", ex_zh: "她在這裡。" },
+                    { es: "Nosotros estamos bien.", zh: "我們很好。", tip: "Estar第一人稱複數。", ex: "Estamos en el hotel.", ex_zh: "我們在飯店。" },
+                    { es: "Ellos están perdidos.", zh: "他們迷路了。", tip: "Estar第三人稱複數。", ex: "Están cansados.", ex_zh: "他們累了。" },
+                    
+                    { es: "📌 Estar 的常見用法", zh: "狀態、位置、情緒", tip: "Estar 用於：<br>(1) 位置：Estoy en Madrid（我在馬德里）<br>(2) 狀態：Estoy cansado（我累了）<br>(3) 情緒：Estoy feliz（我很開心）<br>(4) 進行式：Estoy estudiando（我正在學習）<br>(5) 開關狀態：Está cerrado（關閉了）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "¿Dónde está el baño?", zh: "廁所在哪裡？", tip: "Estar 表示位置。", ex: "¿Dónde está mi hotel?", ex_zh: "我的飯店在哪？" },
+                    { es: "Está delicioso.", zh: "很好吃。", tip: "Estar 表示食物現在的味道。", ex: "¡Qué rico! Está delicioso.", ex_zh: "真好吃！太美味了。" },
+                    { es: "Está cerrado.", zh: "關閉了。", tip: "Estar 表示開關的狀態。", ex: "El museo está cerrado hoy.", ex_zh: "博物館今天關閉。" },
+                    { es: "Está ocupado.", zh: "忙碌/佔用。", tip: "Estar 表示忙碌或被佔用的狀態。", ex: "El baño está ocupado.", ex_zh: "廁所有人。" },
+                    
+                    { es: "📌 同一形容詞的不同意思", zh: "Ser vs Estar 意思大不同", tip: "有些形容詞配Ser和Estar意思完全不同！<br>Ser bueno = 人好/東西好（本質）、Estar bueno = 好吃/性感<br>Ser listo = 聰明、Estar listo = 準備好<br>Ser aburrido = 無聊的人、Estar aburrido = 感到無聊<br>Ser malo = 壞的（本質）、Estar malo = 生病/變質", ex: "", ex_zh: "", noSound: true }
+                ]
+            },
+            {
+                title: "Day 6: 動詞基礎 - Tener vs Hacer（含完整變化表）",
+                items: [
+                    { es: "📌 Tener 動詞完整變化表（現在式）", zh: "Tener的六個變化", tip: "Yo tengo（我有）<br>Tú tienes（你有）<br>Él/Ella/Usted tiene（他/她/您有）<br>Nosotros/as tenemos（我們有）<br>Vosotros/as tenéis（你們有，西班牙）<br>Ellos/Ellas/Ustedes tienen（他們/她們/您們有）<br><br>💡 記憶技巧：<br>Tengo → 我餓了<br>Tienes → 你幾歲<br>Tiene → 他對了<br>Tenemos → 我們有時間<br>Tienen → 他們趕時間<br><br>⚠️ Tener是不規則動詞！第一人稱是tengo（不是teno）。注意：第二、三人稱有ie變化（tienes, tiene, tienen）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo tengo 25 años.", zh: "我25歲。", tip: "Tener第一人稱單數。", ex: "Tengo hambre.", ex_zh: "我餓了。" },
+                    { es: "Tú tienes razón.", zh: "你說得對。", tip: "Tener第二人稱單數。", ex: "¿Tienes tiempo?", ex_zh: "你有時間嗎？" },
+                    { es: "Él tiene un coche.", zh: "他有一輛車。", tip: "Tener第三人稱單數（他）。", ex: "Él tiene sed.", ex_zh: "他渴了。" },
+                    { es: "Ella tiene 30 años.", zh: "她30歲。", tip: "Tener第三人稱單數（她）。", ex: "Ella tiene frío.", ex_zh: "她冷。" },
+                    { es: "Nosotros tenemos tiempo.", zh: "我們有時間。", tip: "Tener第一人稱複數。", ex: "Tenemos prisa.", ex_zh: "我們趕時間。" },
+                    { es: "Ellos tienen hambre.", zh: "他們餓了。", tip: "Tener第三人稱複數。", ex: "Tienen que ir.", ex_zh: "他們必須走。" },
+                    
+                    { es: "📌 Tener 的多種用法", zh: "「擁有」和更多", tip: "Tener 基本意思是「擁有」，但還有很多特殊用法：<br>(1) 擁有：Tengo un coche（我有車）<br>(2) 年齡：Tengo 25 años（我25歲）<br>(3) 感覺：Tengo hambre（我餓了）<br>(4) 必須：Tengo que ir（我必須走）<br><br>⚠️ 注意：年齡用Tener不用Ser！不說「Soy 25 años」", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Tengo hambre.", zh: "我餓了。", tip: "Tener + hambre。不說 Estoy hambre！", ex: "Tengo mucha hambre, vamos a comer.", ex_zh: "我很餓，我們去吃飯吧。" },
+                    { es: "Tengo sed.", zh: "我渴了。", tip: "Tener + sed。", ex: "Tengo sed, quiero agua.", ex_zh: "我渴了，我要水。" },
+                    { es: "Tengo frío/calor.", zh: "我冷/熱。", tip: "Tener + frío/calor 表示人的感覺。", ex: "Tengo mucho frío.", ex_zh: "我很冷。" },
+                    { es: "Tengo sueño.", zh: "我睏了。", tip: "Tener + sueño。", ex: "Tengo sueño, quiero dormir.", ex_zh: "我睏了，想睡覺。" },
+                    { es: "¿Cuántos años tienes?", zh: "你幾歲？", tip: "問年齡的標準句型。", ex: "Tengo veinticinco años.", ex_zh: "我二十五歲。" },
+                    { es: "Tengo que ir.", zh: "我必須走了。", tip: "Tener + que + 動詞 = 必須。", ex: "Lo siento, tengo que irme.", ex_zh: "抱歉，我必須走了。" },
+                    { es: "Tengo prisa.", zh: "我趕時間。", tip: "Tener + prisa。", ex: "Tengo prisa, vamos rápido.", ex_zh: "我趕時間，快走吧。" },
+                    
+                    { es: "📌 Hacer 動詞完整變化表（現在式）", zh: "Hacer的六個變化", tip: "Yo hago（我做）<br>Tú haces（你做）<br>Él/Ella/Usted hace（他/她/您做）<br>Nosotros/as hacemos（我們做）<br>Vosotros/as hacéis（你們做，西班牙）<br>Ellos/Ellas/Ustedes hacen（他們/她們/您們做）<br><br>💡 記憶技巧：<br>Hago → 我運動<br>Haces → 你在做什麼<br>Hace → 天氣熱<br>Hacemos → 我們觀光<br>Hacen → 他們運動<br><br>⚠️ Hacer是不規則動詞！第一人稱是hago（不是haco）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo hago ejercicio.", zh: "我運動。", tip: "Hacer第一人稱單數。", ex: "Hago yoga.", ex_zh: "我做瑜珈。" },
+                    { es: "Tú haces turismo.", zh: "你觀光。", tip: "Hacer第二人稱單數。", ex: "¿Qué haces?", ex_zh: "你在做什麼？" },
+                    { es: "Él hace deporte.", zh: "他運動。", tip: "Hacer第三人稱單數（他）。", ex: "Él hace la cena.", ex_zh: "他做晚餐。" },
+                    { es: "Ella hace yoga.", zh: "她做瑜珈。", tip: "Hacer第三人稱單數（她）。", ex: "Ella hace café.", ex_zh: "她泡咖啡。" },
+                    { es: "Nosotros hacemos turismo.", zh: "我們觀光。", tip: "Hacer第一人稱複數。", ex: "Hacemos la comida.", ex_zh: "我們做飯。" },
+                    { es: "Ellos hacen deporte.", zh: "他們運動。", tip: "Hacer第三人稱複數。", ex: "Hacen ejercicio.", ex_zh: "他們運動。" },
+                    
+                    { es: "📌 Hacer 的多種用法", zh: "「做」和天氣", tip: "Hacer 基本意思是「做」，但還用於：<br>(1) 做事：Hago ejercicio（我運動）<br>(2) 天氣：Hace calor（天氣熱）<br>(3) 時間：Hace dos años（兩年前）<br>(4) 問活動：¿Qué haces?（你在做什麼？）<br><br>⚠️ 注意：天氣用Hacer不用Tener！說「Hace frío」不說「Tengo frío el clima」", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Hace calor/frío.", zh: "天氣熱/冷。", tip: "Hacer 表示天氣！", ex: "Hoy hace mucho calor.", ex_zh: "今天很熱。" },
+                    { es: "Hace sol.", zh: "天氣晴朗。", tip: "Hacer + sol 表示晴天。", ex: "¡Qué bien! Hace sol.", ex_zh: "真好！天氣晴朗。" },
+                    { es: "Hace viento.", zh: "有風。", tip: "Hacer + viento。", ex: "Hace mucho viento hoy.", ex_zh: "今天風很大。" },
+                    { es: "¿Qué tiempo hace?", zh: "天氣如何？", tip: "問天氣的標準句型。", ex: "¿Qué tiempo hace en Madrid?", ex_zh: "馬德里天氣如何？" },
+                    { es: "Hace dos días.", zh: "兩天前。", tip: "Hace + 時間 = ...前。", ex: "Llegué hace dos días.", ex_zh: "我兩天前到的。" },
+                    
+                    { es: "📌 Tener + que（必須）", zh: "表示義務", tip: "Tener + que + 動詞原形 = 必須做某事<br>這是表達義務或必要性的最常用方式。<br>例如：Tengo que estudiar（我必須學習）、Tienes que ver esto（你必須看這個）、Tenemos que ir（我們必須走）<br><br>⚠️ 注意：que後面要接動詞原形！", ex: "", ex_zh: "", noSound: true }
+                ]
+            },
+            {
+                title: "Day 7: 常用動詞變化大全",
+                items: [
+                    { es: "📌 規則動詞 -AR 類變化規則", zh: "Hablar（說話）為例", tip: "所有以-AR結尾的動詞都照這個規則變化！<br>Hablar = Habl + 詞尾<br><br>Yo hablo（我說）<br>Tú hablas（你說）<br>Él/Ella/Usted habla（他/她/您說）<br>Nosotros/as hablamos（我們說）<br>Vosotros/as habláis（你們說）<br>Ellos/Ellas/Ustedes hablan（他們/她們/您們說）<br><br>📝 詞尾規則：<br>-o, -as, -a, -amos, -áis, -an<br><br>其他-AR動詞：<br>Trabajar（工作）、Viajar（旅行）、Comprar（買）、Desayunar（吃早餐）、Cenar（吃晚餐）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo hablo español.", zh: "我說西班牙語。", tip: "-AR動詞第一人稱。", ex: "Hablo un poco.", ex_zh: "我會說一點。" },
+                    { es: "Tú hablas inglés.", zh: "你說英語。", tip: "-AR動詞第二人稱。", ex: "¿Hablas chino?", ex_zh: "你會說中文嗎？" },
+                    { es: "Nosotros viajamos mucho.", zh: "我們常旅行。", tip: "Viajar（旅行）-AR動詞。", ex: "Viajamos a España.", ex_zh: "我們去西班牙旅行。" },
+                    { es: "Ellos trabajan aquí.", zh: "他們在這工作。", tip: "Trabajar（工作）-AR動詞。", ex: "Trabajan en un hotel.", ex_zh: "他們在飯店工作。" },
+                    
+                    { es: "📌 規則動詞 -ER 類變化規則", zh: "Comer（吃）為例", tip: "所有以-ER結尾的動詞都照這個規則變化！<br>Comer = Com + 詞尾<br><br>Yo como（我吃）<br>Tú comes（你吃）<br>Él/Ella/Usted come（他/她/您吃）<br>Nosotros/as comemos（我們吃）<br>Vosotros/as coméis（你們吃）<br>Ellos/Ellas/Ustedes comen（他們/她們/您們吃）<br><br>📝 詞尾規則：<br>-o, -es, -e, -emos, -éis, -en<br><br>其他-ER動詞：<br>Beber（喝）、Leer（讀）、Aprender（學習）、Vender（賣）、Comprender（理解）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo como paella.", zh: "我吃海鮮飯。", tip: "-ER動詞第一人稱。", ex: "Como en el restaurante.", ex_zh: "我在餐廳吃飯。" },
+                    { es: "Tú bebes vino.", zh: "你喝酒。", tip: "Beber（喝）-ER動詞。", ex: "¿Bebes café?", ex_zh: "你喝咖啡嗎？" },
+                    { es: "Él lee un libro.", zh: "他讀書。", tip: "Leer（讀）-ER動詞。", ex: "Él lee el periódico.", ex_zh: "他讀報紙。" },
+                    { es: "Nosotros aprendemos español.", zh: "我們學西班牙語。", tip: "Aprender（學習）-ER動詞。", ex: "Aprendemos rápido.", ex_zh: "我們學得快。" },
+                    
+                    { es: "📌 規則動詞 -IR 類變化規則", zh: "Vivir（住/生活）為例", tip: "所有以-IR結尾的動詞都照這個規則變化！<br>Vivir = Viv + 詞尾<br><br>Yo vivo（我住）<br>Tú vives（你住）<br>Él/Ella/Usted vive（他/她/您住）<br>Nosotros/as vivimos（我們住）<br>Vosotros/as vivís（你們住）<br>Ellos/Ellas/Ustedes viven（他們/她們/您們住）<br><br>📝 詞尾規則：<br>-o, -es, -e, -imos, -ís, -en<br><br>其他-IR動詞：<br>Escribir（寫）、Abrir（打開）、Subir（上升）、Recibir（收到）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo vivo en Madrid.", zh: "我住在馬德里。", tip: "-IR動詞第一人稱。", ex: "Vivo en un hotel.", ex_zh: "我住在飯店。" },
+                    { es: "Tú escribes mucho.", zh: "你寫很多。", tip: "Escribir（寫）-IR動詞。", ex: "¿Escribes cartas?", ex_zh: "你寫信嗎？" },
+                    { es: "Ella abre la puerta.", zh: "她開門。", tip: "Abrir（打開）-IR動詞。", ex: "Abre la ventana.", ex_zh: "打開窗戶。" },
+                    
+                    { es: "📌 不規則動詞 - Ir（去）", zh: "超常用！必須背", tip: "Ir（去）完全不規則！<br><br>Yo voy（我去）<br>Tú vas（你去）<br>Él/Ella/Usted va（他/她/您去）<br>Nosotros/as vamos（我們去）<br>Vosotros/as vais（你們去）<br>Ellos/Ellas/Ustedes van（他們/她們/您們去）<br><br>⚠️ 沒有規則可循，要硬背！<br><br>常用句：<br>Voy al hotel（我去飯店）、¿Adónde vas?（你去哪？）、Vamos a la playa（我們去海灘）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo voy al museo.", zh: "我去博物館。", tip: "Ir第一人稱。", ex: "Voy a España.", ex_zh: "我去西班牙。" },
+                    { es: "Tú vas al hotel.", zh: "你去飯店。", tip: "Ir第二人稱。", ex: "¿Adónde vas?", ex_zh: "你去哪？" },
+                    { es: "Nosotros vamos a la playa.", zh: "我們去海灘。", tip: "Ir第一人稱複數。", ex: "¡Vamos!", ex_zh: "我們走吧！" },
+                    { es: "Ellos van al aeropuerto.", zh: "他們去機場。", tip: "Ir第三人稱複數。", ex: "Van de compras.", ex_zh: "他們去購物。" },
+                    
+                    { es: "📌 不規則動詞 - Querer（想要）", zh: "超常用！ie變化", tip: "Querer（想要）是ie變化不規則動詞！<br><br>Yo quiero（我想要）<br>Tú quieres（你想要）<br>Él/Ella/Usted quiere（他/她/您想要）<br>Nosotros/as queremos（我們想要）<br>Vosotros/as queréis（你們想要）<br>Ellos/Ellas/Ustedes quieren（他們/她們/您們想要）<br><br>⚠️ 注意：除了nosotros/vosotros，其他都有e→ie變化！<br><br>常用句：<br>Quiero agua（我要水）、¿Qué quieres?（你要什麼？）、Queremos ir（我們想去）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo quiero agua.", zh: "我要水。", tip: "Querer第一人稱。", ex: "Quiero esto.", ex_zh: "我要這個。" },
+                    { es: "Tú quieres café.", zh: "你要咖啡。", tip: "Querer第二人稱。", ex: "¿Qué quieres?", ex_zh: "你要什麼？" },
+                    { es: "Él quiere ir.", zh: "他想去。", tip: "Querer第三人稱。", ex: "Ella quiere comer.", ex_zh: "她想吃飯。" },
+                    { es: "Nosotros queremos viajar.", zh: "我們想旅行。", tip: "Querer第一人稱複數（不變）。", ex: "Queremos ayuda.", ex_zh: "我們想要幫忙。" },
+                    
+                    { es: "📌 不規則動詞 - Poder（可以/能夠）", zh: "超常用！ue變化", tip: "Poder（可以）是ue變化不規則動詞！<br><br>Yo puedo（我可以）<br>Tú puedes（你可以）<br>Él/Ella/Usted puede（他/她/您可以）<br>Nosotros/as podemos（我們可以）<br>Vosotros/as podéis（你們可以）<br>Ellos/Ellas/Ustedes pueden（他們/她們/您們可以）<br><br>⚠️ 注意：除了nosotros/vosotros，其他都有o→ue變化！<br><br>常用句：<br>¿Puedo pagar con tarjeta?（我可以刷卡嗎？）、¿Puedes ayudarme?（你可以幫我嗎？）、No puedo（我不能）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo puedo ayudar.", zh: "我可以幫忙。", tip: "Poder第一人稱。", ex: "¿Puedo pasar?", ex_zh: "我可以過去嗎？" },
+                    { es: "Tú puedes hacerlo.", zh: "你可以做。", tip: "Poder第二人稱。", ex: "¿Puedes ayudarme?", ex_zh: "你可以幫我嗎？" },
+                    { es: "Él puede venir.", zh: "他可以來。", tip: "Poder第三人稱。", ex: "Ella puede hablar español.", ex_zh: "她會說西班牙語。" },
+                    { es: "No podemos ir.", zh: "我們不能去。", tip: "Poder第一人稱複數（不變）。", ex: "Podemos intentar.", ex_zh: "我們可以試試。" },
+                    
+                    { es: "📌 特殊動詞 - Gustar（喜歡）", zh: "結構完全不同！", tip: "Gustar的結構很特別，主詞是「被喜歡的東西」！<br><br>Me gusta（我喜歡，單數事物）<br>Me gustan（我喜歡，複數事物）<br>Te gusta（你喜歡）<br>Le gusta（他/她/您喜歡）<br>Nos gusta（我們喜歡）<br>Os gusta（你們喜歡）<br>Les gusta（他們/她們/您們喜歡）<br><br>💡 理解方式：<br>'Me gusta el café' = 咖啡令我喜歡（直譯）= 我喜歡咖啡<br>'Me gustan los gatos' = 貓們令我喜歡（複數）= 我喜歡貓<br><br>⚠️ 超重要：用gusta還是gustan取決於「被喜歡的東西」是單數還是複數！", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Me gusta España.", zh: "我喜歡西班牙。", tip: "Gusta + 單數名詞。", ex: "Me gusta el café.", ex_zh: "我喜歡咖啡。" },
+                    { es: "Me gustan los museos.", zh: "我喜歡博物館（們）。", tip: "Gustan + 複數名詞。", ex: "Me gustan los gatos.", ex_zh: "我喜歡貓。" },
+                    { es: "No me gusta el frío.", zh: "我不喜歡冷。", tip: "No + me gusta。", ex: "No me gusta madrugar.", ex_zh: "我不喜歡早起。" },
+                    { es: "¿Te gusta la paella?", zh: "你喜歡海鮮飯嗎？", tip: "Te gusta（你喜歡）。", ex: "¿Te gusta España?", ex_zh: "你喜歡西班牙嗎？" },
+                    { es: "Le gusta viajar.", zh: "他/她喜歡旅行。", tip: "Le gusta（他/她喜歡）。", ex: "A María le gusta bailar.", ex_zh: "瑪麗亞喜歡跳舞。" },
+                    { es: "Nos gusta la comida española.", zh: "我們喜歡西班牙食物。", tip: "Nos gusta（我們喜歡）。", ex: "Nos gustan las tapas.", ex_zh: "我們喜歡小菜。" },
+                    
+                    { es: "📌 重要提醒", zh: "動詞變化總結", tip: "規則動詞：看詞尾（-AR, -ER, -IR）套用規則<br>不規則動詞：Ser, Estar, Tener, Hacer, Ir, Querer, Poder都要背！<br>ie變化：Querer（quiero, quieres, quiere...）<br>ue變化：Poder（puedo, puedes, puede...）<br>完全不規則：Ser, Estar, Ir要硬背<br>特殊結構：Gustar主詞是「被喜歡的東西」<br><br>💡 學習技巧：<br>1. 先背第一人稱（Yo）<br>2. 再背第三人稱（Él/Ella）<br>3. 最後記Nosotros<br>4. 練習時多造句，不要只背表格！", ex: "", ex_zh: "", noSound: true }
+                ]
+            },
+            {
+                title: "Day 8: 第一週複習",
+                items: [
+                    { es: "Hola, ¿cómo estás?", zh: "打招呼總複習", tip: "第一週學過的招呼語。", ex: "Hola buenos días, ¿cómo estás?", ex_zh: "早安你好，你好嗎？" },
+                    { es: "Me llamo..., soy de...", zh: "自我介紹總複習", tip: "結合姓名和來源地。", ex: "Me llamo Ana, soy de Taiwán.", ex_zh: "我叫安娜，來自台灣。" },
+                    { es: "¿Qué? ¿Dónde? ¿Cuándo?", zh: "6W問句重點", tip: "最常用的三個疑問詞。", ex: "¿Qué es esto? ¿Dónde está? ¿Cuándo vuelves?", ex_zh: "這是什麼？在哪？什麼時候回來？" },
+                    { es: "¿Por qué? Porque...", zh: "為什麼？因為...", tip: "問原因和回答。", ex: "¿Por qué estudias español? Porque me gusta.", ex_zh: "你為什麼學西班牙文？因為我喜歡。" },
+                    { es: "¿Cuánto cuesta?", zh: "多少錢？", tip: "購物必備句。", ex: "¿Cuánto cuesta esta camisa?", ex_zh: "這件襯衫多少錢？" },
+                    { es: "Uno, diez, cien, mil", zh: "數字快速複習", tip: "1, 10, 100, 1000。", ex: "Cincuenta y uno euros.", ex_zh: "五十一歐元。" },
+                    { es: "Veinte, treinta, cuarenta", zh: "整十數", tip: "20, 30, 40 的說法。", ex: "Treinta y cinco personas.", ex_zh: "三十五個人。" },
+                    
+                    { es: "📌 動詞變化總複習", zh: "主詞代名詞", tip: "Yo（我）、Tú（你）、Él/Ella（他/她）、Nosotros（我們）、Ellos/Ellas（他們/她們）。西班牙語通常省略主詞，因為動詞已經顯示是誰！", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Ser = 本質/永久", zh: "Soy, Eres, Es, Somos, Son", tip: "身份、特徵、本質用Ser。", ex: "Soy estudiante. Eres amable. Es bonito.", ex_zh: "我是學生。你很親切。它很漂亮。" },
+                    { es: "Estar = 狀態/臨時", zh: "Estoy, Estás, Está, Estamos, Están", tip: "位置、狀態、情緒用Estar。", ex: "Estoy aquí. ¿Estás bien? Está cerrado.", ex_zh: "我在這。你好嗎？關閉了。" },
+                    { es: "Tener = 擁有/感覺", zh: "Tengo, Tienes, Tiene, Tenemos, Tienen", tip: "擁有、年齡、感覺用Tener。", ex: "Tengo hambre. Tienes razón. Tiene 30 años.", ex_zh: "我餓了。你對了。他30歲。" },
+                    { es: "Hacer = 做/天氣", zh: "Hago, Haces, Hace, Hacemos, Hacen", tip: "做事、天氣、時間用Hacer。", ex: "Hago ejercicio. ¿Qué haces? Hace calor.", ex_zh: "我運動。你做什麼？天氣熱。" },
+                    
+                    { es: "規則動詞三類", zh: "-AR, -ER, -IR", tip: "看詞尾套用規則。-AR：-o,-as,-a,-amos,-an。-ER：-o,-es,-e,-emos,-en。-IR：-o,-es,-e,-imos,-en。", ex: "Hablo, Como, Vivo", ex_zh: "我說、我吃、我住。" },
+                    { es: "Ir（去）完全不規則", zh: "Voy, Vas, Va, Vamos, Van", tip: "超常用！必須背。", ex: "Voy al hotel. ¿Adónde vas? Vamos a la playa.", ex_zh: "我去飯店。你去哪？我們去海灘。" },
+                    { es: "Querer（想要）ie變化", zh: "Quiero, Quieres, Quiere, Queremos", tip: "除了nosotros，都e→ie。", ex: "Quiero agua. ¿Qué quieres? Queremos ir.", ex_zh: "我要水。你要什麼？我們想去。" },
+                    { es: "Poder（可以）ue變化", zh: "Puedo, Puedes, Puede, Podemos", tip: "除了nosotros，都o→ue。", ex: "Puedo ayudar. ¿Puedes venir? No podemos.", ex_zh: "我能幫忙。你能來嗎？我們不能。" },
+                    { es: "Gustar（喜歡）特殊", zh: "Me gusta/gustan", tip: "主詞是「被喜歡的東西」！gusta+單數，gustan+複數。", ex: "Me gusta España. Me gustan los museos.", ex_zh: "我喜歡西班牙。我喜歡博物館。" },
+                    
+                    { es: "Por favor, gracias.", zh: "禮貌用語", tip: "最重要的兩句。", ex: "Un café, por favor. Muchas gracias.", ex_zh: "請給我一杯咖啡。非常感謝。" },
+                    { es: "No entiendo.", zh: "我聽不懂", tip: "遇到困難時用。", ex: "Lo siento, no entiendo.", ex_zh: "抱歉，我聽不懂。" }
+                ]
+            },
+            
+            // ===== Day 8-9: 餐飲擴充 =====
+            
+            {
+                title: "Day 9: 餐廳點餐完全攻略",
+                items: [
+                    { es: "Quiero reservar una mesa.", zh: "我想訂位。", tip: "Reservar = Reserve（訂位）。", ex: "Hola, quiero reservar una mesa.", ex_zh: "你好，我想訂位。" },
+                    { es: "¿Para cuántas personas?", zh: "幾位？", tip: "問人數。", ex: "¿Para cuántas personas? Para dos.", ex_zh: "幾位？兩位。" },
+                    { es: "¿A qué hora?", zh: "幾點？", tip: "問時間。", ex: "¿A qué hora? A las ocho.", ex_zh: "幾點？八點。" },
+                    { es: "Una mesa para dos.", zh: "兩人一桌。", tip: "入座時說。", ex: "Hola, una mesa para dos, por favor.", ex_zh: "你好，我們兩位，麻煩了。" },
+                    { es: "El menú, por favor.", zh: "請給我菜單。", tip: "Menú = Menu。", ex: "¿Me trae el menú, por favor?", ex_zh: "可以給我菜單嗎？" },
+                    { es: "¿Qué recomienda?", zh: "你推薦什麼？", tip: "Recomendar = Recommend。", ex: "¿Qué recomienda de aquí?", ex_zh: "你推薦這裡的什麼？" },
+                    { es: "Quiero esto.", zh: "我要這個。", tip: "指著菜單說。", ex: "Quiero esto, por favor.", ex_zh: "我要這個，謝謝。" },
+                    { es: "Para mí...", zh: "給我...", tip: "點餐時用。", ex: "Para mí, una ensalada.", ex_zh: "給我一份沙拉。" },
+                    { es: "Para beber...", zh: "飲料要...", tip: "Beber = Drink。", ex: "Para beber, agua sin gas.", ex_zh: "飲料要不含氣泡的水。" },
+                    { es: "Agua sin/con gas.", zh: "無/有氣泡水。", tip: "Sin = Without, Con = With。", ex: "Una botella de agua sin gas.", ex_zh: "一瓶不含氣泡的水。" },
+                    { es: "Una cerveza.", zh: "一杯啤酒。", tip: "Cerveza = Beer。", ex: "Dos cervezas, por favor.", ex_zh: "請給我兩杯啤酒。" },
+                    { es: "Vino tinto/blanco.", zh: "紅酒/白酒。", tip: "Tinto = 紅的, Blanco = 白的。", ex: "Una copa de vino tinto.", ex_zh: "一杯紅酒。" },
+                    { es: "Sin cebolla.", zh: "不要洋蔥。", tip: "Sin = Without。", ex: "Sin cebolla, por favor.", ex_zh: "請不要加洋蔥。" },
+                    { es: "Sin picante.", zh: "不要辣。", tip: "Picante = Spicy。", ex: "Sin picante, por favor.", ex_zh: "請不要辣。" },
+                    { es: "Sin carne.", zh: "不要肉。", tip: "Carne = Meat。", ex: "¿Tiene opciones sin carne?", ex_zh: "有無肉的選項嗎？" },
+                    { es: "Soy vegetariano/a.", zh: "我吃素。", tip: "說明飲食習慣。", ex: "Soy vegetariano, ¿qué recomienda?", ex_zh: "我吃素，你推薦什麼？" },
+                    { es: "Soy alérgico/a a...", zh: "我對...過敏。", tip: "Alérgico = Allergic。", ex: "Soy alérgico a los mariscos.", ex_zh: "我對海鮮過敏。" },
+                    { es: "¿Tiene sin gluten?", zh: "有無麩質的嗎？", tip: "Gluten = 麩質。", ex: "¿Tiene pan sin gluten?", ex_zh: "有無麩質麵包嗎？" },
+                    { es: "¡Salud!", zh: "乾杯！", tip: "原意是「健康」。", ex: "¡Salud, amigos!", ex_zh: "乾杯，朋友們！" },
+                    { es: "Está delicioso.", zh: "很好吃。", tip: "Delicioso = Delicious。", ex: "¡Qué rico! Está delicioso.", ex_zh: "真好吃！太美味了。" },
+                    { es: "Está muy bueno.", zh: "非常美味。", tip: "Bueno = Good。", ex: "Todo está muy bueno.", ex_zh: "全部都很好吃。" },
+                    { es: "¿Algo más?", zh: "還要其他的嗎？", tip: "服務生會問的。", ex: "¿Algo más? No, gracias.", ex_zh: "還要其他的嗎？不，謝謝。" },
+                    { es: "La cuenta, por favor.", zh: "請結帳。", tip: "Cuenta = Bill。", ex: "La cuenta, por favor.", ex_zh: "請結帳。" },
+                    { es: "¿Puedo pagar con tarjeta?", zh: "可以刷卡嗎？", tip: "Tarjeta = Card。", ex: "¿Puedo pagar con tarjeta de crédito?", ex_zh: "可以用信用卡付款嗎？" },
+                    { es: "¿Dónde está el baño?", zh: "廁所在哪？", tip: "Baño = Bathroom。", ex: "Perdón, ¿dónde está el baño?", ex_zh: "不好意思，廁所在哪裡？" }
+                ]
+            },
+            {
+                title: "Day 10: 飲料與甜點",
+                items: [
+                    { es: "Un café solo.", zh: "黑咖啡。", tip: "Solo = Alone（單獨）。", ex: "Un café solo, por favor.", ex_zh: "請給我一杯黑咖啡。" },
+                    { es: "Un café con leche.", zh: "拿鐵。", tip: "Con leche = With milk。", ex: "Dos cafés con leche.", ex_zh: "兩杯拿鐵。" },
+                    { es: "Un cortado.", zh: "瑪奇朵。", tip: "Cortado = Cut（少量牛奶的咖啡）。", ex: "Un cortado, por favor.", ex_zh: "請給我一杯瑪奇朵。" },
+                    { es: "Un cappuccino.", zh: "卡布奇諾。", tip: "跟英文一樣。", ex: "Un cappuccino grande.", ex_zh: "一杯大杯卡布奇諾。" },
+                    { es: "Un café descafeinado.", zh: "低咖啡因咖啡。", tip: "Descafeinado = Decaf。", ex: "¿Tiene café descafeinado?", ex_zh: "有低咖啡因咖啡嗎？" },
+                    { es: "Té verde/negro.", zh: "綠茶/紅茶。", tip: "Verde = Green, Negro = Black。", ex: "Un té verde, por favor.", ex_zh: "請給我一杯綠茶。" },
+                    { es: "Té de menta.", zh: "薄荷茶。", tip: "Menta = Mint。", ex: "Un té de menta caliente.", ex_zh: "一杯熱薄荷茶。" },
+                    { es: "Infusión.", zh: "花草茶。", tip: "Infusion（泡的茶）。", ex: "Una infusión de manzanilla.", ex_zh: "一杯洋甘菊茶。" },
+                    { es: "Zumo de naranja.", zh: "柳橙汁。", tip: "Zumo = Juice, Naranja = Orange。", ex: "Un zumo de naranja natural.", ex_zh: "一杯新鮮柳橙汁。" },
+                    { es: "Agua mineral.", zh: "礦泉水。", tip: "Mineral = 礦物質的。", ex: "Dos aguas minerales.", ex_zh: "兩瓶礦泉水。" },
+                    { es: "Refresco.", zh: "汽水。", tip: "Soft drink。", ex: "¿Qué refrescos tiene?", ex_zh: "有什麼汽水？" },
+                    { es: "Batido.", zh: "奶昔。", tip: "Batir = Beat（打）。", ex: "Un batido de fresa.", ex_zh: "一杯草莓奶昔。" },
+                    { es: "Chocolate caliente.", zh: "熱巧克力。", tip: "Caliente = Hot。", ex: "Un chocolate caliente, por favor.", ex_zh: "請給我一杯熱巧克力。" },
+                    { es: "Tarta.", zh: "蛋糕。", tip: "Cake/Tart。", ex: "Un trozo de tarta de chocolate.", ex_zh: "一塊巧克力蛋糕。" },
+                    { es: "Helado.", zh: "冰淇淋。", tip: "Ice cream。", ex: "Un helado de vainilla.", ex_zh: "一份香草冰淇淋。" },
+                    { es: "Churros.", zh: "吉拿棒。", tip: "西班牙特色甜點。", ex: "Churros con chocolate.", ex_zh: "吉拿棒配巧克力。" },
+                    { es: "Flan.", zh: "布丁。", tip: "焦糖布丁。", ex: "Un flan de la casa.", ex_zh: "一份招牌布丁。" },
+                    { es: "Pastel.", zh: "糕點。", tip: "Pastry/Cake。", ex: "¿Qué pasteles tiene?", ex_zh: "有什麼糕點？" },
+                    { es: "Para llevar.", zh: "外帶。", tip: "Llevar = Take away。", ex: "Un café para llevar.", ex_zh: "一杯咖啡外帶。" },
+                    { es: "Para aquí.", zh: "內用。", tip: "Aquí = Here。", ex: "Para aquí, por favor.", ex_zh: "內用，謝謝。" },
+                    { es: "¿Qué sabor?", zh: "什麼口味？", tip: "Sabor = Flavor。", ex: "¿Qué sabor de helado quiere?", ex_zh: "你要什麼口味的冰淇淋？" }
+                ]
+            },
+            {
+                title: "Day 11: 時間日期完整指南",
+                items: [
+                    { es: "📌 報時規則", zh: "Es la 還是 Son las？", tip: "西班牙文報時有個特殊規則：一點用「Es la una」（單數），兩點以上用「Son las + 數字」（複數）。為什麼？因為「hora」（小時）是陰性單數，所以「la una」（那一個小時），但「las dos」（那兩個小時）。記住：只有一點是特殊的！", ex: "", ex_zh: "", noSound: true },
+                    { es: "¿Qué hora es?", zh: "現在幾點？", tip: "問時間必備句。Hora = 小時。", ex: "Disculpe, ¿qué hora es?", ex_zh: "不好意思，現在幾點？" },
+                    { es: "Es la una.", zh: "一點。", tip: "只有一點用 Es la！", ex: "Es la una en punto.", ex_zh: "一點整。" },
+                    { es: "Son las dos.", zh: "兩點。", tip: "2點以上都用 Son las！", ex: "Son las dos y cuarto.", ex_zh: "兩點十五分。" },
+                    { es: "📌 時間刻度表達", zh: "Y cuarto, Y media...", tip: "西班牙文有特殊的時間刻度說法：Y cuarto（加一刻 = 15分）、Y media（加一半 = 30分）、Menos cuarto（減一刻 = 差15分）。也可以直接說分鐘數：Son las dos y diez（兩點十分）。", ex: "", ex_zh: "", noSound: true },
+                    { es: "Y cuarto", zh: "十五分 / 一刻", tip: "Cuarto = 四分之一 = 15分鐘。", ex: "Son las tres y cuarto.", ex_zh: "三點十五。" },
+                    { es: "Y media", zh: "三十分 / 半", tip: "Media = 一半 = 30分鐘。", ex: "Son las cinco y media.", ex_zh: "五點半。" },
+                    { es: "Menos cuarto", zh: "差十五分", tip: "用減法說時間。Menos = 減。", ex: "Son las siete menos cuarto.", ex_zh: "六點四十五（差十五分七點）。" },
+                    { es: "En punto", zh: "整點", tip: "Punto = 點。強調整點時用。", ex: "Son las ocho en punto.", ex_zh: "八點整。" },
+                    { es: "📌 早中晚的說法", zh: "De la mañana/tarde/noche", tip: "西班牙文的 AM/PM 分成三段：Mañana（早上，凌晨到中午12點）、Tarde（下午，中午到晚上7-8點）、Noche（晚上，7-8點到凌晨）。注意：中午12點到下午都用 tarde，不是 mañana！", ex: "", ex_zh: "", noSound: true },
+                    { es: "De la mañana", zh: "早上", tip: "AM - 凌晨到中午12點。", ex: "Ocho de la mañana.", ex_zh: "早上八點。" },
+                    { es: "De la tarde", zh: "下午", tip: "PM - 中午12點到晚上7-8點。", ex: "Tres de la tarde.", ex_zh: "下午三點。" },
+                    { es: "De la noche", zh: "晚上", tip: "PM - 晚上7-8點到凌晨。", ex: "Diez de la noche.", ex_zh: "晚上十點。" },
+                    { es: "Mediodía", zh: "中午", tip: "Medio (一半) + Día (天)。", ex: "Nos vemos al mediodía.", ex_zh: "我們中午見。" },
+                    { es: "Medianoche", zh: "午夜", tip: "Media (一半) + Noche (夜)。", ex: "A medianoche.", ex_zh: "在午夜。" },
+                    { es: "📌 星期的說法", zh: "Lunes, Martes...", tip: "西班牙文的星期來自星球名稱！Lunes（月球）、Martes（火星）、Miércoles（水星）、Jueves（木星）、Viernes（金星）、Sábado（安息日）、Domingo（主日）。注意：西班牙文的星期不用大寫！說「星期一」時要加 el：el lunes。", ex: "", ex_zh: "", noSound: true },
+                    { es: "Lunes", zh: "星期一", tip: "Monday - 月球日。不用大寫。", ex: "El lunes voy a Madrid.", ex_zh: "星期一我要去馬德里。" },
+                    { es: "Martes", zh: "星期二", tip: "Tuesday - 火星日 (Marte)。", ex: "Nos vemos el martes.", ex_zh: "星期二見。" },
+                    { es: "Miércoles", zh: "星期三", tip: "Wednesday - 水星日 (Mercurio)。", ex: "El miércoles tengo clase.", ex_zh: "星期三我有課。" },
+                    { es: "Jueves", zh: "星期四", tip: "Thursday - 木星日 (Júpiter)。", ex: "Jueves por la tarde.", ex_zh: "星期四下午。" },
+                    { es: "Viernes", zh: "星期五", tip: "Friday - 金星日 (Venus)。", ex: "¡Por fin es viernes!", ex_zh: "終於星期五了！" },
+                    { es: "Sábado", zh: "星期六", tip: "Saturday - 安息日。週末開始。", ex: "El sábado vamos a la playa.", ex_zh: "星期六我們去海灘。" },
+                    { es: "Domingo", zh: "星期日", tip: "Sunday - 主日 (Dóminus)。", ex: "Los domingos descanso.", ex_zh: "星期天我休息。" },
+                    { es: "📌 今昨明的說法", zh: "相對時間", tip: "Hoy（今天）、Ayer（昨天）、Mañana（明天）是最基本的。特別注意：Mañana 有兩個意思！可以是「明天」也可以是「早上」，要看上下文。Pasado mañana = 過了明天 = 後天。Anteayer = 在昨天之前 = 前天。", ex: "", ex_zh: "", noSound: true },
+                    { es: "Hoy", zh: "今天", tip: "Today。發音：oy。", ex: "Hoy es lunes.", ex_zh: "今天是星期一。" },
+                    { es: "Ayer", zh: "昨天", tip: "Yesterday。", ex: "Ayer fue domingo.", ex_zh: "昨天是星期天。" },
+                    { es: "Mañana", zh: "明天", tip: "Tomorrow。也可以指「早上」！", ex: "Mañana es martes.", ex_zh: "明天是星期二。" },
+                    { es: "Pasado mañana", zh: "後天", tip: "Pasado (過去的) + Mañana (明天)。", ex: "Pasado mañana salgo.", ex_zh: "後天我出發。" },
+                    { es: "Anteayer", zh: "前天", tip: "Ante (之前) + Ayer (昨天)。", ex: "Anteayer llegué.", ex_zh: "我前天到的。" },
+                    { es: "Esta semana", zh: "這週", tip: "Esta (這個) + Semana (週)。", ex: "Esta semana estoy ocupado.", ex_zh: "這週我很忙。" },
+                    { es: "La semana pasada", zh: "上週", tip: "Pasada = 過去的。", ex: "La semana pasada fui a Barcelona.", ex_zh: "上週我去了巴塞隆納。" },
+                    { es: "La semana que viene", zh: "下週", tip: "Que viene = 要來的。", ex: "La semana que viene tengo examen.", ex_zh: "下週我有考試。" },
+                    { es: "📌 完整12個月", zh: "Enero ~ Diciembre", tip: "西班牙文的月份不用大寫！說日期時，要用「el + 數字 + de + 月份」。例如：el 25 de diciembre（12月25日）。月份也來自拉丁文，有些跟英文很像。", ex: "", ex_zh: "", noSound: true },
+                    { es: "Enero", zh: "一月", tip: "January - 一年之始。", ex: "Nací en enero.", ex_zh: "我一月出生。" },
+                    { es: "Febrero", zh: "二月", tip: "February - 最短的月份。", ex: "Febrero tiene 28 días.", ex_zh: "二月有28天。" },
+                    { es: "Marzo", zh: "三月", tip: "March - 火星月 (Marte)。", ex: "En marzo hace viento.", ex_zh: "三月有風。" },
+                    { es: "Abril", zh: "四月", tip: "April - 春天的月份。", ex: "Abril es primavera.", ex_zh: "四月是春天。" },
+                    { es: "Mayo", zh: "五月", tip: "May。重要節日：Cinco de Mayo。", ex: "El cinco de mayo.", ex_zh: "五月五日。" },
+                    { es: "Junio", zh: "六月", tip: "June - 夏天開始。", ex: "En junio empieza el verano.", ex_zh: "六月夏天開始。" },
+                    { es: "Julio", zh: "七月", tip: "July - 以 Julius Caesar 命名。", ex: "Julio es el mes más caluroso.", ex_zh: "七月是最熱的月份。" },
+                    { es: "Agosto", zh: "八月", tip: "August - 以 Augustus 命名。", ex: "En agosto hay vacaciones.", ex_zh: "八月有假期。" },
+                    { es: "Septiembre", zh: "九月", tip: "September - 拉丁文「第七個月」。", ex: "Las clases empiezan en septiembre.", ex_zh: "九月開學。" },
+                    { es: "Octubre", zh: "十月", tip: "October - 拉丁文「第八個月」。", ex: "Octubre es otoño.", ex_zh: "十月是秋天。" },
+                    { es: "Noviembre", zh: "十一月", tip: "November - 拉丁文「第九個月」。", ex: "En noviembre hace frío.", ex_zh: "十一月很冷。" },
+                    { es: "Diciembre", zh: "十二月", tip: "December - 拉丁文「第十個月」。", ex: "Diciembre es Navidad.", ex_zh: "十二月是聖誕節。" },
+                    { es: "📌 四季", zh: "Primavera ~ Invierno", tip: "西班牙文的四季：Primavera（春天）、Verano（夏天）、Otoño（秋天）、Invierno（冬天）。說「在春天」用 en：en primavera。", ex: "", ex_zh: "", noSound: true },
+                    { es: "Primavera", zh: "春天", tip: "Spring - Prima (第一) + Vera (綠)。", ex: "La primavera es bonita.", ex_zh: "春天很美。" },
+                    { es: "Verano", zh: "夏天", tip: "Summer。", ex: "En verano hace calor.", ex_zh: "夏天很熱。" },
+                    { es: "Otoño", zh: "秋天", tip: "Autumn/Fall。", ex: "El otoño es mi estación favorita.", ex_zh: "秋天是我最喜歡的季節。" },
+                    { es: "Invierno", zh: "冬天", tip: "Winter。", ex: "En invierno nieva.", ex_zh: "冬天下雪。" },
+                    { es: "📌 說日期", zh: "日期表達公式", tip: "西班牙文說完整日期的公式：el + 數字 + de + 月份 + de + 年份。例如：el 25 de diciembre de 2025（2025年12月25日）。注意：日期用基數（uno, dos, tres），不是序數（primero, segundo）！唯一例外是一號用 el primero。", ex: "", ex_zh: "", noSound: true },
+                    { es: "¿Qué fecha es hoy?", zh: "今天幾號？", tip: "Fecha = 日期。", ex: "¿Qué fecha es hoy?", ex_zh: "今天幾號？" },
+                    { es: "Hoy es 15 de enero.", zh: "今天是一月15號。", tip: "公式：es + 數字 + de + 月份。", ex: "Hoy es quince de enero.", ex_zh: "今天是一月十五號。" },
+                    { es: "El primero de enero", zh: "一月一號", tip: "只有一號用 primero（第一）！", ex: "El primero de enero es Año Nuevo.", ex_zh: "一月一號是新年。" }
+                ]
+            },
+            {
+                title: "Day 12: 購物與殺價",
+                items: [
+                    { es: "¿Cuánto cuesta?", zh: "多少錢？", tip: "Cuesta = Cost。", ex: "¿Cuánto cuesta esta camisa?", ex_zh: "這件襯衫多少錢？" },
+                    { es: "¿Cuánto vale?", zh: "價值多少？", tip: "Valer = Worth。", ex: "¿Cuánto vale este reloj?", ex_zh: "這個手錶值多少錢？" },
+                    { es: "¿Cuál es el precio?", zh: "價格是多少？", tip: "Precio = Price。", ex: "¿Cuál es el precio final?", ex_zh: "最終價格是多少？" },
+                    { es: "Es muy caro.", zh: "太貴了。", tip: "Caro = Expensive。", ex: "Uf, es muy caro para mí.", ex_zh: "哇，對我來說太貴了。" },
+                    { es: "Es razonable.", zh: "價格合理。", tip: "Razonable = Reasonable。", ex: "El precio es razonable.", ex_zh: "價格合理。" },
+                    { es: "¿Puedo probármelo?", zh: "我可以試穿嗎？", tip: "Probar = Try。", ex: "¿Puedo probarme estos zapatos?", ex_zh: "我可以試穿這雙鞋嗎？" },
+                    { es: "¿Dónde están los probadores?", zh: "試衣間在哪？", tip: "Probador = Fitting room。", ex: "Perdón, ¿dónde están los probadores?", ex_zh: "不好意思，試衣間在哪裡？" },
+                    { es: "Me queda bien/mal.", zh: "我穿起來合適/不合適。", tip: "Quedar = Fit。", ex: "Esta chaqueta me queda bien.", ex_zh: "這件外套很合身。" },
+                    { es: "Es demasiado grande/pequeño.", zh: "太大/太小。", tip: "Demasiado = Too。", ex: "Es demasiado grande para mí.", ex_zh: "對我來說太大了。" },
+                    { es: "¿Tiene otra talla?", zh: "有其他尺寸嗎？", tip: "Talla = Size。", ex: "¿Tiene una talla más grande?", ex_zh: "有大一號的嗎？" },
+                    { es: "Talla S/M/L.", zh: "尺寸 小/中/大。", tip: "Small/Medium/Large。", ex: "¿Tiene en talla M?", ex_zh: "有M號的嗎？" },
+                    { es: "¿Tiene en otro color?", zh: "有其他顏色嗎？", tip: "Color = Color。", ex: "¿Tiene este vestido en negro?", ex_zh: "這件洋裝有黑色的嗎？" },
+                    { es: "Más grande/pequeño.", zh: "更大/更小。", tip: "Más = More。", ex: "Necesito algo más pequeño.", ex_zh: "我需要更小的。" },
+                    { es: "Me gusta este.", zh: "我喜歡這個。", tip: "表達喜好。", ex: "Me gusta mucho este.", ex_zh: "我非常喜歡這個。" },
+                    { es: "No me gusta.", zh: "我不喜歡。", tip: "表達不喜歡。", ex: "Lo siento, no me gusta.", ex_zh: "抱歉，我不喜歡。" },
+                    { es: "¿Puede hacer descuento?", zh: "可以打折嗎？", tip: "Descuento = Discount。", ex: "¿Me puede hacer un descuento?", ex_zh: "可以給我折扣嗎？" },
+                    { es: "¿Es el mejor precio?", zh: "這是最好的價格嗎？", tip: "殺價技巧。", ex: "¿Este es su mejor precio?", ex_zh: "這是你最好的價格嗎？" },
+                    { es: "Es muy caro, ¿algo más barato?", zh: "太貴了，有更便宜的嗎？", tip: "Barato = Cheap。", ex: "¿Tiene algo más barato?", ex_zh: "有更便宜的東西嗎？" },
+                    { es: "Ofrezco...", zh: "我出...（價格）", tip: "Ofrecer = Offer。", ex: "Le ofrezco cincuenta euros.", ex_zh: "我出五十歐元。" },
+                    { es: "¿Me lo deja en...?", zh: "可以...賣我嗎？", tip: "殺價用語。", ex: "¿Me lo deja en cien euros?", ex_zh: "可以一百歐賣我嗎？" },
+                    { es: "Me lo llevo.", zh: "我買了。", tip: "Llevarse = Take。", ex: "Está bien, me lo llevo.", ex_zh: "好的，我買了。" },
+                    { es: "Solo estoy mirando.", zh: "我只是看看。", tip: "拒絕推銷。", ex: "Gracias, solo estoy mirando.", ex_zh: "謝謝，我只是看看。" },
+                    { es: "Pago en efectivo/tarjeta.", zh: "我付現金/刷卡。", tip: "Efectivo = Cash, Tarjeta = Card。", ex: "¿Puedo pagar con tarjeta?", ex_zh: "可以刷卡嗎？" },
+                    { es: "¿Puedo devolverlo?", zh: "可以退貨嗎？", tip: "Devolver = Return。", ex: "Si no me gusta, ¿puedo devolverlo?", ex_zh: "如果我不喜歡，可以退貨嗎？" },
+                    { es: "¿Puedo cambiarlo?", zh: "可以換貨嗎？", tip: "Cambiar = Exchange。", ex: "¿Puedo cambiarlo por otra talla?", ex_zh: "可以換另一個尺寸嗎？" }
+                ]
+            },
+            {
+                title: "Day 13: 服飾與顏色",
+                items: [
+                    { es: "Rojo", zh: "紅色", tip: "Red。", ex: "Me gusta el rojo.", ex_zh: "我喜歡紅色。" },
+                    { es: "Azul", zh: "藍色", tip: "Blue。", ex: "Un vestido azul.", ex_zh: "一件藍色洋裝。" },
+                    { es: "Verde", zh: "綠色", tip: "Green。", ex: "Verde oscuro.", ex_zh: "深綠色。" },
+                    { es: "Amarillo", zh: "黃色", tip: "Yellow。", ex: "Una camiseta amarilla.", ex_zh: "一件黃色T恤。" },
+                    { es: "Negro", zh: "黑色", tip: "Black。", ex: "Pantalones negros.", ex_zh: "黑色褲子。" },
+                    { es: "Blanco", zh: "白色", tip: "White。", ex: "Zapatos blancos.", ex_zh: "白色鞋子。" },
+                    { es: "Gris", zh: "灰色", tip: "Gray。", ex: "Una chaqueta gris.", ex_zh: "一件灰色外套。" },
+                    { es: "Marrón", zh: "咖啡色", tip: "Brown。", ex: "Un bolso marrón.", ex_zh: "一個咖啡色包包。" },
+                    { es: "Rosa", zh: "粉紅色", tip: "Pink。", ex: "Me gusta el rosa.", ex_zh: "我喜歡粉紅色。" },
+                    { es: "Morado", zh: "紫色", tip: "Purple。", ex: "Una falda morada.", ex_zh: "一件紫色裙子。" },
+                    { es: "Naranja", zh: "橘色", tip: "Orange。", ex: "Naranja claro.", ex_zh: "淺橘色。" },
+                    { es: "Camisa", zh: "襯衫", tip: "Shirt。", ex: "Una camisa blanca.", ex_zh: "一件白色襯衫。" },
+                    { es: "Camiseta", zh: "T恤", tip: "T-shirt。", ex: "Una camiseta de manga corta.", ex_zh: "一件短袖T恤。" },
+                    { es: "Pantalones", zh: "褲子", tip: "Pants。複數！", ex: "Unos pantalones vaqueros.", ex_zh: "一條牛仔褲。" },
+                    { es: "Falda", zh: "裙子", tip: "Skirt。", ex: "Una falda larga.", ex_zh: "一件長裙。" },
+                    { es: "Vestido", zh: "洋裝", tip: "Dress。", ex: "Un vestido elegante.", ex_zh: "一件優雅的洋裝。" },
+                    { es: "Chaqueta", zh: "外套", tip: "Jacket。", ex: "Una chaqueta de cuero.", ex_zh: "一件皮夾克。" },
+                    { es: "Abrigo", zh: "大衣", tip: "Coat。", ex: "Un abrigo de invierno.", ex_zh: "一件冬天大衣。" },
+                    { es: "Zapatos", zh: "鞋子", tip: "Shoes。複數！", ex: "Unos zapatos cómodos.", ex_zh: "一雙舒適的鞋子。" },
+                    { es: "Sombrero", zh: "帽子", tip: "Hat。", ex: "Un sombrero de sol.", ex_zh: "一頂遮陽帽。" },
+                    { es: "Bolso", zh: "包包", tip: "Bag/Purse。", ex: "Un bolso grande.", ex_zh: "一個大包包。" },
+                    { es: "Gafas de sol", zh: "太陽眼鏡", tip: "Gafas = Glasses。", ex: "Unas gafas de sol.", ex_zh: "一副太陽眼鏡。" },
+                    { es: "Bonito/feo", zh: "漂亮/醜", tip: "Pretty/Ugly。", ex: "Es muy bonito.", ex_zh: "很漂亮。" },
+                    { es: "Cómodo", zh: "舒適", tip: "Comfortable。", ex: "Muy cómodo.", ex_zh: "非常舒適。" },
+                    { es: "De moda", zh: "流行的", tip: "Fashionable。", ex: "Está muy de moda.", ex_zh: "很流行。" },
+                    { es: "¿De qué color?", zh: "什麼顏色？", tip: "問顏色。", ex: "¿De qué color lo quiere?", ex_zh: "你要什麼顏色的？" },
+                    { es: "Me gusta en rojo.", zh: "我喜歡紅色的。", tip: "表達顏色喜好。", ex: "Me gusta en azul.", ex_zh: "我喜歡藍色的。" }
+                ]
+            },
+            {
+                title: "Day 14: 住宿與飯店",
+                items: [
+                    { es: "Quiero reservar una habitación.", zh: "我想訂房。", tip: "Habitación = Room。", ex: "Quiero reservar una habitación doble.", ex_zh: "我想訂一間雙人房。" },
+                    { es: "¿Para cuántas noches?", zh: "住幾晚？", tip: "Noche = Night。", ex: "¿Para cuántas noches? Tres noches.", ex_zh: "住幾晚？三晚。" },
+                    { es: "¿Cuánto cuesta por noche?", zh: "一晚多少錢？", tip: "Por noche = Per night。", ex: "¿Cuánto cuesta por noche?", ex_zh: "一晚多少錢？" },
+                    { es: "Habitación individual/doble.", zh: "單人房/雙人房。", tip: "Individual = Single, Doble = Double。", ex: "Una habitación individual, por favor.", ex_zh: "請給我一間單人房。" },
+                    { es: "¿Incluye desayuno?", zh: "包含早餐嗎？", tip: "Incluir = Include。", ex: "¿El precio incluye desayuno?", ex_zh: "價格包含早餐嗎？" },
+                    { es: "Tengo una reserva.", zh: "我有預訂。", tip: "Reserva = Reservation。", ex: "Hola, tengo una reserva.", ex_zh: "你好，我有預訂。" },
+                    { es: "A nombre de...", zh: "名字是...", tip: "Nombre = Name。", ex: "A nombre de García.", ex_zh: "名字是加西亞。" },
+                    { es: "Aquí está mi pasaporte.", zh: "這是我的護照。", tip: "Pasaporte = Passport。", ex: "Aquí tiene mi pasaporte.", ex_zh: "這是我的護照。" },
+                    { es: "¿A qué hora es el check-in/out?", zh: "入住/退房時間？", tip: "用英文也通。", ex: "¿A qué hora es el check-in?", ex_zh: "入住時間是幾點？" },
+                    { es: "La llave de la habitación.", zh: "房間鑰匙。", tip: "Llave = Key。", ex: "¿Me da la llave, por favor?", ex_zh: "可以給我鑰匙嗎？" },
+                    { es: "¿Hay wifi?", zh: "有 Wi-Fi 嗎？", tip: "Hay = There is。", ex: "¿Hay wifi en la habitación?", ex_zh: "房間裡有Wi-Fi嗎？" },
+                    { es: "¿Cuál es la contraseña?", zh: "密碼是多少？", tip: "Contraseña = Password。", ex: "¿Cuál es la contraseña del wifi?", ex_zh: "Wi-Fi密碼是多少？" },
+                    { es: "El aire acondicionado.", zh: "冷氣。", tip: "Air conditioning。", ex: "No funciona el aire acondicionado.", ex_zh: "冷氣壞了。" },
+                    { es: "La calefacción.", zh: "暖氣。", tip: "Heating。", ex: "¿Cómo funciona la calefacción?", ex_zh: "暖氣怎麼用？" },
+                    { es: "El ascensor.", zh: "電梯。", tip: "Elevator。", ex: "¿Dónde está el ascensor?", ex_zh: "電梯在哪裡？" },
+                    { es: "La piscina.", zh: "游泳池。", tip: "Swimming pool。", ex: "¿Tiene piscina el hotel?", ex_zh: "飯店有游泳池嗎？" },
+                    { es: "El gimnasio.", zh: "健身房。", tip: "Gym。", ex: "¿A qué hora abre el gimnasio?", ex_zh: "健身房幾點開？" },
+                    { es: "El desayuno incluido.", zh: "含早餐。", tip: "Incluido = Included。", ex: "¿El desayuno está incluido?", ex_zh: "有包含早餐嗎？" },
+                    { es: "No funciona...", zh: "...壞了。", tip: "Funcionar = Work。", ex: "No funciona la televisión.", ex_zh: "電視壞了。" },
+                    { es: "Necesito toallas.", zh: "我需要毛巾。", tip: "Toalla = Towel。", ex: "Necesito más toallas, por favor.", ex_zh: "我需要更多毛巾，謝謝。" },
+                    { es: "¿Pueden limpiar la habitación?", zh: "可以打掃房間嗎？", tip: "Limpiar = Clean。", ex: "¿Pueden limpiar ahora?", ex_zh: "可以現在打掃嗎？" },
+                    { es: "¿Dónde puedo dejar el equipaje?", zh: "我可以把行李放哪？", tip: "Equipaje = Luggage。", ex: "¿Dónde está el depósito de equipaje?", ex_zh: "行李寄存處在哪？" },
+                    { es: "Quiero cambiar de habitación.", zh: "我想換房間。", tip: "Cambiar = Change。", ex: "¿Puedo cambiar de habitación?", ex_zh: "我可以換房間嗎？" },
+                    { es: "Quiero hacer el check-out.", zh: "我要退房。", tip: "用英文也可以。", ex: "Quiero hacer el check-out, por favor.", ex_zh: "我要退房，謝謝。" },
+                    { es: "¿Puedo dejar las maletas aquí?", zh: "我可以把行李箱放這嗎？", tip: "Maleta = Suitcase。", ex: "¿Puedo dejar mis maletas hasta las cinco?", ex_zh: "我可以把行李放到五點嗎？" }
+                ]
+            },
+            {
+                title: "Day 15: 第二週複習與測驗",
+                items: [
+                    { es: "Reservar mesa/habitación.", zh: "訂位/訂房。", tip: "第二週學的核心技能。", ex: "Quiero reservar una mesa para dos.", ex_zh: "我想訂兩人的桌位。" },
+                    { es: "¿Qué recomienda?", zh: "你推薦什麼？", tip: "餐廳常用句。", ex: "¿Qué me recomienda de aquí?", ex_zh: "你推薦這裡什麼？" },
+                    { es: "Sin...(cebolla/picante/carne)", zh: "不要...（洋蔥/辣/肉）", tip: "特殊要求。", ex: "Sin picante, por favor.", ex_zh: "請不要辣。" },
+                    { es: "Para llevar/Para aquí.", zh: "外帶/內用。", tip: "點餐必備。", ex: "Un café para llevar.", ex_zh: "一杯咖啡外帶。" },
+                    { es: "Café solo/con leche/cortado.", zh: "黑咖啡/拿鐵/瑪奇朵。", tip: "咖啡種類。", ex: "Dos cafés con leche, por favor.", ex_zh: "請給我兩杯拿鐵。" },
+                    { es: "¿Cuánto cuesta? Es muy caro.", zh: "多少錢？太貴了。", tip: "購物必備。", ex: "¿Cuánto cuesta? Es muy caro.", ex_zh: "多少錢？太貴了。" },
+                    { es: "¿Puedo probármelo?", zh: "我可以試穿嗎？", tip: "試穿用語。", ex: "¿Puedo probarme esta chaqueta?", ex_zh: "我可以試穿這件外套嗎？" },
+                    { es: "¿Tiene otra talla/color?", zh: "有其他尺寸/顏色嗎？", tip: "詢問選項。", ex: "¿Tiene en talla M?", ex_zh: "有M號的嗎？" },
+                    { es: "Rojo/Azul/Verde/Negro/Blanco.", zh: "紅/藍/綠/黑/白。", tip: "基本顏色。", ex: "Me gusta en azul.", ex_zh: "我喜歡藍色的。" },
+                    { es: "Camisa/Pantalones/Zapatos.", zh: "襯衫/褲子/鞋子。", tip: "基本服飾。", ex: "Una camisa blanca.", ex_zh: "一件白襯衫。" },
+                    { es: "¿Hay wifi? ¿Cuál es la contraseña?", zh: "有Wi-Fi嗎？密碼是？", tip: "住宿必問。", ex: "¿Hay wifi? ¿Cuál es la contraseña?", ex_zh: "有Wi-Fi嗎？密碼是多少？" },
+                    { es: "No funciona el/la...", zh: "...壞了。", tip: "房間問題。", ex: "No funciona el aire acondicionado.", ex_zh: "冷氣壞了。" },
+                    { es: "Necesito toallas/más toallas.", zh: "我需要毛巾/更多毛巾。", tip: "客房服務。", ex: "Necesito más toallas.", ex_zh: "我需要更多毛巾。" },
+                    { es: "Estar + 狀態", zh: "臨時狀態", tip: "動詞複習。", ex: "Estoy cansado. Está delicioso.", ex_zh: "我累了。很好吃。" },
+                    { es: "Tener hambre/sed/frío/calor.", zh: "餓/渴/冷/熱。", tip: "感覺表達。", ex: "Tengo mucha hambre.", ex_zh: "我很餓。" }
+                ]
+            },
+            
+            // ===== 第三週：交通移動 (Day 15-21) =====
+            
+            {
+                title: "Day 16: 交通工具大全",
+                items: [
+                    { es: "El metro", zh: "地鐵", tip: "Metro = Subway。", ex: "¿Dónde está la estación de metro?", ex_zh: "地鐵站在哪裡？" },
+                    { es: "El autobús", zh: "公車", tip: "Bus。", ex: "¿A qué hora llega el autobús?", ex_zh: "公車幾點到？" },
+                    { es: "El tren", zh: "火車", tip: "Train。", ex: "Un billete de tren a Madrid.", ex_zh: "一張去馬德里的火車票。" },
+                    { es: "El taxi", zh: "計程車", tip: "Taxi。", ex: "Necesito un taxi al aeropuerto.", ex_zh: "我需要一輛去機場的計程車。" },
+                    { es: "El avión", zh: "飛機", tip: "Plane。", ex: "Voy en avión a Barcelona.", ex_zh: "我搭飛機去巴塞隆納。" },
+                    { es: "El coche", zh: "汽車", tip: "Car。", ex: "Alquilo un coche.", ex_zh: "我租車。" },
+                    { es: "La bicicleta", zh: "腳踏車", tip: "Bicycle。", ex: "Me gusta ir en bicicleta.", ex_zh: "我喜歡騎腳踏車。" },
+                    { es: "A pie", zh: "走路", tip: "On foot。", ex: "Voy a pie, está cerca.", ex_zh: "我走路去，很近。" },
+                    { es: "Un billete", zh: "一張票", tip: "Ticket。", ex: "Dos billetes, por favor.", ex_zh: "請給我兩張票。" },
+                    { es: "Ida / Vuelta", zh: "單程 / 回程", tip: "One way / Return。", ex: "Solo ida, gracias.", ex_zh: "只要單程，謝謝。" },
+                    { es: "Ida y vuelta", zh: "來回票", tip: "Round trip。", ex: "Un billete de ida y vuelta.", ex_zh: "一張來回票。" },
+                    { es: "¿A qué hora sale?", zh: "幾點出發？", tip: "Salir = Leave。", ex: "¿A qué hora sale el tren?", ex_zh: "火車幾點開？" },
+                    { es: "¿A qué hora llega?", zh: "幾點到達？", tip: "Llegar = Arrive。", ex: "¿A qué hora llega a Madrid?", ex_zh: "幾點到馬德里？" },
+                    { es: "¿Cuánto tarda?", zh: "要多久？", tip: "Tardar = Take time。", ex: "¿Cuánto tarda en tren?", ex_zh: "坐火車要多久？" },
+                    { es: "La estación", zh: "車站", tip: "Station。", ex: "Voy a la estación de tren.", ex_zh: "我要去火車站。" },
+                    { es: "La parada", zh: "站牌 / 停靠站", tip: "Stop。", ex: "¿Dónde está la parada de autobús?", ex_zh: "公車站在哪裡？" },
+                    { es: "El andén", zh: "月台", tip: "Platform。", ex: "¿Qué andén es?", ex_zh: "哪個月台？" },
+                    { es: "La línea", zh: "路線 / 線", tip: "Line。", ex: "La línea 3 del metro.", ex_zh: "地鐵3號線。" },
+                    { es: "Hacer transbordo", zh: "轉車", tip: "Transfer。", ex: "Tienes que hacer transbordo.", ex_zh: "你需要轉車。" },
+                    { es: "Dirección...", zh: "往...方向", tip: "Direction。", ex: "Dirección aeropuerto.", ex_zh: "往機場方向。" },
+                    { es: "Próxima parada", zh: "下一站", tip: "Next stop。", ex: "La próxima parada es Sol.", ex_zh: "下一站是太陽門。" },
+                    { es: "Me bajo aquí", zh: "我在這下車", tip: "Bajar = Get off。", ex: "Me bajo en la próxima.", ex_zh: "我下一站下車。" },
+                    { es: "¿Este autobús va a...?", zh: "這班公車去...嗎？", tip: "問路線。", ex: "¿Este autobús va al centro?", ex_zh: "這班公車去市中心嗎？" },
+                    { es: "¿Dónde compro el billete?", zh: "在哪買票？", tip: "Comprar = Buy。", ex: "¿Dónde compro los billetes?", ex_zh: "在哪裡買票？" },
+                    { es: "En la máquina", zh: "在售票機", tip: "Machine。", ex: "Puedes comprar en la máquina.", ex_zh: "你可以在售票機買。" }
+                ]
+            },
+            {
+                title: "Day 17: 問路與方位",
+                items: [
+                    { es: "¿Dónde está...?", zh: "...在哪裡？", tip: "問路基本句。", ex: "¿Dónde está el museo?", ex_zh: "博物館在哪裡？" },
+                    { es: "¿Cómo llego a...?", zh: "我怎麼去...？", tip: "Llegar = Arrive。", ex: "¿Cómo llego al centro?", ex_zh: "我怎麼去市中心？" },
+                    { es: "Estoy perdido/a", zh: "我迷路了", tip: "Perdido = Lost。", ex: "Perdón, estoy perdido.", ex_zh: "不好意思，我迷路了。" },
+                    { es: "Busco...", zh: "我在找...", tip: "Buscar = Look for。", ex: "Busco la estación de tren.", ex_zh: "我在找火車站。" },
+                    { es: "Todo recto", zh: "直走", tip: "Straight ahead。", ex: "Sigue todo recto.", ex_zh: "一直直走。" },
+                    { es: "A la derecha", zh: "向右", tip: "To the right。", ex: "Gira a la derecha.", ex_zh: "向右轉。" },
+                    { es: "A la izquierda", zh: "向左", tip: "To the left。", ex: "Toma la izquierda.", ex_zh: "向左轉。" },
+                    { es: "Al final de la calle", zh: "在街道盡頭", tip: "At the end。", ex: "Al final de esta calle.", ex_zh: "在這條街的盡頭。" },
+                    { es: "En la esquina", zh: "在轉角", tip: "At the corner。", ex: "Está en la esquina.", ex_zh: "在轉角處。" },
+                    { es: "Cruzar la calle", zh: "過馬路", tip: "Cross the street。", ex: "Cruza la calle aquí.", ex_zh: "在這裡過馬路。" },
+                    { es: "El semáforo", zh: "紅綠燈", tip: "Traffic light。", ex: "Gira en el semáforo.", ex_zh: "在紅綠燈處轉彎。" },
+                    { es: "La rotonda", zh: "圓環", tip: "Roundabout。", ex: "En la rotonda, segunda salida.", ex_zh: "在圓環，第二個出口。" },
+                    { es: "Cerca / Lejos", zh: "近 / 遠", tip: "Near / Far。", ex: "¿Está lejos de aquí?", ex_zh: "離這裡遠嗎？" },
+                    { es: "A cinco minutos", zh: "五分鐘", tip: "距離表達。", ex: "Está a cinco minutos a pie.", ex_zh: "走路五分鐘。" },
+                    { es: "Aquí / Allí", zh: "這裡 / 那裡", tip: "Here / There。", ex: "Está allí, al lado.", ex_zh: "在那裡，旁邊。" },
+                    { es: "Al lado de...", zh: "在...旁邊", tip: "Next to。", ex: "Al lado del banco.", ex_zh: "在銀行旁邊。" },
+                    { es: "Enfrente de...", zh: "在...對面", tip: "In front of。", ex: "Enfrente de la iglesia.", ex_zh: "在教堂對面。" },
+                    { es: "Detrás de...", zh: "在...後面", tip: "Behind。", ex: "Detrás del hotel.", ex_zh: "在飯店後面。" },
+                    { es: "Entre... y...", zh: "在...和...之間", tip: "Between。", ex: "Entre la plaza y el museo.", ex_zh: "在廣場和博物館之間。" },
+                    { es: "Arriba / Abajo", zh: "上面 / 下面", tip: "Up / Down。", ex: "Está arriba, segundo piso.", ex_zh: "在上面，二樓。" },
+                    { es: "Dentro / Fuera", zh: "裡面 / 外面", tip: "Inside / Outside。", ex: "Dentro del edificio.", ex_zh: "在建築物裡面。" },
+                    { es: "Primera / Segunda calle", zh: "第一條 / 第二條街", tip: "序數。", ex: "La segunda calle a la derecha.", ex_zh: "右邊第二條街。" },
+                    { es: "¿Está lejos andando?", zh: "走路會很遠嗎？", tip: "Andar = Walk。", ex: "¿Puedo ir andando?", ex_zh: "我可以走路去嗎？" },
+                    { es: "¿Cuántos metros/kilómetros?", zh: "多少公尺/公里？", tip: "距離單位。", ex: "¿Cuántos metros hay?", ex_zh: "有多少公尺？" },
+                    { es: "Muchas gracias por la ayuda", zh: "非常感謝幫忙", tip: "禮貌結束。", ex: "Muchas gracias por su ayuda.", ex_zh: "非常感謝您的幫助。" }
+                ]
+            },
+            {
+                title: "Day 18: 機場與登機",
+                items: [
+                    { es: "El aeropuerto", zh: "機場", tip: "Airport。", ex: "Voy al aeropuerto.", ex_zh: "我要去機場。" },
+                    { es: "La terminal", zh: "航廈", tip: "Terminal。", ex: "¿Qué terminal?", ex_zh: "哪個航廈？" },
+                    { es: "El mostrador de facturación", zh: "報到櫃台", tip: "Check-in counter。", ex: "¿Dónde está el mostrador?", ex_zh: "櫃台在哪裡？" },
+                    { es: "Facturar el equipaje", zh: "托運行李", tip: "Check in luggage。", ex: "Quiero facturar una maleta.", ex_zh: "我想托運一個行李箱。" },
+                    { es: "Equipaje de mano", zh: "手提行李", tip: "Hand luggage。", ex: "Solo llevo equipaje de mano.", ex_zh: "我只帶手提行李。" },
+                    { es: "La tarjeta de embarque", zh: "登機證", tip: "Boarding pass。", ex: "¿Dónde está mi tarjeta de embarque?", ex_zh: "我的登機證在哪？" },
+                    { es: "El pasaporte", zh: "護照", tip: "Passport。", ex: "Aquí está mi pasaporte.", ex_zh: "這是我的護照。" },
+                    { es: "El control de seguridad", zh: "安檢", tip: "Security check。", ex: "Después del control de seguridad.", ex_zh: "安檢之後。" },
+                    { es: "La puerta de embarque", zh: "登機門", tip: "Boarding gate。", ex: "Puerta B23.", ex_zh: "B23登機門。" },
+                    { es: "El vuelo", zh: "航班", tip: "Flight。", ex: "Mi vuelo sale a las tres.", ex_zh: "我的航班三點起飛。" },
+                    { es: "El número de vuelo", zh: "航班號碼", tip: "Flight number。", ex: "Vuelo IB3240.", ex_zh: "IB3240航班。" },
+                    { es: "¿A qué hora embarcamos?", zh: "幾點登機？", tip: "Embarcar = Board。", ex: "¿A qué hora es el embarque?", ex_zh: "什麼時候登機？" },
+                    { es: "Retraso / Cancelado", zh: "延遲 / 取消", tip: "Delay / Cancelled。", ex: "El vuelo está retrasado.", ex_zh: "航班延誤了。" },
+                    { es: "El asiento", zh: "座位", tip: "Seat。", ex: "¿Cuál es mi asiento?", ex_zh: "我的座位是哪個？" },
+                    { es: "Ventana / Pasillo", zh: "靠窗 / 靠走道", tip: "Window / Aisle。", ex: "Prefiero ventana.", ex_zh: "我比較喜歡靠窗。" },
+                    { es: "El cinturón de seguridad", zh: "安全帶", tip: "Seatbelt。", ex: "Abroche el cinturón.", ex_zh: "請繫上安全帶。" },
+                    { es: "La aduana", zh: "海關", tip: "Customs。", ex: "Pasamos por la aduana.", ex_zh: "我們經過海關。" },
+                    { es: "Nada que declarar", zh: "沒有要申報的", tip: "Nothing to declare。", ex: "No tengo nada que declarar.", ex_zh: "我沒有要申報的。" },
+                    { es: "Recoger el equipaje", zh: "領取行李", tip: "Collect luggage。", ex: "Voy a recoger mi equipaje.", ex_zh: "我去領我的行李。" },
+                    { es: "La cinta transportadora", zh: "行李轉盤", tip: "Luggage carousel。", ex: "¿Qué cinta es?", ex_zh: "是哪個轉盤？" },
+                    { es: "Me falta una maleta", zh: "我少了一個行李箱", tip: "Faltar = Missing。", ex: "Me falta mi maleta negra.", ex_zh: "我的黑色行李箱不見了。" },
+                    { es: "¿Dónde están las salidas?", zh: "出口在哪？", tip: "Salida = Exit。", ex: "¿Dónde está la salida?", ex_zh: "出口在哪裡？" },
+                    { es: "¿Hay cambio de moneda?", zh: "有換錢的地方嗎？", tip: "Currency exchange。", ex: "Busco cambio de moneda.", ex_zh: "我在找換錢的地方。" },
+                    { es: "La wifi del aeropuerto", zh: "機場WiFi", tip: "Airport WiFi。", ex: "¿Hay wifi gratis?", ex_zh: "有免費WiFi嗎？" },
+                    { es: "¿Dónde está el taxi?", zh: "計程車在哪？", tip: "Taxi stand。", ex: "Busco la parada de taxis.", ex_zh: "我在找計程車招呼站。" }
+                ]
+            },
+            {
+                title: "Day 19: 租車與加油",
+                items: [
+                    { es: "Quiero alquilar un coche", zh: "我想租車", tip: "Alquilar = Rent。", ex: "Quiero alquilar un coche pequeño.", ex_zh: "我想租一輛小車。" },
+                    { es: "¿Por cuántos días?", zh: "租幾天？", tip: "租期詢問。", ex: "Por tres días.", ex_zh: "三天。" },
+                    { es: "¿Cuánto cuesta por día?", zh: "一天多少錢？", tip: "價格詢問。", ex: "¿Cuánto cuesta al día?", ex_zh: "一天多少錢？" },
+                    { es: "¿Incluye seguro?", zh: "包含保險嗎？", tip: "Seguro = Insurance。", ex: "¿El seguro está incluido?", ex_zh: "保險包含在內嗎？" },
+                    { es: "Automático / Manual", zh: "自排 / 手排", tip: "Transmission。", ex: "Prefiero automático.", ex_zh: "我比較喜歡自排。" },
+                    { es: "El carnet de conducir", zh: "駕照", tip: "Driver's license。", ex: "Aquí está mi carnet.", ex_zh: "這是我的駕照。" },
+                    { es: "¿Dónde lo devuelvo?", zh: "在哪還車？", tip: "Devolver = Return。", ex: "¿Puedo devolverlo en el aeropuerto?", ex_zh: "我可以在機場還車嗎？" },
+                    { es: "¿Está lleno el depósito?", zh: "油箱是滿的嗎？", tip: "Depósito = Tank。", ex: "¿Tengo que devolverlo lleno?", ex_zh: "我需要加滿油還車嗎？" },
+                    { es: "El coche no arranca", zh: "車子發不動", tip: "Arrancar = Start。", ex: "El motor no arranca.", ex_zh: "引擎發不動。" },
+                    { es: "Tengo una avería", zh: "我的車壞了", tip: "Avería = Breakdown。", ex: "Mi coche tiene una avería.", ex_zh: "我的車故障了。" },
+                    { es: "Pinché una rueda", zh: "我爆胎了", tip: "Pinchar = Puncture。", ex: "Pinché la rueda trasera.", ex_zh: "我後輪爆胎了。" },
+                    { es: "¿Dónde hay una gasolinera?", zh: "哪裡有加油站？", tip: "Gasolinera = Gas station。", ex: "Busco una gasolinera cercana.", ex_zh: "我在找附近的加油站。" },
+                    { es: "Gasolina / Diésel", zh: "汽油 / 柴油", tip: "Fuel types。", ex: "¿Gasolina o diésel?", ex_zh: "汽油還是柴油？" },
+                    { es: "Lleno, por favor", zh: "請加滿", tip: "Fill it up。", ex: "Lleno de gasolina, por favor.", ex_zh: "請加滿汽油。" },
+                    { es: "Veinte euros", zh: "二十歐元（的油）", tip: "指定金額。", ex: "Veinte euros de gasolina.", ex_zh: "二十歐元的汽油。" },
+                    { es: "¿Dónde pago?", zh: "在哪付款？", tip: "Payment location。", ex: "¿Pago aquí o en caja?", ex_zh: "在這付還是在櫃台？" },
+                    { es: "El aparcamiento", zh: "停車場", tip: "Parking。", ex: "¿Dónde hay aparcamiento?", ex_zh: "哪裡有停車場？" },
+                    { es: "¿Cuánto cuesta aparcar?", zh: "停車多少錢？", tip: "Aparcar = Park。", ex: "¿Cuánto cuesta por hora?", ex_zh: "一小時多少錢？" },
+                    { es: "Está prohibido aparcar", zh: "禁止停車", tip: "No parking。", ex: "Aquí está prohibido aparcar.", ex_zh: "這裡禁止停車。" },
+                    { es: "Una multa", zh: "罰單", tip: "Fine/Ticket。", ex: "Me pusieron una multa.", ex_zh: "我被開罰單了。" }
+                ]
+            },
+            {
+                title: "Day 20: 計程車與共乘",
+                items: [
+                    { es: "Necesito un taxi", zh: "我需要計程車", tip: "叫車用語。", ex: "¿Puede llamar un taxi?", ex_zh: "可以幫我叫計程車嗎？" },
+                    { es: "¿Dónde están los taxis?", zh: "計程車在哪？", tip: "找計程車站。", ex: "¿Dónde está la parada de taxis?", ex_zh: "計程車招呼站在哪？" },
+                    { es: "A esta dirección, por favor", zh: "請到這個地址", tip: "Dirección = Address。", ex: "A esta dirección.", ex_zh: "到這個地址。" },
+                    { es: "Al aeropuerto, por favor", zh: "請到機場", tip: "指定目的地。", ex: "Al hotel Ritz, por favor.", ex_zh: "請到麗池飯店。" },
+                    { es: "¿Cuánto cuesta?", zh: "多少錢？", tip: "問車資。", ex: "¿Cuánto cuesta al centro?", ex_zh: "到市中心多少錢？" },
+                    { es: "¿Cuánto tarda?", zh: "要多久？", tip: "問車程時間。", ex: "¿Cuánto tarda al aeropuerto?", ex_zh: "到機場要多久？" },
+                    { es: "Por el taxímetro", zh: "照錶收費", tip: "Taxímetro = Meter。", ex: "Vamos por el taxímetro.", ex_zh: "我們照錶計費。" },
+                    { es: "¿Puede poner el taxímetro?", zh: "可以開錶嗎？", tip: "要求開錶。", ex: "Por favor, ponga el taxímetro.", ex_zh: "請開錶。" },
+                    { es: "Más rápido, por favor", zh: "請快一點", tip: "趕時間時用。", ex: "Tengo prisa, más rápido.", ex_zh: "我趕時間，快一點。" },
+                    { es: "Más despacio, por favor", zh: "請慢一點", tip: "覺得太快時。", ex: "No corra, más despacio.", ex_zh: "別開太快，慢一點。" },
+                    { es: "Pare aquí, por favor", zh: "請在這停", tip: "Parar = Stop。", ex: "Pare aquí en la esquina.", ex_zh: "請在轉角停。" },
+                    { es: "Espere un momento", zh: "請等一下", tip: "Esperar = Wait。", ex: "Espere aquí cinco minutos.", ex_zh: "在這等我五分鐘。" },
+                    { es: "¿Acepta tarjeta?", zh: "可以刷卡嗎？", tip: "Aceptar = Accept。", ex: "¿Puedo pagar con tarjeta?", ex_zh: "我可以用卡付款嗎？" },
+                    { es: "Quédese con el cambio", zh: "不用找了", tip: "給小費。", ex: "Quédese con el cambio, gracias.", ex_zh: "不用找了，謝謝。" },
+                    { es: "¿Puede darme un recibo?", zh: "可以給我收據嗎？", tip: "Recibo = Receipt。", ex: "Necesito un recibo, por favor.", ex_zh: "我需要收據，謝謝。" },
+                    { es: "El maletero", zh: "後車廂", tip: "Trunk。", ex: "Ponga la maleta en el maletero.", ex_zh: "把行李放在後車廂。" },
+                    { es: "¿Conoce esta dirección?", zh: "你知道這個地址嗎？", tip: "Conocer = Know。", ex: "¿Conoce este hotel?", ex_zh: "你知道這間飯店嗎？" },
+                    { es: "No conozco el camino", zh: "我不知道路", tip: "Camino = Way。", ex: "No conozco bien esta zona.", ex_zh: "我不太熟這一區。" },
+                    { es: "Uber / Cabify", zh: "優步 / Cabify（叫車App）", tip: "App names。", ex: "Voy a pedir un Uber.", ex_zh: "我要叫Uber。" },
+                    { es: "Conductor", zh: "司機", tip: "Driver。", ex: "Mi conductor llega en 3 minutos.", ex_zh: "我的司機3分鐘後到。" }
+                ]
+            },
+            {
+                title: "Day 21: 觀光景點",
+                items: [
+                    { es: "El museo", zh: "博物館", tip: "Museum。", ex: "Voy al Museo del Prado.", ex_zh: "我要去普拉多博物館。" },
+                    { es: "La entrada", zh: "入口 / 門票", tip: "Entrance / Ticket。", ex: "¿Cuánto cuesta la entrada?", ex_zh: "門票多少錢？" },
+                    { es: "Gratis", zh: "免費", tip: "Free。", ex: "¿Es gratis?", ex_zh: "是免費的嗎？" },
+                    { es: "La audioguía", zh: "語音導覽", tip: "Audio guide。", ex: "¿Tienen audioguía en inglés?", ex_zh: "有英文語音導覽嗎？" },
+                    { es: "La visita guiada", zh: "導覽行程", tip: "Guided tour。", ex: "¿A qué hora es la visita guiada?", ex_zh: "導覽幾點開始？" },
+                    { es: "¿Se pueden hacer fotos?", zh: "可以拍照嗎？", tip: "拍照許可。", ex: "¿Está permitido hacer fotos?", ex_zh: "允許拍照嗎？" },
+                    { es: "Prohibido hacer fotos", zh: "禁止拍照", tip: "No photography。", ex: "Aquí está prohibido.", ex_zh: "這裡禁止。" },
+                    { es: "La catedral", zh: "大教堂", tip: "Cathedral。", ex: "La Catedral de Santiago.", ex_zh: "聖地亞哥大教堂。" },
+                    { es: "La iglesia", zh: "教堂", tip: "Church。", ex: "Una iglesia muy bonita.", ex_zh: "一座很漂亮的教堂。" },
+                    { es: "El castillo", zh: "城堡", tip: "Castle。", ex: "Visitamos el castillo.", ex_zh: "我們參觀城堡。" },
+                    { es: "El palacio", zh: "宮殿", tip: "Palace。", ex: "El Palacio Real.", ex_zh: "皇宮。" },
+                    { es: "La plaza", zh: "廣場", tip: "Square。", ex: "La Plaza Mayor.", ex_zh: "主廣場。" },
+                    { es: "El parque", zh: "公園", tip: "Park。", ex: "Vamos al parque.", ex_zh: "我們去公園。" },
+                    { es: "La playa", zh: "海灘", tip: "Beach。", ex: "Me encanta la playa.", ex_zh: "我愛海灘。" },
+                    { es: "Las ruinas", zh: "遺跡", tip: "Ruins。", ex: "Ruinas romanas.", ex_zh: "羅馬遺跡。" },
+                    { es: "El mirador", zh: "觀景台", tip: "Viewpoint。", ex: "Hay un mirador bonito.", ex_zh: "有個漂亮的觀景台。" },
+                    { es: "La vista", zh: "景色", tip: "View。", ex: "¡Qué vista tan bonita!", ex_zh: "好美的景色！" },
+                    { es: "Sacar fotos", zh: "拍照", tip: "Take photos。", ex: "¿Puede sacarme una foto?", ex_zh: "可以幫我拍照嗎？" },
+                    { es: "Un selfie", zh: "自拍", tip: "Selfie。", ex: "Vamos a hacernos un selfie.", ex_zh: "我們來自拍。" },
+                    { es: "La tienda de regalos", zh: "禮品店", tip: "Gift shop。", ex: "Voy a la tienda de regalos.", ex_zh: "我去禮品店。" },
+                    { es: "Un recuerdo", zh: "紀念品", tip: "Souvenir。", ex: "Quiero comprar un recuerdo.", ex_zh: "我想買紀念品。" },
+                    { es: "El mapa turístico", zh: "旅遊地圖", tip: "Tourist map。", ex: "¿Tiene un mapa turístico?", ex_zh: "有旅遊地圖嗎？" },
+                    { es: "La oficina de turismo", zh: "旅遊服務中心", tip: "Tourist office。", ex: "¿Dónde está la oficina de turismo?", ex_zh: "旅遊服務中心在哪？" },
+                    { es: "¿Qué me recomienda ver?", zh: "你推薦我看什麼？", tip: "問推薦景點。", ex: "¿Qué lugares recomienda visitar?", ex_zh: "你推薦參觀哪些地方？" },
+                    { es: "Impresionante", zh: "令人印象深刻", tip: "Impressive。", ex: "¡Qué impresionante!", ex_zh: "太令人印象深刻了！" }
+                ]
+            },
+            {
+                title: "Day 22: 第三週複習",
+                items: [
+                    { es: "El metro/autobús/tren/taxi", zh: "交通工具", tip: "第三週重點。", ex: "Voy en metro.", ex_zh: "我搭地鐵。" },
+                    { es: "Un billete de ida y vuelta", zh: "來回票", tip: "買票必備。", ex: "Dos billetes de ida y vuelta.", ex_zh: "兩張來回票。" },
+                    { es: "¿A qué hora sale/llega?", zh: "幾點出發/到達？", tip: "時間詢問。", ex: "¿A qué hora sale el tren?", ex_zh: "火車幾點開？" },
+                    { es: "¿Dónde está...? / ¿Cómo llego a...?", zh: "問路句型", tip: "問路必備。", ex: "¿Cómo llego al museo?", ex_zh: "我怎麼去博物館？" },
+                    { es: "Todo recto/derecha/izquierda", zh: "方向指示", tip: "聽懂指路。", ex: "Todo recto y a la derecha.", ex_zh: "直走然後右轉。" },
+                    { es: "Cerca/Lejos - A cinco minutos", zh: "距離表達", tip: "了解遠近。", ex: "Está cerca, a cinco minutos.", ex_zh: "很近，五分鐘。" },
+                    { es: "Facturar/Equipaje de mano", zh: "機場用語", tip: "托運或手提。", ex: "Solo equipaje de mano.", ex_zh: "只有手提行李。" },
+                    { es: "Puerta de embarque/Asiento", zh: "登機相關", tip: "登機必知。", ex: "Puerta B23, asiento 15A.", ex_zh: "B23登機門，15A座位。" },
+                    { es: "Alquilar un coche", zh: "租車", tip: "租車流程。", ex: "Quiero alquilar por tres días.", ex_zh: "我想租三天。" },
+                    { es: "Gasolina/Diésel - Lleno, por favor", zh: "加油", tip: "加油站用語。", ex: "Lleno de gasolina, por favor.", ex_zh: "請加滿汽油。" },
+                    { es: "Al aeropuerto, por favor", zh: "搭計程車", tip: "說目的地。", ex: "Al hotel, por favor.", ex_zh: "請到飯店。" },
+                    { es: "¿Cuánto cuesta/tarda?", zh: "價格/時間", tip: "計程車常問。", ex: "¿Cuánto cuesta al centro?", ex_zh: "到市中心多少錢？" },
+                    { es: "Museo/Catedral/Plaza/Playa", zh: "景點類型", tip: "觀光必知。", ex: "Vamos a la plaza.", ex_zh: "我們去廣場。" },
+                    { es: "¿Cuánto cuesta la entrada?", zh: "門票多少錢？", tip: "買票必問。", ex: "¿La entrada es gratis?", ex_zh: "門票免費嗎？" },
+                    { es: "¿Se pueden hacer fotos?", zh: "可以拍照嗎？", tip: "拍照禮貌。", ex: "¿Puedo sacar fotos aquí?", ex_zh: "我可以在這拍照嗎？" }
+                ]
+            },
+            
+            // ===== 第四週：深度體驗 (Day 22-28) =====
+            
+            {
+                title: "Day 23: 天氣與季節",
+                items: [
+                    { es: "¿Qué tiempo hace?", zh: "天氣如何？", tip: "問天氣標準句。", ex: "¿Qué tiempo hace hoy?", ex_zh: "今天天氣如何？" },
+                    { es: "Hace buen tiempo", zh: "天氣好", tip: "Buen = Good。", ex: "Hoy hace muy buen tiempo.", ex_zh: "今天天氣很好。" },
+                    { es: "Hace mal tiempo", zh: "天氣差", tip: "Mal = Bad。", ex: "Hace mal tiempo para salir.", ex_zh: "天氣不適合出門。" },
+                    { es: "Hace sol", zh: "晴天", tip: "Hacer + sol。", ex: "Hace mucho sol.", ex_zh: "陽光很強。" },
+                    { es: "Hace calor", zh: "天氣熱", tip: "Hacer + calor。", ex: "Hoy hace mucho calor.", ex_zh: "今天很熱。" },
+                    { es: "Hace frío", zh: "天氣冷", tip: "Hacer + frío。", ex: "Hace frío esta noche.", ex_zh: "今晚很冷。" },
+                    { es: "Hace viento", zh: "有風", tip: "Hacer + viento。", ex: "Hace mucho viento.", ex_zh: "風很大。" },
+                    { es: "Está nublado", zh: "多雲", tip: "Estar + nublado。", ex: "Hoy está muy nublado.", ex_zh: "今天很陰。" },
+                    { es: "Llueve", zh: "下雨", tip: "Llover = Rain。", ex: "Está lloviendo ahora.", ex_zh: "現在在下雨。" },
+                    { es: "Nieva", zh: "下雪", tip: "Nevar = Snow。", ex: "Está nevando.", ex_zh: "正在下雪。" },
+                    { es: "Hay niebla", zh: "有霧", tip: "Niebla = Fog。", ex: "Hay mucha niebla.", ex_zh: "霧很大。" },
+                    { es: "Hay tormenta", zh: "有暴風雨", tip: "Tormenta = Storm。", ex: "Va a haber tormenta.", ex_zh: "會有暴風雨。" },
+                    { es: "¿Cuántos grados hay?", zh: "幾度？", tip: "Grado = Degree。", ex: "Hay 30 grados.", ex_zh: "三十度。" },
+                    { es: "La temperatura", zh: "溫度", tip: "Temperature。", ex: "¿Cuál es la temperatura?", ex_zh: "溫度是多少？" },
+                    { es: "La primavera", zh: "春天", tip: "Spring。", ex: "Me gusta la primavera.", ex_zh: "我喜歡春天。" },
+                    { es: "El verano", zh: "夏天", tip: "Summer。", ex: "En verano hace calor.", ex_zh: "夏天很熱。" },
+                    { es: "El otoño", zh: "秋天", tip: "Autumn。", ex: "El otoño es bonito.", ex_zh: "秋天很美。" },
+                    { es: "El invierno", zh: "冬天", tip: "Winter。", ex: "En invierno nieva.", ex_zh: "冬天下雪。" },
+                    { es: "Húmedo / Seco", zh: "潮濕 / 乾燥", tip: "Humid / Dry。", ex: "Hace calor y húmedo.", ex_zh: "又熱又潮濕。" },
+                    { es: "El paraguas", zh: "雨傘", tip: "Umbrella。", ex: "Necesito un paraguas.", ex_zh: "我需要雨傘。" }
+                ]
+            },
+            {
+                title: "Day 24: 身體部位與健康",
+                items: [
+                    { es: "La cabeza", zh: "頭", tip: "Head。", ex: "Me duele la cabeza.", ex_zh: "我頭痛。" },
+                    { es: "Los ojos", zh: "眼睛", tip: "Eyes。複數！", ex: "Tengo los ojos cansados.", ex_zh: "我眼睛很累。" },
+                    { es: "La nariz", zh: "鼻子", tip: "Nose。", ex: "Me sangra la nariz.", ex_zh: "我流鼻血。" },
+                    { es: "La boca", zh: "嘴巴", tip: "Mouth。", ex: "Abra la boca.", ex_zh: "張開嘴巴。" },
+                    { es: "Los dientes", zh: "牙齒", tip: "Teeth。複數！", ex: "Me duelen los dientes.", ex_zh: "我牙齒痛。" },
+                    { es: "La garganta", zh: "喉嚨", tip: "Throat。", ex: "Me duele la garganta.", ex_zh: "我喉嚨痛。" },
+                    { es: "El cuello", zh: "脖子", tip: "Neck。", ex: "Tengo dolor de cuello.", ex_zh: "我脖子痛。" },
+                    { es: "El pecho", zh: "胸部", tip: "Chest。", ex: "Dolor en el pecho.", ex_zh: "胸口痛。" },
+                    { es: "El estómago", zh: "胃", tip: "Stomach。", ex: "Me duele el estómago.", ex_zh: "我胃痛。" },
+                    { es: "La barriga / El abdomen", zh: "肚子 / 腹部", tip: "Belly / Abdomen。", ex: "Me duele la barriga.", ex_zh: "我肚子痛。" },
+                    { es: "La espalda", zh: "背部", tip: "Back。", ex: "Me duele la espalda.", ex_zh: "我背痛。" },
+                    { es: "El brazo", zh: "手臂", tip: "Arm。", ex: "Me rompí el brazo.", ex_zh: "我手臂骨折了。" },
+                    { es: "La mano", zh: "手", tip: "Hand。", ex: "Me quemé la mano.", ex_zh: "我燙傷手了。" },
+                    { es: "El dedo", zh: "手指", tip: "Finger。", ex: "Me corté el dedo.", ex_zh: "我切到手指了。" },
+                    { es: "La pierna", zh: "腿", tip: "Leg。", ex: "Me duele la pierna.", ex_zh: "我腿痛。" },
+                    { es: "La rodilla", zh: "膝蓋", tip: "Knee。", ex: "Me torci la rodilla.", ex_zh: "我扭傷膝蓋了。" },
+                    { es: "El pie", zh: "腳", tip: "Foot。", ex: "Me duele el pie.", ex_zh: "我腳痛。" },
+                    { es: "La piel", zh: "皮膚", tip: "Skin。", ex: "Tengo la piel seca.", ex_zh: "我皮膚乾燥。" },
+                    { es: "Estoy enfermo/a", zh: "我生病了", tip: "Enfermo = Sick。", ex: "Creo que estoy enfermo.", ex_zh: "我覺得我生病了。" },
+                    { es: "Tengo fiebre", zh: "我發燒", tip: "Fiebre = Fever。", ex: "Tengo fiebre alta.", ex_zh: "我高燒。" },
+                    { es: "Tengo tos", zh: "我咳嗽", tip: "Tos = Cough。", ex: "Tengo mucha tos.", ex_zh: "我咳得很厲害。" },
+                    { es: "Tengo gripe", zh: "我感冒", tip: "Gripe = Flu。", ex: "Creo que tengo gripe.", ex_zh: "我覺得我感冒了。" },
+                    { es: "Tengo diarrea", zh: "我拉肚子", tip: "Diarrea = Diarrhea。", ex: "Tengo diarrea.", ex_zh: "我拉肚子。" },
+                    { es: "Tengo náuseas", zh: "我想吐", tip: "Náusea = Nausea。", ex: "Tengo náuseas y mareo.", ex_zh: "我想吐和頭暈。" },
+                    { es: "Tengo alergia", zh: "我過敏", tip: "Alergia = Allergy。", ex: "Tengo alergia al polen.", ex_zh: "我對花粉過敏。" }
+                ]
+            },
+            {
+                title: "Day 25: 看醫生與藥局",
+                items: [
+                    { es: "Necesito un médico", zh: "我需要醫生", tip: "Médico = Doctor。", ex: "¿Dónde hay un médico?", ex_zh: "哪裡有醫生？" },
+                    { es: "¿Dónde está el hospital?", zh: "醫院在哪？", tip: "Hospital。H不發音。", ex: "Llévame al hospital.", ex_zh: "帶我去醫院。" },
+                    { es: "Quiero pedir cita", zh: "我想預約", tip: "Cita = Appointment。", ex: "¿Puedo pedir cita para hoy?", ex_zh: "我可以預約今天嗎？" },
+                    { es: "Es urgente", zh: "很緊急", tip: "Urgente = Urgent。", ex: "Es muy urgente.", ex_zh: "非常緊急。" },
+                    { es: "¿Cuánto tarda?", zh: "要等多久？", tip: "Tardar = Take time。", ex: "¿Cuánto tarda la cita?", ex_zh: "要等多久才能看診？" },
+                    { es: "Me duele...", zh: "我...痛", tip: "Doler = Hurt。", ex: "Me duele mucho aquí.", ex_zh: "我這裡很痛。" },
+                    { es: "Desde ayer", zh: "從昨天開始", tip: "時間起點。", ex: "Me duele desde ayer.", ex_zh: "從昨天開始痛。" },
+                    { es: "Hace dos días", zh: "兩天前", tip: "時間表達。", ex: "Empezó hace dos días.", ex_zh: "兩天前開始的。" },
+                    { es: "Todo el tiempo", zh: "一直", tip: "All the time。", ex: "Me duele todo el tiempo.", ex_zh: "一直在痛。" },
+                    { es: "De vez en cuando", zh: "偶爾", tip: "From time to time。", ex: "Solo de vez en cuando.", ex_zh: "只是偶爾。" },
+                    { es: "Tomo medicamentos", zh: "我在吃藥", tip: "Medicamento = Medicine。", ex: "Tomo medicamentos para...", ex_zh: "我在吃...的藥。" },
+                    { es: "Soy alérgico/a a...", zh: "我對...過敏", tip: "Alérgico = Allergic。", ex: "Soy alérgico a la penicilina.", ex_zh: "我對盤尼西林過敏。" },
+                    { es: "¿Dónde hay una farmacia?", zh: "哪裡有藥局？", tip: "Farmacia = Pharmacy。", ex: "Busco una farmacia de guardia.", ex_zh: "我找值班藥局。" },
+                    { es: "Necesito...", zh: "我需要...", tip: "藥品需求。", ex: "Necesito algo para el dolor.", ex_zh: "我需要止痛藥。" },
+                    { es: "Para el dolor de cabeza", zh: "頭痛藥", tip: "頭痛專用。", ex: "¿Tiene algo para el dolor de cabeza?", ex_zh: "有頭痛藥嗎？" },
+                    { es: "Para la tos", zh: "咳嗽藥", tip: "Tos = Cough。", ex: "Un jarabe para la tos.", ex_zh: "咳嗽糖漿。" },
+                    { es: "Para la fiebre", zh: "退燒藥", tip: "Fiebre = Fever。", ex: "Para bajar la fiebre.", ex_zh: "退燒用的。" },
+                    { es: "Para el estómago", zh: "胃藥", tip: "腸胃用藥。", ex: "Algo para el estómago.", ex_zh: "胃藥。" },
+                    { es: "Tiritas", zh: "OK繃", tip: "Band-aids。", ex: "¿Tiene tiritas?", ex_zh: "有OK繃嗎？" },
+                    { es: "Paracetamol / Ibuprofeno", zh: "普拿疼 / 布洛芬", tip: "常見止痛藥。", ex: "Un paracetamol, por favor.", ex_zh: "請給我普拿疼。" },
+                    { es: "¿Con o sin receta?", zh: "需要處方箋嗎？", tip: "Receta = Prescription。", ex: "¿Necesito receta médica?", ex_zh: "需要醫生處方嗎？" },
+                    { es: "¿Cómo lo tomo?", zh: "怎麼吃？", tip: "Tomar = Take。", ex: "¿Cuántas veces al día?", ex_zh: "一天幾次？" },
+                    { es: "Cada ocho horas", zh: "每八小時", tip: "Cada = Every。", ex: "Una pastilla cada ocho horas.", ex_zh: "每八小時一顆。" },
+                    { es: "Antes/Después de comer", zh: "飯前/飯後", tip: "用藥時間。", ex: "Tómelo después de comer.", ex_zh: "飯後吃。" },
+                    { es: "El seguro médico", zh: "醫療保險", tip: "Insurance。", ex: "Tengo seguro médico.", ex_zh: "我有醫療保險。" }
+                ]
+            },
+            {
+                title: "Day 26: 緊急狀況與求助",
+                items: [
+                    { es: "¡Socorro!", zh: "救命！", tip: "Help! 緊急求救。", ex: "¡Socorro! ¡Ayuda!", ex_zh: "救命！救我！" },
+                    { es: "¡Ayuda!", zh: "幫忙！", tip: "Help! 求助。", ex: "¡Ayuda, por favor!", ex_zh: "請幫忙！" },
+                    { es: "¡Llame a la policía!", zh: "請叫警察！", tip: "Llamar = Call。", ex: "¡Llame a la policía, por favor!", ex_zh: "請叫警察！" },
+                    { es: "¡Llame a una ambulancia!", zh: "請叫救護車！", tip: "Ambulancia = Ambulance。", ex: "Necesito una ambulancia.", ex_zh: "我需要救護車。" },
+                    { es: "Es una emergencia", zh: "這是緊急情況", tip: "Emergencia = Emergency。", ex: "Es una emergencia médica.", ex_zh: "這是醫療緊急狀況。" },
+                    { es: "Me robaron", zh: "我被搶了", tip: "Robar = Rob/Steal。", ex: "Me robaron el móvil.", ex_zh: "我的手機被偷了。" },
+                    { es: "He perdido...", zh: "我弄丟了...", tip: "Perder = Lose。", ex: "He perdido mi pasaporte.", ex_zh: "我弄丟了護照。" },
+                    { es: "Mi pasaporte", zh: "我的護照", tip: "Passport。", ex: "No encuentro mi pasaporte.", ex_zh: "我找不到我的護照。" },
+                    { es: "Mi cartera", zh: "我的錢包", tip: "Wallet。", ex: "Perdí mi cartera.", ex_zh: "我弄丟錢包了。" },
+                    { es: "Mi móvil / celular", zh: "我的手機", tip: "Mobile phone。", ex: "Me robaron el móvil.", ex_zh: "我的手機被偷了。" },
+                    { es: "¿Dónde está la comisaría?", zh: "警察局在哪？", tip: "Comisaría = Police station。", ex: "Necesito ir a la comisaría.", ex_zh: "我需要去警察局。" },
+                    { es: "Quiero denunciar un robo", zh: "我要報案", tip: "Denunciar = Report。", ex: "Quiero hacer una denuncia.", ex_zh: "我要提出報案。" },
+                    { es: "Necesito un intérprete", zh: "我需要翻譯", tip: "Intérprete = Interpreter。", ex: "¿Hay alguien que hable inglés?", ex_zh: "有人會說英文嗎？" },
+                    { es: "¿Dónde está la embajada?", zh: "大使館在哪？", tip: "Embajada = Embassy。", ex: "Necesito contactar con mi embajada.", ex_zh: "我需要聯絡我的大使館。" },
+                    { es: "El consulado", zh: "領事館", tip: "Consulate。", ex: "Voy al consulado.", ex_zh: "我要去領事館。" },
+                    { es: "¡Fuego!", zh: "失火了！", tip: "Fire! 火災。", ex: "¡Hay fuego aquí!", ex_zh: "這裡失火了！" },
+                    { es: "La salida de emergencia", zh: "緊急出口", tip: "Emergency exit。", ex: "¿Dónde está la salida?", ex_zh: "出口在哪裡？" },
+                    { es: "¡Cuidado!", zh: "小心！", tip: "Watch out! 警告。", ex: "¡Cuidado con el coche!", ex_zh: "小心車子！" },
+                    { es: "¡Peligro!", zh: "危險！", tip: "Danger! 危險警告。", ex: "¡Peligro! No pase.", ex_zh: "危險！不要過去。" },
+                    { es: "Tuve un accidente", zh: "我出車禍了", tip: "Accidente = Accident。", ex: "Tuve un accidente de coche.", ex_zh: "我出車禍了。" },
+                    { es: "Estoy herido/a", zh: "我受傷了", tip: "Herido = Injured。", ex: "Estoy herido, necesito ayuda.", ex_zh: "我受傷了，需要幫助。" },
+                    { es: "¿Está bien?", zh: "你還好嗎？", tip: "問對方狀況。", ex: "¿Está bien? ¿Necesita ayuda?", ex_zh: "你還好嗎？需要幫忙嗎？" },
+                    { es: "No puedo moverme", zh: "我不能動", tip: "Moverse = Move。", ex: "Me duele, no puedo moverme.", ex_zh: "我很痛，我動不了。" },
+                    { es: "Llamen al 112", zh: "請打112（歐洲緊急電話）", tip: "Emergency number。", ex: "Es urgente, llamen al 112.", ex_zh: "很緊急，請打112。" },
+                    { es: "Mi seguro", zh: "我的保險", tip: "Insurance。", ex: "Tengo seguro de viaje.", ex_zh: "我有旅遊保險。" }
+                ]
+            },
+            {
+                title: "Day 27: 銀行與郵局",
+                items: [
+                    { es: "El banco", zh: "銀行", tip: "Bank。", ex: "¿Dónde hay un banco?", ex_zh: "哪裡有銀行？" },
+                    { es: "El cajero automático", zh: "ATM提款機", tip: "ATM。", ex: "Busco un cajero.", ex_zh: "我在找提款機。" },
+                    { es: "Sacar dinero", zh: "提款", tip: "Withdraw money。", ex: "Necesito sacar dinero.", ex_zh: "我需要提款。" },
+                    { es: "Cambiar dinero", zh: "換錢", tip: "Exchange money。", ex: "¿Dónde puedo cambiar dinero?", ex_zh: "我可以在哪換錢？" },
+                    { es: "¿Cuál es el cambio?", zh: "匯率是多少？", tip: "Exchange rate。", ex: "¿A cuánto está el cambio?", ex_zh: "匯率是多少？" },
+                    { es: "La comisión", zh: "手續費", tip: "Commission。", ex: "¿Hay comisión?", ex_zh: "有手續費嗎？" },
+                    { es: "Euros / Dólares", zh: "歐元 / 美元", tip: "Currency。", ex: "Quiero cambiar dólares a euros.", ex_zh: "我想把美元換成歐元。" },
+                    { es: "En efectivo", zh: "現金", tip: "Cash。", ex: "Pago en efectivo.", ex_zh: "我付現金。" },
+                    { es: "Con tarjeta", zh: "刷卡", tip: "By card。", ex: "¿Puedo pagar con tarjeta?", ex_zh: "我可以刷卡嗎？" },
+                    { es: "Mi tarjeta no funciona", zh: "我的卡不能用", tip: "Funcionar = Work。", ex: "Mi tarjeta de crédito no funciona.", ex_zh: "我的信用卡不能用。" },
+                    { es: "Se tragó mi tarjeta", zh: "我的卡被吞了", tip: "Tragar = Swallow。", ex: "El cajero se tragó mi tarjeta.", ex_zh: "提款機把我的卡吞了。" },
+                    { es: "La oficina de correos", zh: "郵局", tip: "Post office。", ex: "¿Dónde está correos?", ex_zh: "郵局在哪？" },
+                    { es: "Quiero enviar...", zh: "我想寄...", tip: "Enviar = Send。", ex: "Quiero enviar una carta.", ex_zh: "我想寄一封信。" },
+                    { es: "Una carta / Un paquete", zh: "一封信 / 一個包裹", tip: "Letter / Package。", ex: "Un paquete a Taiwán.", ex_zh: "一個包裹到台灣。" },
+                    { es: "¿Cuánto cuesta?", zh: "多少錢？", tip: "Costar = Cost。", ex: "¿Cuánto cuesta enviar esto?", ex_zh: "寄這個多少錢？" },
+                    { es: "¿Cuánto tarda?", zh: "要多久？", tip: "Tardar = Take time。", ex: "¿Cuánto tarda en llegar?", ex_zh: "要多久才會到？" },
+                    { es: "Urgente / Normal", zh: "快遞 / 平信", tip: "Urgent / Regular。", ex: "Por correo urgente.", ex_zh: "用快遞寄。" },
+                    { es: "Certificado", zh: "掛號", tip: "Registered。", ex: "Quiero enviarlo certificado.", ex_zh: "我想寄掛號。" },
+                    { es: "Un sello", zh: "一張郵票", tip: "Stamp。", ex: "Necesito sellos.", ex_zh: "我需要郵票。" },
+                    { es: "La dirección", zh: "地址", tip: "Address。", ex: "¿Cuál es la dirección?", ex_zh: "地址是什麼？" }
+                ]
+            },
+            {
+                title: "Day 28: 打電話與網路",
+                items: [
+                    { es: "¿Dónde puedo comprar una SIM?", zh: "哪裡可以買SIM卡？", tip: "SIM card。", ex: "Necesito comprar una tarjeta SIM.", ex_zh: "我需要買SIM卡。" },
+                    { es: "Una tarjeta prepago", zh: "預付卡", tip: "Prepaid card。", ex: "Quiero una tarjeta prepago.", ex_zh: "我要預付卡。" },
+                    { es: "Con datos", zh: "有流量", tip: "With data。", ex: "Con 5GB de datos.", ex_zh: "有5GB流量。" },
+                    { es: "Recargar el móvil", zh: "手機儲值", tip: "Top up。", ex: "¿Dónde puedo recargar?", ex_zh: "我可以在哪儲值？" },
+                    { es: "No tengo cobertura", zh: "沒有訊號", tip: "Cobertura = Coverage。", ex: "Aquí no hay cobertura.", ex_zh: "這裡沒訊號。" },
+                    { es: "La batería está baja", zh: "電池快沒電了", tip: "Batería = Battery。", ex: "Mi batería está baja.", ex_zh: "我的電池快沒電了。" },
+                    { es: "¿Puedo cargar mi móvil?", zh: "我可以充電嗎？", tip: "Cargar = Charge。", ex: "¿Tiene un cargador?", ex_zh: "有充電器嗎？" },
+                    { es: "¿Hay wifi?", zh: "有WiFi嗎？", tip: "WiFi。", ex: "¿Hay wifi gratis?", ex_zh: "有免費WiFi嗎？" },
+                    { es: "¿Cuál es la contraseña?", zh: "密碼是什麼？", tip: "Contraseña = Password。", ex: "¿Cuál es la contraseña del wifi?", ex_zh: "WiFi密碼是什麼？" },
+                    { es: "No funciona el wifi", zh: "WiFi不能用", tip: "Funcionar = Work。", ex: "El internet no funciona.", ex_zh: "網路不能用。" },
+                    { es: "Necesito hacer una llamada", zh: "我需要打電話", tip: "Llamada = Call。", ex: "¿Puedo hacer una llamada?", ex_zh: "我可以打電話嗎？" },
+                    { es: "¿Dónde hay un teléfono público?", zh: "哪裡有公共電話？", tip: "Public phone。", ex: "Busco un teléfono público.", ex_zh: "我在找公共電話。" },
+                    { es: "Llamada internacional", zh: "國際電話", tip: "International call。", ex: "¿Cuánto cuesta una llamada internacional?", ex_zh: "打國際電話多少錢？" },
+                    { es: "¿Dígame?", zh: "喂？（接電話）", tip: "Hello? 西班牙式。", ex: "¿Dígame? ¿Quién es?", ex_zh: "喂？是誰？" },
+                    { es: "¿Está...?", zh: "...在嗎？", tip: "找人用語。", ex: "¿Está María?", ex_zh: "María在嗎？" },
+                    { es: "Soy...", zh: "我是...", tip: "自我介紹。", ex: "Soy Juan, de Taiwán.", ex_zh: "我是Juan，來自台灣。" },
+                    { es: "Un momento, por favor", zh: "請等一下", tip: "Hold on。", ex: "Un momento, ahora se pone.", ex_zh: "請等一下，他馬上來。" },
+                    { es: "Está comunicando", zh: "佔線中", tip: "Busy line。", ex: "El número está comunicando.", ex_zh: "號碼佔線中。" },
+                    { es: "Número equivocado", zh: "打錯了", tip: "Wrong number。", ex: "Creo que es número equivocado.", ex_zh: "我想你打錯了。" },
+                    { es: "¿Puede repetir?", zh: "可以重複一次嗎？", tip: "Repetir = Repeat。", ex: "No le oigo, ¿puede repetir?", ex_zh: "我聽不到，可以重複一次嗎？" }
+                ]
+            },
+            {
+                title: "Day 29: 情感表達與社交",
+                items: [
+                    { es: "Me gusta mucho", zh: "我非常喜歡", tip: "Gustar = Like。", ex: "Me gusta mucho España.", ex_zh: "我非常喜歡西班牙。" },
+                    { es: "Me encanta", zh: "我超愛", tip: "Encantar = Love。", ex: "Me encanta esta ciudad.", ex_zh: "我超愛這座城市。" },
+                    { es: "No me gusta", zh: "我不喜歡", tip: "表達不喜歡。", ex: "No me gusta el frío.", ex_zh: "我不喜歡冷天氣。" },
+                    { es: "Odio...", zh: "我討厭...", tip: "Odiar = Hate。", ex: "Odio madrugar.", ex_zh: "我討厭早起。" },
+                    { es: "Estoy feliz", zh: "我很開心", tip: "Feliz = Happy。", ex: "Estoy muy feliz aquí.", ex_zh: "我在這裡很開心。" },
+                    { es: "Estoy triste", zh: "我很難過", tip: "Triste = Sad。", ex: "Estoy un poco triste.", ex_zh: "我有點難過。" },
+                    { es: "Estoy emocionado/a", zh: "我很興奮", tip: "Emocionado = Excited。", ex: "Estoy emocionado por el viaje.", ex_zh: "我對這趟旅行很興奮。" },
+                    { es: "Estoy nervioso/a", zh: "我很緊張", tip: "Nervioso = Nervous。", ex: "Estoy un poco nervioso.", ex_zh: "我有點緊張。" },
+                    { es: "Estoy aburrido/a", zh: "我很無聊", tip: "Aburrido = Bored。", ex: "Estoy aburrido, vamos a salir.", ex_zh: "我很無聊，我們出去吧。" },
+                    { es: "Estoy preocupado/a", zh: "我很擔心", tip: "Preocupado = Worried。", ex: "Estoy preocupado por...", ex_zh: "我很擔心..." },
+                    { es: "¡Qué bonito!", zh: "好漂亮！", tip: "Bonito = Beautiful。", ex: "¡Qué bonita es esta plaza!", ex_zh: "這個廣場好漂亮！" },
+                    { es: "¡Qué rico!", zh: "好好吃！", tip: "Rico = Delicious。", ex: "¡Qué rico está esto!", ex_zh: "這個好好吃！" },
+                    { es: "¡Qué guay!", zh: "好酷！", tip: "Guay = Cool（西班牙用語）。", ex: "¡Qué guay tu cámara!", ex_zh: "你的相機好酷！" },
+                    { es: "¡Qué pena!", zh: "好可惜！", tip: "Pena = Pity。", ex: "¡Qué pena que te vayas!", ex_zh: "你要走了好可惜！" },
+                    { es: "Lo siento mucho", zh: "我很抱歉", tip: "道歉用語。", ex: "Lo siento mucho, fue un error.", ex_zh: "我很抱歉，那是個錯誤。" },
+                    { es: "Perdóname", zh: "原諒我", tip: "Perdonar = Forgive。", ex: "Perdóname, no lo sabía.", ex_zh: "原諒我，我不知道。" },
+                    { es: "Muchas gracias", zh: "非常感謝", tip: "感謝加強版。", ex: "Muchas gracias por todo.", ex_zh: "非常感謝一切。" },
+                    { es: "De nada", zh: "不客氣", tip: "回應感謝。", ex: "De nada, un placer.", ex_zh: "不客氣，我的榮幸。" },
+                    { es: "Un placer", zh: "我的榮幸", tip: "Placer = Pleasure。", ex: "Ha sido un placer.", ex_zh: "這是我的榮幸。" },
+                    { es: "Encantado/a", zh: "很高興認識你", tip: "Encantar = Delight。", ex: "Encantado de conocerte.", ex_zh: "很高興認識你。" },
+                    { es: "¿Cómo te llamas?", zh: "你叫什麼名字？", tip: "Llamarse = Be called。", ex: "Hola, ¿cómo te llamas?", ex_zh: "嗨，你叫什麼名字？" },
+                    { es: "¿De dónde eres?", zh: "你從哪來？", tip: "Where are you from?", ex: "¿De dónde eres? Soy de Taiwán.", ex_zh: "你從哪來？我來自台灣。" },
+                    { es: "¿Viajas solo/a?", zh: "你一個人旅行嗎？", tip: "Solo = Alone。", ex: "¿Viajas solo o con amigos?", ex_zh: "你一個人旅行還是跟朋友？" },
+                    { es: "Vamos a tomar algo", zh: "我們去喝一杯吧", tip: "Tomar algo = Have a drink。", ex: "¿Quieres tomar algo?", ex_zh: "你想去喝一杯嗎？" },
+                    { es: "¡Buen viaje!", zh: "旅途愉快！", tip: "祝福用語。", ex: "¡Que tengas buen viaje!", ex_zh: "祝你旅途愉快！" }
+                ]
+            },
+            {
+                title: "Day 30: 第四週複習",
+                items: [
+                    { es: "Hace sol/calor/frío/viento", zh: "天氣表達", tip: "第四週重點。", ex: "Hoy hace mucho calor.", ex_zh: "今天很熱。" },
+                    { es: "Llueve/Nieva/Está nublado", zh: "天氣狀況", tip: "雨雪陰天。", ex: "Está lloviendo ahora.", ex_zh: "現在在下雨。" },
+                    { es: "Me duele la cabeza/estómago", zh: "身體不適", tip: "疼痛表達。", ex: "Me duele mucho la cabeza.", ex_zh: "我頭很痛。" },
+                    { es: "Tengo fiebre/tos/gripe", zh: "症狀", tip: "生病症狀。", ex: "Tengo fiebre y tos.", ex_zh: "我發燒和咳嗽。" },
+                    { es: "Necesito un médico/medicamento", zh: "醫療需求", tip: "看病買藥。", ex: "Necesito algo para el dolor.", ex_zh: "我需要止痛藥。" },
+                    { es: "¿Dónde hay una farmacia?", zh: "找藥局", tip: "藥局位置。", ex: "Busco una farmacia abierta.", ex_zh: "我在找營業中的藥局。" },
+                    { es: "¡Socorro! ¡Ayuda!", zh: "緊急求救", tip: "緊急狀況。", ex: "¡Ayuda, por favor!", ex_zh: "請幫忙！" },
+                    { es: "He perdido mi pasaporte/cartera", zh: "遺失物品", tip: "失竊遺失。", ex: "He perdido mi móvil.", ex_zh: "我弄丟手機了。" },
+                    { es: "¿Dónde está la comisaría?", zh: "找警局", tip: "報案地點。", ex: "Necesito ir a la policía.", ex_zh: "我需要去警察局。" },
+                    { es: "Sacar/Cambiar dinero", zh: "銀行業務", tip: "提款換錢。", ex: "¿Dónde puedo cambiar euros?", ex_zh: "我可以在哪換歐元？" },
+                    { es: "¿Cuál es el cambio/la comisión?", zh: "匯率手續費", tip: "換錢必問。", ex: "¿Hay comisión?", ex_zh: "有手續費嗎？" },
+                    { es: "Enviar una carta/paquete", zh: "郵寄", tip: "郵局業務。", ex: "Quiero enviar esto a Taiwán.", ex_zh: "我想把這個寄到台灣。" },
+                    { es: "¿Hay wifi? ¿Cuál es la contraseña?", zh: "網路", tip: "WiFi必問。", ex: "¿Cuál es la contraseña del wifi?", ex_zh: "WiFi密碼是什麼？" },
+                    { es: "Comprar/Recargar una tarjeta SIM", zh: "手機卡", tip: "通訊需求。", ex: "Necesito una SIM con datos.", ex_zh: "我需要有流量的SIM卡。" },
+                    { es: "No funciona el wifi/móvil/tarjeta", zh: "故障問題", tip: "不能用。", ex: "Mi tarjeta no funciona.", ex_zh: "我的卡不能用。" },
+                    { es: "Me gusta / Me encanta", zh: "情感表達", tip: "Day 29重點。", ex: "Me encanta España.", ex_zh: "我超愛西班牙。" },
+                    { es: "Estoy feliz/triste/nervioso", zh: "情緒狀態", tip: "表達感受。", ex: "Estoy muy feliz aquí.", ex_zh: "我在這裡很開心。" },
+                    { es: "¡Qué bonito! ¡Qué rico!", zh: "讚嘆表達", tip: "表達驚嘆。", ex: "¡Qué bonita es esta ciudad!", ex_zh: "這座城市好漂亮！" },
+                    { es: "Muchas gracias / De nada", zh: "禮貌用語", tip: "感謝回應。", ex: "Muchas gracias. De nada.", ex_zh: "非常感謝。不客氣。" },
+                    { es: "¡Buen viaje!", zh: "祝福語", tip: "道別祝福。", ex: "¡Que tengas buen viaje!", ex_zh: "祝你旅途愉快！" }
+                ]
+            },
+            
+            {
+                title: "💯 總複習（選項）",
+                items: [
+                    { es: "¡Hola! / Adiós", zh: "打招呼與道別", tip: "Day 1重點。", ex: "Hola, buenos días. Adiós, hasta luego.", ex_zh: "你好，早安。再見，待會見。" },
+                    { es: "Me llamo... / Soy de...", zh: "自我介紹", tip: "Day 2重點。", ex: "Me llamo Ana, soy de Taiwán.", ex_zh: "我叫安娜，來自台灣。" },
+                    { es: "¿Qué? ¿Dónde? ¿Cuándo? ¿Cómo?", zh: "6W問句", tip: "Day 3重點。", ex: "¿Qué es? ¿Dónde está?", ex_zh: "這是什麼？在哪裡？" },
+                    { es: "Uno, diez, cien, mil, millón", zh: "數字系統", tip: "Day 4重點。", ex: "Cincuenta euros, dos mil personas.", ex_zh: "五十歐元，兩千人。" },
+                    { es: "Ser = 本質 / Estar = 狀態", zh: "動詞基礎", tip: "Day 5重點。", ex: "Soy turista. Estoy cansado.", ex_zh: "我是遊客。我累了。" },
+                    { es: "Tener hambre / Hace calor", zh: "感覺與天氣", tip: "Day 6重點。", ex: "Tengo sed. Hace mucho calor.", ex_zh: "我渴了。很熱。" },
+                    { es: "Quiero reservar una mesa", zh: "餐廳點餐", tip: "Day 8重點。", ex: "Una mesa para dos, por favor.", ex_zh: "兩位，麻煩了。" },
+                    { es: "Un café solo / con leche", zh: "咖啡種類", tip: "Day 9重點。", ex: "Dos cafés con leche, por favor.", ex_zh: "兩杯拿鐵，謝謝。" },
+                    { es: "Son las tres / Es la una", zh: "報時", tip: "Day 10重點。", ex: "¿Qué hora es? Son las cinco.", ex_zh: "幾點？五點。" },
+                    { es: "Lunes, martes... / Enero, febrero...", zh: "星期與月份", tip: "Day 10重點。", ex: "Hoy es lunes, 15 de enero.", ex_zh: "今天是星期一，一月十五號。" },
+                    { es: "¿Cuánto cuesta? Es muy caro", zh: "購物", tip: "Day 11重點。", ex: "¿Puedo probármelo?", ex_zh: "我可以試穿嗎？" },
+                    { es: "Rojo, azul, verde, negro, blanco", zh: "顏色", tip: "Day 12重點。", ex: "Me gusta en azul.", ex_zh: "我喜歡藍色的。" },
+                    { es: "¿Hay wifi? ¿Cuál es la contraseña?", zh: "住宿", tip: "Day 13重點。", ex: "No funciona el aire.", ex_zh: "冷氣壞了。" },
+                    { es: "El metro / El autobús / El taxi", zh: "交通工具", tip: "Day 15重點。", ex: "¿Dónde está la estación?", ex_zh: "車站在哪？" },
+                    { es: "Todo recto / A la derecha", zh: "問路方向", tip: "Day 16重點。", ex: "¿Cómo llego al centro?", ex_zh: "我怎麼去市中心？" },
+                    { es: "Facturar el equipaje", zh: "機場登機", tip: "Day 17重點。", ex: "¿Dónde está la puerta B23?", ex_zh: "B23登機門在哪？" },
+                    { es: "Alquilar un coche / Gasolinera", zh: "租車加油", tip: "Day 18重點。", ex: "Lleno de gasolina, por favor.", ex_zh: "請加滿汽油。" },
+                    { es: "Al aeropuerto, por favor", zh: "搭計程車", tip: "Day 19重點。", ex: "¿Cuánto cuesta al centro?", ex_zh: "到市中心多少錢？" },
+                    { es: "El museo / La entrada / Sacar fotos", zh: "觀光景點", tip: "Day 20重點。", ex: "¿Se pueden hacer fotos?", ex_zh: "可以拍照嗎？" },
+                    { es: "Hace sol / Llueve / Nieva", zh: "天氣", tip: "Day 22重點。", ex: "¿Qué tiempo hace? Hace calor.", ex_zh: "天氣如何？很熱。" },
+                    { es: "Me duele la cabeza / el estómago", zh: "身體不適", tip: "Day 23重點。", ex: "Tengo fiebre y tos.", ex_zh: "我發燒和咳嗽。" },
+                    { es: "Necesito un médico / una farmacia", zh: "醫療", tip: "Day 24重點。", ex: "¿Tiene algo para el dolor?", ex_zh: "有止痛藥嗎？" },
+                    { es: "¡Socorro! ¡Ayuda!", zh: "緊急求救", tip: "Day 25重點。", ex: "He perdido mi pasaporte.", ex_zh: "我弄丟護照了。" },
+                    { es: "Cambiar dinero / Enviar un paquete", zh: "銀行郵局", tip: "Day 26重點。", ex: "¿Cuál es el cambio?", ex_zh: "匯率是多少？" },
+                    { es: "¿Hay wifi? Comprar una SIM", zh: "網路通訊", tip: "Day 27重點。", ex: "Necesito una tarjeta SIM.", ex_zh: "我需要SIM卡。" },
+                    { es: "Me gusta / Me encanta", zh: "情感表達", tip: "Day 29重點。", ex: "Me encanta España.", ex_zh: "我超愛西班牙。" },
+                    { es: "¡Qué bonito! ¡Qué rico!", zh: "讚嘆表達", tip: "Day 29重點。", ex: "¡Qué bonita es esta ciudad!", ex_zh: "這座城市好漂亮！" },
+                    { es: "Gracias / De nada / Un placer", zh: "禮貌用語", tip: "Day 29重點。", ex: "Muchas gracias. De nada.", ex_zh: "非常感謝。不客氣。" },
+                    { es: "¡Buen viaje! ¡Hasta pronto!", zh: "道別祝福", tip: "Day 29重點。", ex: "Ha sido un placer. ¡Buen viaje!", ex_zh: "很榮幸。旅途愉快！" },
+                    { es: "¡Felicidades! Has completado el curso", zh: "恭喜你完成課程！", tip: "你已經掌握西班牙語旅遊基礎！", ex: "¡Ahora puedes viajar por España!", ex_zh: "現在你可以暢遊西班牙了！" }
+                ]
+            },
+            {
+                title: "🎓 畢業測驗（選項）",
+                items: [
+                    { es: "📝 綜合測驗", zh: "最終挑戰", tip: "包含30天所有內容的綜合測驗。完成後即可獲得結業證明！", ex: "", ex_zh: "", noSound: true },
+                    { es: "🎯 情境對話測試", zh: "實戰演練", tip: "模擬真實旅遊情境，測試你的即時應對能力。", ex: "", ex_zh: "", noSound: true },
+                    { es: "✈️ 機場篇", zh: "情境1", tip: "你在機場需要辦理登機、詢問登機門、處理行李問題。", ex: "Buenos días, quiero facturar mi equipaje.", ex_zh: "早安，我要托運行李。" },
+                    { es: "🍽️ 餐廳篇", zh: "情境2", tip: "你在餐廳點餐、詢問菜單、要求帳單。", ex: "La cuenta, por favor.", ex_zh: "麻煩買單。" },
+                    { es: "🏨 飯店篇", zh: "情境3", tip: "你在飯店辦理入住、反映房間問題、詢問設施。", ex: "No funciona el aire acondicionado.", ex_zh: "冷氣壞了。" },
+                    { es: "🚕 交通篇", zh: "情境4", tip: "你搭計程車、問路、搭地鐵。", ex: "Al centro, por favor.", ex_zh: "請到市中心。" },
+                    { es: "🛍️ 購物篇", zh: "情境5", tip: "你在商店購物、試穿、殺價。", ex: "¿Puedo probármelo?", ex_zh: "我可以試穿嗎？" },
+                    { es: "🏥 緊急篇", zh: "情境6", tip: "你需要看醫生、買藥、尋求幫助。", ex: "Necesito un médico, por favor.", ex_zh: "我需要醫生，麻煩了。" },
+                    { es: "🎉 恭喜畢業！", zh: "完成所有測驗", tip: "你已經完全掌握西班牙語旅遊必備技能！", ex: "¡Enhorabuena! ¡Buen viaje!", ex_zh: "恭喜！旅途愉快！" }
+                ]
+            }
+        ];
+
+        // Global Variables
+        const select = document.getElementById('daySelect');
+        const container = document.getElementById('content');
+        const progressBar = document.getElementById('progress');
+        const quizOverlay = document.getElementById('quizOverlay');
+        const quizCard = document.getElementById('quizCard');
+
+        let quizQueue = [];
+        let currentQuizIndex = 0;
+        let score = 0;
+        let speechRate = 0.9; // 語速設定（恢復原本的0.9）
+        let selectedVoice = null; // 選擇的語音
+        let availableVoices = []; // 可用的語音列表
+        let audioUnlocked = false; // 音頻是否已解鎖
+
+        // Initialize
+        curriculum.forEach((day, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.text = day.title;
+            select.appendChild(option);
+        });
+
+        // Tab Switching
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const sections = document.querySelectorAll('.content-section');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+            
+            if (tab === 'pronunciation') {
+                tabs[0].classList.add('active');
+                document.getElementById('pronunciation-section').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('lessons-section').classList.add('active');
+            }
+        }
+
+        // Render Lesson Content
+        function renderContent() {
+            const dayIndex = select.value;
+            const dayData = curriculum[dayIndex];
+            
+            const percentage = ((parseInt(dayIndex) + 1) / curriculum.length) * 100;
+            progressBar.style.width = percentage + "%";
+
+            container.innerHTML = '';
+
+            dayData.items.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                // 如果是規則說明項目，添加特殊類別
+                if (item.noSound) {
+                    card.classList.add('rule-card');
+                }
+                card.style.animationDelay = `${idx * 0.05}s`;
+                
+                const main = document.createElement('div');
+                main.className = 'card-main';
+                // 只有非規則項目才可以點擊發音
+                if (!item.noSound) {
+                    main.onclick = () => speak(item.es);
+                }
+
+                main.innerHTML = `
+                    <div class="text-group">
+                        <span class="es">${item.es}</span>
+                        <span class="zh">${item.zh}</span>
+                    </div>
+                    <div class="btn-group">
+                        ${item.noSound ? '' : '<button class="btn-speak">🔊</button>'}
+                        <button class="btn-detail" onclick="toggleDetail(event, this)">💡</button>
+                    </div>
+                `;
+                
+                const detail = document.createElement('div');
+                detail.className = 'detail-box';
+                
+                // 只有當例句不為空時才顯示例句區塊
+                const exampleHtml = (item.ex && item.ex.trim()) ? `
+                    <div class="example">
+                        <div class="ex-text">
+                            <span class="tip-label">🗣️ 例句</span>
+                            <div>${item.ex}</div>
+                            <span class="ex-zh">${item.ex_zh || ''}</span>
+                        </div>
+                        <button class="btn-ex-speak" onclick="speak('${item.ex.replace(/'/g, "\\'")}')">🔊</button>
+                    </div>
+                ` : '';
+                
+                detail.innerHTML = `
+                    <div class="detail-content">
+                        <span class="tip-label">🧠 記憶小撇步</span>
+                        ${item.tip}
+                        ${exampleHtml}
+                    </div>
+                `;
+
+                card.appendChild(main);
+                card.appendChild(detail);
+                container.appendChild(card);
+            });
+
+            const quizDiv = document.createElement('div');
+            quizDiv.className = 'quiz-start-area';
+            quizDiv.innerHTML = `<button class="btn-quiz-start" onclick="startQuiz()"><span>🧠 開始每日測驗</span></button>`;
+            container.appendChild(quizDiv);
+        }
+
+        // Speech Synthesis
+        function speak(text) {
+            // 檢查音頻是否已解鎖（主要針對手機）
+            if (!audioUnlocked && isMobileDevice()) {
+                showAudioUnlockBanner();
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = text;
+            msg.lang = 'es-ES';
+            msg.rate = speechRate; // 使用動態語速
+            
+            // 使用選擇的語音
+            if (selectedVoice) {
+                msg.voice = selectedVoice;
+            }
+            
+            window.speechSynthesis.speak(msg);
+        }
+
+        // 檢測是否為移動設備
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // 顯示音頻解鎖橫幅
+        function showAudioUnlockBanner() {
+            const banner = document.getElementById('audioUnlockBanner');
+            if (banner) {
+                banner.classList.add('show');
+            }
+        }
+
+        // 隱藏音頻解鎖橫幅
+        function hideAudioUnlockBanner() {
+            const banner = document.getElementById('audioUnlockBanner');
+            if (banner) {
+                banner.classList.remove('show');
+            }
+        }
+
+        // 解鎖音頻
+        function unlockAudio() {
+            // 播放一個靜音來解鎖音頻上下文
+            const msg = new SpeechSynthesisUtterance('');
+            msg.volume = 0;
+            window.speechSynthesis.speak(msg);
+            
+            // 等待一下確保解鎖
+            setTimeout(() => {
+                // 播放一個測試音來確認
+                const testMsg = new SpeechSynthesisUtterance('Hola');
+                testMsg.lang = 'es-ES';
+                testMsg.rate = speechRate;
+                if (selectedVoice) {
+                    testMsg.voice = selectedVoice;
+                }
+                window.speechSynthesis.speak(testMsg);
+                
+                audioUnlocked = true;
+                hideAudioUnlockBanner();
+                
+                // 儲存解鎖狀態
+                try {
+                    localStorage.setItem('audioUnlocked', 'true');
+                } catch (e) {
+                    console.log('無法儲存音頻解鎖狀態');
+                }
+            }, 100);
+        }
+
+        // Toggle Detail
+        function toggleDetail(e, btn) {
+            e.stopPropagation();
+            const card = btn.closest('.card');
+            const detailBox = card.querySelector('.detail-box');
+            
+            if (detailBox.style.maxHeight) {
+                detailBox.style.maxHeight = null;
+                btn.classList.remove('active');
+            } else {
+                detailBox.style.maxHeight = detailBox.scrollHeight + "px";
+                btn.classList.add('active');
+            }
+        }
+
+        // Quiz Functions
+        function startQuiz() {
+            const dayIndex = select.value;
+            const items = curriculum[dayIndex].items;
+            
+            let questions = [...items];
+            questions.sort(() => Math.random() - 0.5);
+            quizQueue = questions.slice(0, Math.min(5, items.length));
+            
+            currentQuizIndex = 0;
+            score = 0;
+            quizOverlay.style.display = 'flex';
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            if (currentQuizIndex >= quizQueue.length) {
+                showQuizResult();
+                return;
+            }
+
+            const q = quizQueue[currentQuizIndex];
+            const allItems = curriculum[select.value].items;
+            
+            let options = [q];
+            while (options.length < 3 && options.length < allItems.length) {
+                const randomItem = allItems[Math.floor(Math.random() * allItems.length)];
+                if (!options.includes(randomItem)) {
+                    options.push(randomItem);
+                }
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            quizCard.innerHTML = `
+                <button class="btn-close-quiz" onclick="closeQuiz()">×</button>
+                <div class="quiz-score">Question ${currentQuizIndex + 1} / ${quizQueue.length}</div>
+                <div class="quiz-question">如何說：<br>"${q.zh}" ?</div>
+                <div class="quiz-options">
+                    ${options.map(opt => `
+                        <button class="option-btn" onclick="checkAnswer(this, '${opt.es.replace(/'/g, "\\'")}', '${q.es.replace(/'/g, "\\'")}')">
+                            ${opt.es}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function checkAnswer(btn, selected, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(b => b.disabled = true);
+
+            if (selected === correct) {
+                btn.classList.add('correct');
+                score++;
+                speak(correct);
+            } else {
+                btn.classList.add('wrong');
+                buttons.forEach(b => {
+                    if (b.innerText.includes(correct)) b.classList.add('correct');
+                });
+            }
+
+            setTimeout(() => {
+                currentQuizIndex++;
+                renderQuizQuestion();
+            }, 1200);
+        }
+
+        function showQuizResult() {
+            const percentage = Math.round((score / quizQueue.length) * 100);
+            let message = '';
+            let emoji = '';
+            
+            if (percentage === 100) {
+                message = '完美！你是西語天才！';
+                emoji = '🎉';
+            } else if (percentage >= 80) {
+                message = '太棒了！繼續加油！';
+                emoji = '🌟';
+            } else if (percentage >= 60) {
+                message = '不錯喔！多練習會更好！';
+                emoji = '👍';
+            } else {
+                message = '再接再厲，多聽多練！';
+                emoji = '💪';
+            }
+
+            quizCard.innerHTML = `
+                <button class="btn-close-quiz" onclick="closeQuiz()">×</button>
+                <h2 style="color:var(--deep-red); margin-bottom: 20px; font-family: 'Crimson Text', serif;">${emoji} 測驗結束！</h2>
+                <div style="font-size: 4rem; margin: 20px 0; font-weight: 800;">${score}/${quizQueue.length}</div>
+                <p style="font-size: 1.2rem; color: #666; margin-bottom: 30px;">${message}</p>
+                <button class="btn-quiz-start" onclick="closeQuiz()"><span>回到列表</span></button>
+                <button class="btn-quiz-start" style="margin-top:15px; background:white; color:var(--charcoal); border:2px solid #E0E0E0" onclick="startQuiz()"><span>再測一次</span></button>
+            `;
+        }
+
+        function closeQuiz() {
+            quizOverlay.style.display = 'none';
+        }
+
+        // PWA Installation
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+        const dismissBtn = document.getElementById('dismissBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.classList.add('show');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installBanner.classList.remove('show');
+            }
+        });
+
+        dismissBtn.addEventListener('click', () => {
+            installBanner.classList.remove('show');
+        });
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(reg => console.log('Service Worker registered'))
+                .catch(err => console.log('Service Worker registration failed'));
+        }
+
+        // Speed Control Initialization
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValue = document.getElementById('speedValue');
+        
+        if (speedSlider && speedValue) {
+            speedSlider.addEventListener('input', (e) => {
+                speechRate = parseFloat(e.target.value);
+                speedValue.textContent = speechRate.toFixed(1) + 'x';
+            });
+        }
+
+        // Audio Unlock Initialization
+        const unlockAudioBtn = document.getElementById('unlockAudioBtn');
+        
+        if (unlockAudioBtn) {
+            unlockAudioBtn.addEventListener('click', unlockAudio);
+        }
+
+        // 檢查是否已經解鎖過（僅在桌面或已解鎖的移動設備）
+        if (!isMobileDevice()) {
+            audioUnlocked = true;
+        } else {
+            try {
+                const wasUnlocked = localStorage.getItem('audioUnlocked');
+                if (wasUnlocked === 'true') {
+                    audioUnlocked = true;
+                }
+            } catch (e) {
+                console.log('無法讀取音頻解鎖狀態');
+            }
+        }
+
+        // Voice Selection Initialization
+        const voiceSelect = document.getElementById('voiceSelect');
+        
+        function loadVoices() {
+            availableVoices = window.speechSynthesis.getVoices();
+            
+            // 過濾出西班牙語語音
+            const spanishVoices = availableVoices.filter(voice => 
+                voice.lang.startsWith('es') || voice.lang.startsWith('ES')
+            );
+            
+            if (voiceSelect && spanishVoices.length > 0) {
+                voiceSelect.innerHTML = '';
+                
+                spanishVoices.forEach((voice, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    
+                    // 判斷性別（基於名稱關鍵字）
+                    const name = voice.name.toLowerCase();
+                    let genderBadge = '';
+                    let isMale = false;
+                    
+                    if (name.includes('male') || name.includes('man') || name.includes('diego') || 
+                        name.includes('jorge') || name.includes('carlos') || name.includes('juan')) {
+                        genderBadge = ' 👨 男聲';
+                        isMale = true;
+                    } else if (name.includes('female') || name.includes('woman') || name.includes('monica') || 
+                               name.includes('maria') || name.includes('lucia') || name.includes('paulina')) {
+                        genderBadge = ' 👩 女聲';
+                    }
+                    
+                    option.textContent = `${voice.name} (${voice.lang})${genderBadge}`;
+                    voiceSelect.appendChild(option);
+                    
+                    // 預設選擇第一個男聲（如果有的話）
+                    if (isMale && !selectedVoice) {
+                        selectedVoice = voice;
+                        option.selected = true;
+                    }
+                });
+                
+                // 如果沒有找到男聲，使用第一個語音
+                if (!selectedVoice && spanishVoices.length > 0) {
+                    selectedVoice = spanishVoices[0];
+                    voiceSelect.selectedIndex = 0;
+                }
+                
+                // 監聽語音選擇變化
+                voiceSelect.addEventListener('change', (e) => {
+                    const voiceIndex = parseInt(e.target.value);
+                    selectedVoice = spanishVoices[voiceIndex];
+                    
+                    // 試聽選擇的語音
+                    speak('Hola');
+                });
+            } else if (voiceSelect) {
+                voiceSelect.innerHTML = '<option>無可用的西班牙語語音</option>';
+            }
+        }
+        
+        // 載入語音（某些瀏覽器需要等待）
+        if (window.speechSynthesis.onvoiceschanged !== undefined) {
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices(); // 立即嘗試載入
+
+        // Initial Render
+        renderContent();
+    </script>
+</body>
+</html>
