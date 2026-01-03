@@ -366,6 +366,104 @@
             box-shadow: 0 0 0 3px rgba(216, 67, 21, 0.1);
         }
 
+        /* 語速調整滑桿 */
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .speed-marker {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            font-weight: 500;
+            min-width: 30px;
+        }
+
+        #speedSlider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(to right, 
+                #4CAF50 0%, 
+                var(--sunset-orange) 50%, 
+                var(--deep-red) 100%);
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #speedSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 3px solid var(--deep-red);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+        }
+
+        #speedSlider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        }
+
+        #speedSlider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 3px solid var(--deep-red);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+        }
+
+        #speedSlider::-moz-range-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .speed-presets {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .preset-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: white;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--sunset-orange);
+            background: #FFF5F0;
+        }
+
+        .preset-btn.active {
+            background: var(--deep-red);
+            border-color: var(--deep-red);
+            color: white;
+        }
+
+        #speedValue {
+            color: var(--deep-red);
+            font-weight: 700;
+        }
+
         .voice-gender-badge {
             display: inline-block;
             padding: 2px 8px;
@@ -374,6 +472,7 @@
             font-weight: 600;
             margin-left: 8px;
         }
+
 
         .male-badge {
             background: #E3F2FD;
@@ -1084,199 +1183,8 @@
             <p class="app-subtitle">30天從零到實戰對話 | 發音 → 6W問句 → 數字時間 → 生存必備</p>
         </header>
 
-        <!-- Tab Navigation -->
-        <div class="tab-container">
-            <button class="tab-btn active" onclick="switchTab('pronunciation')">📚 發音教學</button>
-            <button class="tab-btn" onclick="switchTab('lessons')">🎯 每日課程</button>
-        </div>
-
-        <!-- Pronunciation Section -->
-        <div id="pronunciation-section" class="content-section active">
-            <div class="pronunciation-intro">
-                <h2>🎵 西班牙語發音基礎</h2>
-                <p>西班牙語是世界上發音最規律的語言之一！只要掌握發音規則，看到字就能唸出來。讓我們從基礎開始：</p>
-            </div>
-
-            <div class="pronunciation-grid">
-                <!-- Vowels -->
-                <div class="pronunciation-card">
-                    <h3>五個元音 (Vocales)</h3>
-                    <table class="pronunciation-table">
-                        <thead>
-                            <tr>
-                                <th>字母</th>
-                                <th>發音</th>
-                                <th>範例</th>
-                                <th>試聽</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="letter-display">A</td>
-                                <td>發「啊」，類似中文「阿」</td>
-                                <td>Amigo (朋友)</td>
-                                <td><button class="sound-btn" onclick="speak('Amigo')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">E</td>
-                                <td>發「欸」，類似中文「誒」</td>
-                                <td>España (西班牙)</td>
-                                <td><button class="sound-btn" onclick="speak('España')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">I</td>
-                                <td>發「衣」，類似中文「一」</td>
-                                <td>Isla (島嶼)</td>
-                                <td><button class="sound-btn" onclick="speak('Isla')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">O</td>
-                                <td>發「喔」，類似中文「哦」</td>
-                                <td>Ojo (眼睛)</td>
-                                <td><button class="sound-btn" onclick="speak('Ojo')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">U</td>
-                                <td>發「烏」，類似中文「屋」</td>
-                                <td>Uno (一)</td>
-                                <td><button class="sound-btn" onclick="speak('Uno')">🔊</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Special Letters -->
-                <div class="pronunciation-card">
-                    <h3>特殊字母</h3>
-                    <table class="pronunciation-table">
-                        <thead>
-                            <tr>
-                                <th>字母</th>
-                                <th>發音規則</th>
-                                <th>範例</th>
-                                <th>試聽</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="letter-display">H</td>
-                                <td>永遠不發音（啞音）</td>
-                                <td>Hola (你好)</td>
-                                <td><button class="sound-btn" onclick="speak('Hola')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">Ñ</td>
-                                <td>發「尼-呀」，像「onion」</td>
-                                <td>Mañana (明天)</td>
-                                <td><button class="sound-btn" onclick="speak('Mañana')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">LL</td>
-                                <td>發「耶」或「夜」</td>
-                                <td>Llamar (叫)</td>
-                                <td><button class="sound-btn" onclick="speak('Llamar')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">J</td>
-                                <td>發「呵」（喉音）</td>
-                                <td>Jefe (老闆)</td>
-                                <td><button class="sound-btn" onclick="speak('Jefe')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">RR</td>
-                                <td>彈舌音（顫音）</td>
-                                <td>Perro (狗)</td>
-                                <td><button class="sound-btn" onclick="speak('Perro')">🔊</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Consonants -->
-                <div class="pronunciation-card">
-                    <h3>重要輔音</h3>
-                    <table class="pronunciation-table">
-                        <thead>
-                            <tr>
-                                <th>字母</th>
-                                <th>發音規則</th>
-                                <th>範例</th>
-                                <th>試聽</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="letter-display">C</td>
-                                <td>在 e, i 前發「斯」；其他發「K」</td>
-                                <td>Cena (晚餐) / Casa (家)</td>
-                                <td><button class="sound-btn" onclick="speak('Cena, Casa')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">G</td>
-                                <td>在 e, i 前發「呵」；其他發「G」</td>
-                                <td>Gente (人們) / Gato (貓)</td>
-                                <td><button class="sound-btn" onclick="speak('Gente, Gato')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">Z</td>
-                                <td>發「斯」（西班牙）或「S」（拉美）</td>
-                                <td>Zapato (鞋)</td>
-                                <td><button class="sound-btn" onclick="speak('Zapato')">🔊</button></td>
-                            </tr>
-                            <tr>
-                                <td class="letter-display">V</td>
-                                <td>與 B 發音相同（較輕的「B」）</td>
-                                <td>Vino (酒)</td>
-                                <td><button class="sound-btn" onclick="speak('Vino')">🔊</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Accent Rules -->
-                <div class="pronunciation-card">
-                    <h3>重音規則 (Acentuación)</h3>
-                    <div style="padding: 10px 0; line-height: 2;">
-                        <p><strong>1️⃣ 有重音符號（áéíóú）</strong> → 重音在該母音</p>
-                        <p style="margin-left: 20px; color: #666;">範例: <span style="color: var(--deep-red); font-weight: bold;">café</span> (咖啡) 
-                        <button class="sound-btn" style="margin-left: 10px;" onclick="speak('café')">🔊</button></p>
-                        
-                        <p><strong>2️⃣ 沒有重音符號 + 結尾是母音/n/s</strong> → 重音在倒數第二音節</p>
-                        <p style="margin-left: 20px; color: #666;">範例: <span style="color: var(--deep-red); font-weight: bold;">casa</span> (家)
-                        <button class="sound-btn" style="margin-left: 10px;" onclick="speak('casa')">🔊</button></p>
-                        
-                        <p><strong>3️⃣ 沒有重音符號 + 結尾是其他輔音</strong> → 重音在最後一音節</p>
-                        <p style="margin-left: 20px; color: #666;">範例: <span style="color: var(--deep-red); font-weight: bold;">hotel</span> (旅館)
-                        <button class="sound-btn" style="margin-left: 10px;" onclick="speak('hotel')">🔊</button></p>
-                    </div>
-                </div>
-
-                <!-- Practice Section -->
-                <div class="pronunciation-card" style="border-left-color: var(--olive-green);">
-                    <h3>練習時間 🎯</h3>
-                    <div style="padding: 10px 0;">
-                        <p style="margin-bottom: 15px; font-weight: 600;">試著唸出以下單字，點擊🔊聽正確發音：</p>
-                        <div style="display: grid; gap: 12px;">
-                            <div style="background: #FAFAFA; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
-                                <span style="font-size: 1.2rem; font-weight: 700;">¡Buenas noches!</span>
-                                <button class="sound-btn" onclick="speak('¡Buenas noches!')">🔊</button>
-                            </div>
-                            <div style="background: #FAFAFA; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
-                                <span style="font-size: 1.2rem; font-weight: 700;">¿Cómo estás?</span>
-                                <button class="sound-btn" onclick="speak('¿Cómo estás?')">🔊</button>
-                            </div>
-                            <div style="background: #FAFAFA; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
-                                <span style="font-size: 1.2rem; font-weight: 700;">Muchas gracias</span>
-                                <button class="sound-btn" onclick="speak('Muchas gracias')">🔊</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Lessons Section -->
-        <div id="lessons-section" class="content-section">
+        <div id="lessons-section" class="content-section active">
             <div class="controls">
                 <select id="daySelect" onchange="renderContent()"></select>
                 <div class="progress-bar">
@@ -1339,6 +1247,44 @@
             {
                 title: "Day 1: 基礎發音與見面",
                 items: [
+                    { es: "📖 發音教學", zh: "從這裡開始", tip: "歡迎來到 Day 1！<br><br>💡 <strong>學習小提示</strong>：<br>• 可以使用上方的「語速調整」功能<br>• 建議初學者從 0.7x-0.9x 開始<br>• 點擊 🔊 按鈕可以聽發音<br>• 點擊 💡 按鈕查看詳細說明<br><br>🎯 準備好了嗎？讓我們開始學習西班牙語發音！", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "🎵 西班牙語發音基礎", zh: "世界上最規律的語言", tip: "西班牙語是世界上發音最規律的語言之一！只要掌握發音規則，看到字就能唸出來。", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "📌 五個元音 (Vocales)", zh: "A E I O U", tip: "西班牙語只有5個元音，發音非常固定：<br>A = 啊（阿）<br>E = 欸（誒）<br>I = 衣（一）<br>O = 喔（哦）<br>U = 烏（屋）", ex: "", ex_zh: "", noSound: true },
+                    { es: "A", zh: "發「啊」", tip: "類似中文「阿」", ex: "Amigo", ex_zh: "朋友" },
+                    { es: "E", zh: "發「欸」", tip: "類似中文「誒」", ex: "España", ex_zh: "西班牙" },
+                    { es: "I", zh: "發「衣」", tip: "類似中文「一」", ex: "Isla", ex_zh: "島嶼" },
+                    { es: "O", zh: "發「喔」", tip: "類似中文「哦」", ex: "Ojo", ex_zh: "眼睛" },
+                    { es: "U", zh: "發「烏」", tip: "類似中文「屋」", ex: "Uno", ex_zh: "一" },
+                    
+                    { es: "📌 特殊字母", zh: "需要特別記憶", tip: "這些字母的發音規則比較特殊，需要特別記憶。", ex: "", ex_zh: "", noSound: true },
+                    { es: "H", zh: "永遠不發音（啞音）", tip: "H在西班牙語中永遠不發音！", ex: "Hola", ex_zh: "你好（讀作 ola）" },
+                    { es: "Ñ", zh: "發「尼-呀」", tip: "像英文的 onion，舌頭抵上顎", ex: "Mañana", ex_zh: "明天" },
+                    { es: "LL", zh: "發「耶」或「夜」", tip: "拉丁美洲多發「耶」，西班牙發「夜」", ex: "Llamar", ex_zh: "叫" },
+                    { es: "J", zh: "發「呵」（喉音）", tip: "從喉嚨發出的氣音", ex: "Jefe", ex_zh: "老闆" },
+                    { es: "RR", zh: "彈舌音（顫音）", tip: "舌尖快速震動", ex: "Perro", ex_zh: "狗" },
+                    
+                    { es: "📌 重要輔音", zh: "依據位置變化", tip: "這些輔音的發音會依據後面接的字母而改變。", ex: "", ex_zh: "", noSound: true },
+                    { es: "C + e, i", zh: "發「斯」", tip: "C在e或i前面發「斯」", ex: "Cena", ex_zh: "晚餐" },
+                    { es: "C + a, o, u", zh: "發「K」", tip: "C在a/o/u前面發「K」", ex: "Casa", ex_zh: "家" },
+                    { es: "G + e, i", zh: "發「呵」", tip: "G在e或i前面發「呵」（喉音）", ex: "Gente", ex_zh: "人們" },
+                    { es: "G + a, o, u", zh: "發「G」", tip: "G在a/o/u前面發硬G音", ex: "Gato", ex_zh: "貓" },
+                    { es: "Z", zh: "發「斯」", tip: "西班牙發齒間音，拉美發S", ex: "Zapato", ex_zh: "鞋" },
+                    { es: "V", zh: "與 B 發音相同", tip: "較輕的B音，幾乎一樣", ex: "Vino", ex_zh: "酒" },
+                    
+                    { es: "📌 重音規則", zh: "三大規則", tip: "西班牙語的重音有固定規則：<br><br>1️⃣ 有重音符號（áéíóú）→ 重音在該母音<br>2️⃣ 無符號+結尾n/s/母音 → 倒數第二音節<br>3️⃣ 無符號+結尾其他輔音 → 最後音節", ex: "", ex_zh: "", noSound: true },
+                    { es: "Café", zh: "咖啡", tip: "有重音符號 → 重音在 é", ex: "café", ex_zh: "咖啡" },
+                    { es: "Casa", zh: "家", tip: "結尾是a → 重音倒數第二音節（Ca）", ex: "casa", ex_zh: "家" },
+                    { es: "Hotel", zh: "旅館", tip: "結尾是l → 重音最後音節（tel）", ex: "hotel", ex_zh: "旅館" },
+                    
+                    { es: "🎯 練習時間", zh: "試著唸出以下單字", tip: "點擊🔊聽正確發音，建議用慢速（0.7x-0.9x）仔細聽！", ex: "", ex_zh: "", noSound: true },
+                    { es: "¡Buenas noches!", zh: "晚安！", tip: "注意：H不發音，ue發「ue」", ex: "¡Buenas noches!", ex_zh: "晚安！" },
+                    { es: "¿Cómo estás?", zh: "你好嗎？", tip: "重音在Có和tás", ex: "¿Cómo estás?", ex_zh: "你好嗎？" },
+                    { es: "Muchas gracias", zh: "非常感謝", tip: "ch發「吃」的音，ci發「西」", ex: "Muchas gracias", ex_zh: "非常感謝" },
+                    
+                    { es: "✅ 發音教學完成！", zh: "開始學習對話", tip: "現在你已經了解基本發音規則，讓我們開始學習實用對話！記得隨時可以調整語速喔！", ex: "", ex_zh: "", noSound: true },
+                    
                     { es: "¡Hola!", zh: "你好！", tip: "最通用的打招呼，H 不發音。", ex: "Hola, ¿qué tal?", ex_zh: "嗨，你好嗎？" },
                     { es: "Buenos días.", zh: "早安", tip: "下午2點前都算早安。", ex: "Buenos días a todos.", ex_zh: "大家早安。" },
                     { es: "Buenas tardes.", zh: "午安", tip: "日落前都用這個。", ex: "Buenas tardes, señora.", ex_zh: "女士，午安。" },
@@ -2341,21 +2287,6 @@
         });
 
         // Tab Switching
-        function switchTab(tab) {
-            const tabs = document.querySelectorAll('.tab-btn');
-            const sections = document.querySelectorAll('.content-section');
-            
-            tabs.forEach(t => t.classList.remove('active'));
-            sections.forEach(s => s.classList.remove('active'));
-            
-            if (tab === 'pronunciation') {
-                tabs[0].classList.add('active');
-                document.getElementById('pronunciation-section').classList.add('active');
-            } else {
-                tabs[1].classList.add('active');
-                document.getElementById('lessons-section').classList.add('active');
-            }
-        }
 
         // Render Lesson Content
         function renderContent() {
@@ -2652,13 +2583,45 @@
         // Speed Control Initialization
         const speedSlider = document.getElementById('speedSlider');
         const speedValue = document.getElementById('speedValue');
+        const presetBtns = document.querySelectorAll('.preset-btn');
         
         if (speedSlider && speedValue) {
+            // 滑桿變化事件
             speedSlider.addEventListener('input', (e) => {
                 speechRate = parseFloat(e.target.value);
-                speedValue.textContent = speechRate.toFixed(1) + 'x';
+                speedValue.textContent = speechRate.toFixed(1);
+                
+                // 更新快捷按鈕的active狀態
+                updatePresetButtons(speechRate);
+            });
+
+            // 快捷按鈕點擊事件
+            presetBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const speed = parseFloat(btn.dataset.speed);
+                    speechRate = speed;
+                    speedSlider.value = speed;
+                    speedValue.textContent = speed.toFixed(1);
+                    
+                    // 更新按鈕active狀態
+                    updatePresetButtons(speed);
+                });
             });
         }
+
+        // 更新快捷按鈕的active狀態
+        function updatePresetButtons(speed) {
+            presetBtns.forEach(btn => {
+                const btnSpeed = parseFloat(btn.dataset.speed);
+                if (Math.abs(btnSpeed - speed) < 0.05) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+
 
         // Audio Unlock Initialization
         const unlockAudioBtn = document.getElementById('unlockAudioBtn');
