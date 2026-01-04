@@ -1,1 +1,9 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.jackcanhelp.spanish",
+        "sha256_cert_fingerprints": ["4F:B4:50:62:E3:17:38:48:80:87:4E:E2:25:57:F8:E6:52:63:D0:ED:CE:EB:D7:6A:05:57:2F:46:A3:B3:B7:9F"]
+      }
+    }]
 
