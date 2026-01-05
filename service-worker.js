@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spanish-learning-v1';
+const CACHE_NAME = 'spanish-learning-v1.0.3';
 const urlsToCache = [
   './',
   './index.html',
