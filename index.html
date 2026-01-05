@@ -154,8 +154,8 @@
         /* Controls Panel */
         .controls {
             background: white;
-            padding: 25px;
-            border-radius: 20px;
+            padding: 20px;
+            border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.12);
             margin-bottom: 25px;
             position: sticky;
@@ -172,7 +172,7 @@
 
         select {
             width: 100%;
-            padding: 16px 20px;
+            padding: 14px 18px;
             border: 2px solid #E0E0E0;
             border-radius: 12px;
             font-size: 1rem;
@@ -198,7 +198,7 @@
             background: #F5F5F5;
             height: 8px;
             border-radius: 10px;
-            margin-top: 18px;
+            margin-top: 14px;
             overflow: hidden;
             position: relative;
         }
@@ -236,18 +236,19 @@
 
         /* Speed Control */
         .speed-control {
-            margin-top: 20px;
-            padding-top: 20px;
+            margin-top: 15px;
+            padding-top: 15px;
             border-top: 2px dashed #FFE082;
         }
 
         .speed-control label {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: var(--deep-red);
+            font-size: 0.9rem;
         }
 
         .speed-icon {
@@ -256,6 +257,7 @@
 
         .speed-label {
             font-size: 0.95rem;
+            white-space: nowrap;
         }
 
         .speed-slider-container {
@@ -327,16 +329,17 @@
 
         /* Voice Selection */
         .voice-control {
-            margin-top: 15px;
+            margin-top: 12px;
         }
 
         .voice-control label {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: var(--deep-red);
+            font-size: 0.9rem;
         }
 
         .voice-icon {
@@ -345,7 +348,7 @@
 
         #voiceSelect {
             width: 100%;
-            padding: 12px 16px;
+            padding: 11px 14px;
             border: 2px solid #E0E0E0;
             border-radius: 12px;
             font-size: 0.95rem;
@@ -1172,6 +1175,63 @@
                 width: 42px;
                 height: 42px;
             }
+
+            /* 手機版控制面板優化 */
+            .controls {
+                padding: 15px;
+                border-radius: 12px;
+            }
+
+            select {
+                padding: 12px 14px;
+                font-size: 0.9rem;
+            }
+
+            .progress-bar {
+                height: 6px;
+                margin-top: 12px;
+            }
+
+            .speed-control {
+                margin-top: 12px;
+                padding-top: 12px;
+            }
+
+            .speed-control label,
+            .voice-control label {
+                font-size: 0.85rem;
+                gap: 5px;
+                margin-bottom: 8px;
+            }
+
+            .speed-label {
+                font-size: 0.85rem;
+            }
+
+            .speed-icon,
+            .voice-icon {
+                font-size: 1.1rem;
+            }
+
+            .voice-control {
+                margin-top: 10px;
+            }
+
+            #voiceSelect {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+
+            .speed-value {
+                font-size: 0.9rem;
+                padding: 3px 10px;
+                min-width: 45px;
+                margin-left: 6px;
+            }
+
+            .speed-mark {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -1193,11 +1253,15 @@
                 
                 <!-- 語速控制 -->
                 <div class="speed-control">
+                    <label for="speedSlider">
+                        <span class="speed-icon">🎚️</span>
+                        <span class="speed-label">語速</span>
+                    </label>
                     <div class="speed-slider-container">
                         <span class="speed-mark">🐢</span>
-                        <input type="range" id="speedSlider" min="0.5" max="1.5" step="0.1" value="0.9">
+                        <input type="range" id="speedSlider" min="0.3" max="1.5" step="0.05" value="0.8">
                         <span class="speed-mark">🐰</span>
-                        <span class="speed-value" id="speedValue">0.9x</span>
+                        <span class="speed-value" id="speedValue">0.8x</span>
                     </div>
                 </div>
 
@@ -1205,7 +1269,7 @@
                 <div class="voice-control">
                     <label for="voiceSelect">
                         <span class="voice-icon">🎙️</span>
-                        <span class="speed-label">語音選擇</span>
+                        <span class="speed-label">語音</span>
                     </label>
                     <select id="voiceSelect">
                         <option value="">載入中...</option>
@@ -1262,12 +1326,12 @@
                     { es: "RR", zh: "彈舌音（顫音）", tip: "舌尖快速震動", ex: "Perro", ex_zh: "狗" },
                     
                     { es: "📌 重要輔音", zh: "依據位置變化", tip: "這些輔音的發音會依據後面接的字母而改變。", ex: "", ex_zh: "", noSound: true },
-                    { es: "C + e, i", zh: "發「斯」", tip: "C在e或i前面發「斯」", ex: "Cena", ex_zh: "晚餐" },
-                    { es: "C + a, o, u", zh: "發「K」", tip: "C在a/o/u前面發「K」", ex: "Casa", ex_zh: "家" },
-                    { es: "G + e, i", zh: "發「呵」", tip: "G在e或i前面發「呵」（喉音）", ex: "Gente", ex_zh: "人們" },
-                    { es: "G + a, o, u", zh: "發「G」", tip: "G在a/o/u前面發硬G音", ex: "Gato", ex_zh: "貓" },
+                    { es: "Ce, Ci", zh: "發「斯」", tip: "C在e或i前面發「斯」。聽聽這兩個音節。", ex: "Cena, Cinco, Cielo", ex_zh: "晚餐、五、天空" },
+                    { es: "Ca, Co, Cu", zh: "發「K」", tip: "C在a/o/u前面發「K」音。聽聽這三個音節。", ex: "Casa, Comer, Cuánto", ex_zh: "家、吃、多少" },
+                    { es: "Ge, Gi", zh: "發「呵」", tip: "G在e或i前面發「呵」（喉音）。聽聽這兩個音節。", ex: "Gente, General, Gitano", ex_zh: "人們、將軍、吉普賽人" },
+                    { es: "Ga, Go, Gu", zh: "發「G」", tip: "G在a/o/u前面發硬G音。聽聽這三個音節的發音。", ex: "Gato, Amigo, Gustar", ex_zh: "貓、朋友、喜歡" },
                     { es: "Z", zh: "發「斯」", tip: "西班牙發齒間音，拉美發S", ex: "Zapato", ex_zh: "鞋" },
-                    { es: "V", zh: "與 B 發音相同", tip: "較輕的B音，幾乎一樣", ex: "Vino", ex_zh: "酒" },
+                    { es: "Va, Ve, Vi, Vo, Vu", zh: "與 B 發音相同", tip: "V和B在西班牙語中發音幾乎一樣,都是較輕的B音。聽聽這五個音節。", ex: "Vino, Venir, Vivir", ex_zh: "酒、來、住" },
                     
                     { es: "📌 重音規則", zh: "三大規則", tip: "西班牙語的重音有固定規則：<br><br>1️⃣ 有重音符號（áéíóú）→ 重音在該母音<br>2️⃣ 無符號+結尾n/s/母音 → 倒數第二音節<br>3️⃣ 無符號+結尾其他輔音 → 最後音節", ex: "", ex_zh: "", noSound: true },
                     { es: "Café", zh: "咖啡", tip: "有重音符號 → 重音在 é", ex: "café", ex_zh: "咖啡" },
@@ -1297,6 +1361,20 @@
             {
                 title: "Day 2: 自我介紹與基礎交流",
                 items: [
+                    { es: "📌 主詞代名詞（基礎）", zh: "我、你、他、她...", tip: "在開始自我介紹之前，先認識基本的主詞代名詞！", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo", zh: "我", tip: "第一人稱單數。發音：yo（約）。", ex: "Yo soy estudiante.", ex_zh: "我是學生。" },
+                    { es: "Tú", zh: "你（朋友、平輩）", tip: "第二人稱單數，非正式。用於朋友、家人、同輩。注意：ú 有重音符號！", ex: "Tú eres muy amable.", ex_zh: "你很親切。" },
+                    { es: "Él", zh: "他", tip: "第三人稱單數，陽性。用於男性。", ex: "Él es de España.", ex_zh: "他來自西班牙。" },
+                    { es: "Ella", zh: "她", tip: "第三人稱單數，陰性。用於女性。", ex: "Ella es profesora.", ex_zh: "她是老師。" },
+                    { es: "Nosotros", zh: "我們", tip: "第一人稱複數。Nosotros（全男或混合）、Nosotras（全女）。", ex: "Nosotros somos turistas.", ex_zh: "我們是遊客。" },
+                    { es: "Ellos", zh: "他們", tip: "第三人稱複數。Ellos（全男或混合）、Ellas（全女）。", ex: "Ellos son amigos.", ex_zh: "他們是朋友。" },
+                    
+                    { es: "📌 重要提醒", zh: "西班牙語的特色", tip: "在西班牙語中，主詞代名詞通常可以省略！因為動詞變化已經顯示是哪個主詞了。<br><br>例如：<br>Soy Juan（我是Juan）= Yo soy Juan<br>Eres turista（你是遊客）= Tú eres turista<br><br>但初學者建議先都加上主詞，熟悉後再省略。", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Yo soy...", zh: "我是...", tip: "自我介紹的第一句！Soy 是動詞 Ser（是）的 Yo（我）變化形。", ex: "Yo soy taiwanés.", ex_zh: "我是台灣人。" },
+                    { es: "Tú eres...", zh: "你是...", tip: "Eres 是動詞 Ser（是）的 Tú（你）變化形。", ex: "Tú eres estudiante.", ex_zh: "你是學生。" },
+                    
                     { es: "Me llamo...", zh: "我叫...", tip: "動詞 Llamarse (自稱)。", ex: "Me llamo David.", ex_zh: "我叫大衛。" },
                     { es: "Soy de Taiwán.", zh: "我來自台灣。", tip: "Ser (是) + de (from)。", ex: "Soy de Taipéi.", ex_zh: "我來自台北。" },
                     { es: "Soy turista.", zh: "我是遊客。", tip: "Turista = Tourist。", ex: "No trabajo aquí, soy turista.", ex_zh: "我不在這裡工作，我是遊客。" },
@@ -1374,11 +1452,42 @@
                     { es: "Ciento uno", zh: "101", tip: "拼法：Ciento + uno。101以上都用 Ciento 開頭！", ex: "Ciento cinco kilómetros.", ex_zh: "一百零五公里。" },
                     { es: "Ciento cincuenta", zh: "150", tip: "拼法：Ciento + cincuenta。", ex: "Ciento cincuenta euros.", ex_zh: "一百五十歐元。" },
                     { es: "📌 規則六：200-900 的變化", zh: "要變化，還分陰陽性！", tip: "200-900的組成：數字 + cientos。例如：Dos（2）+ cientos = Doscientos（200）。但要注意：(1) 500是Quinientos（不是Cincocientos），900是Novecientos（不是Nuevecientos）。(2) 要配合名詞的陰陽性：陽性名詞用 -os 結尾（doscientos euros），陰性名詞用 -as 結尾（doscientas personas）。", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "📌 200-900 完整列表", zh: "每個百位數都要記", tip: "以下是所有百位數的完整形式：<br>200 = Doscientos/as<br>300 = Trescientos/as<br>400 = Cuatrocientos/as<br>500 = Quinientos/as（特殊！）<br>600 = Seiscientos/as<br>700 = Setecientos/as<br>800 = Ochocientos/as<br>900 = Novecientos/as（特殊！）<br><br>⚠️ 記住：500和900的拼法很特殊！", ex: "", ex_zh: "", noSound: true },
+                    
                     { es: "Doscientos", zh: "200（陽性）", tip: "組成：Dos + cientos。陽性名詞用這個。", ex: "Doscientos euros.", ex_zh: "兩百歐元。" },
                     { es: "Doscientas", zh: "200（陰性）", tip: "陰性形式：結尾變 -as。陰性名詞用這個。", ex: "Doscientas personas.", ex_zh: "兩百人（personas是陰性）。" },
-                    { es: "Trescientos", zh: "300", tip: "組成：Tres + cientos。", ex: "Trescientos cincuenta.", ex_zh: "三百五十。" },
-                    { es: "Quinientos", zh: "500", tip: "特殊拼法！不是 Cincocientos，是 Quinientos。", ex: "Quinientos dólares.", ex_zh: "五百美元。" },
-                    { es: "Novecientos", zh: "900", tip: "特殊拼法！不是 Nuevecientos，是 Novecientos。", ex: "Novecientos noventa y nueve.", ex_zh: "九百九十九。" },
+                    
+                    { es: "Trescientos", zh: "300（陽性）", tip: "組成：Tres + cientos。", ex: "Trescientos dólares.", ex_zh: "三百美元。" },
+                    { es: "Trescientas", zh: "300（陰性）", tip: "陰性形式。", ex: "Trescientas páginas.", ex_zh: "三百頁。" },
+                    
+                    { es: "Cuatrocientos", zh: "400（陽性）", tip: "組成：Cuatro + cientos。", ex: "Cuatrocientos metros.", ex_zh: "四百公尺。" },
+                    { es: "Cuatrocientas", zh: "400（陰性）", tip: "陰性形式。", ex: "Cuatrocientas millas.", ex_zh: "四百英里。" },
+                    
+                    { es: "Quinientos", zh: "500（陽性）", tip: "⚠️ 特殊拼法！不是 Cincocientos，是 Quinientos。來自拉丁文。", ex: "Quinientos euros.", ex_zh: "五百歐元。" },
+                    { es: "Quinientas", zh: "500（陰性）", tip: "陰性形式。記住：Quini- 不是 Cinco-！", ex: "Quinientas personas.", ex_zh: "五百人。" },
+                    
+                    { es: "Seiscientos", zh: "600（陽性）", tip: "組成：Seis + cientos。", ex: "Seiscientos kilómetros.", ex_zh: "六百公里。" },
+                    { es: "Seiscientas", zh: "600（陰性）", tip: "陰性形式。", ex: "Seiscientas libras.", ex_zh: "六百英鎊。" },
+                    
+                    { es: "Setecientos", zh: "700（陽性）", tip: "組成：Siete → Sete + cientos。注意：Siete 變成 Sete。", ex: "Setecientos pesos.", ex_zh: "七百披索。" },
+                    { es: "Setecientas", zh: "700（陰性）", tip: "陰性形式。", ex: "Setecientas noches.", ex_zh: "七百個夜晚。" },
+                    
+                    { es: "Ochocientos", zh: "800（陽性）", tip: "組成：Ocho + cientos。", ex: "Ochocientos años.", ex_zh: "八百年。" },
+                    { es: "Ochocientas", zh: "800（陰性）", tip: "陰性形式。", ex: "Ochocientas horas.", ex_zh: "八百小時。" },
+                    
+                    { es: "Novecientos", zh: "900（陽性）", tip: "⚠️ 特殊拼法！不是 Nuevecientos，是 Novecientos。來自拉丁文novem。", ex: "Novecientos dólares.", ex_zh: "九百美元。" },
+                    { es: "Novecientas", zh: "900（陰性）", tip: "陰性形式。記住：Nove- 不是 Nueve-！", ex: "Novecientas veces.", ex_zh: "九百次。" },
+                    
+                    { es: "📌 組合數字（200-999）", zh: "百位數的組合方式", tip: "組合方式：百位數 + 十位數/個位數<br>例如：<br>250 = Doscientos cincuenta<br>368 = Trescientos sesenta y ocho<br>475 = Cuatrocientos setenta y cinco<br>599 = Quinientos noventa y nueve<br><br>⚠️ 記住：<br>1. 百位數要配合後面主要名詞的陰陽性<br>2. 十位數的組合規則跟之前一樣（30以上用 y 連接）", ex: "", ex_zh: "", noSound: true },
+                    
+                    { es: "Doscientos cincuenta", zh: "250", tip: "組合：200 + 50。完整寫法分開。", ex: "Doscientos cincuenta euros.", ex_zh: "兩百五十歐元。" },
+                    { es: "Trescientos sesenta y cinco", zh: "365", tip: "組合：300 + 60 + 5。一年的天數！", ex: "Trescientos sesenta y cinco días.", ex_zh: "三百六十五天。" },
+                    { es: "Quinientos setenta y dos", zh: "572", tip: "組合：500 + 70 + 2。記住500是Quinientos！", ex: "Quinientas setenta y dos páginas.", ex_zh: "五百七十二頁（páginas陰性）。" },
+                    { es: "Ochocientos ochenta y ocho", zh: "888", tip: "全部都是8！發音練習的好例子。", ex: "Ochocientos ochenta y ocho euros.", ex_zh: "八百八十八歐元。" },
+                    { es: "Novecientos noventa y nueve", zh: "999", tip: "組合：900 + 90 + 9。記住900是Novecientos！", ex: "Novecientos noventa y nueve pesos.", ex_zh: "九百九十九披索。" },
+                    
+                    { es: "📌 陰陽性實例對比", zh: "同一個數字的不同形式", tip: "來看幾個實際例子，同樣的數字配不同性別的名詞：<br><br>陽性名詞例子：<br>• Doscientos euros（歐元-陽性）<br>• Quinientos pesos（披索-陽性）<br>• Setecientos kilómetros（公里-陽性）<br><br>陰性名詞例子：<br>• Doscientas personas（人-陰性）<br>• Quinientas libras（英鎊/磅-陰性）<br>• Setecientas millas（英里-陰性）<br><br>💡 判斷技巧：<br>-o結尾通常是陽性，-a結尾通常是陰性", ex: "", ex_zh: "", noSound: true },
                     { es: "📌 規則七：1000 以上", zh: "Mil 永遠不變！", tip: "千位數的組成：數字 + mil。例如：Dos（2）+ mil = Dos mil（2000）。重點：(1) Mil 永遠是單數形式，不加 s。所以「三千」是 Tres mil，不是 Tres miles。(2) Mil 不分陰陽性，所有名詞都用同一個形式。年份的說法：2025 = Dos mil veinticinco（兩千二十五）。", ex: "", ex_zh: "", noSound: true },
                     { es: "Mil", zh: "1000", tip: "Millennium（千禧年）。永遠是 mil！", ex: "Mil euros.", ex_zh: "一千歐元。" },
                     { es: "Dos mil", zh: "2000", tip: "組成：Dos + mil。不能說 dos miles！", ex: "Dos mil pesos.", ex_zh: "兩千披索。" },
@@ -2269,7 +2378,7 @@
         let quizQueue = [];
         let currentQuizIndex = 0;
         let score = 0;
-        let speechRate = 0.9; // 語速設定（恢復原本的0.9）
+        let speechRate = 0.8; // 語速設定（預設0.8x，範圍0.3x-1.5x）
         let selectedVoice = null; // 選擇的語音
         let availableVoices = []; // 可用的語音列表
         let audioUnlocked = false; // 音頻是否已解鎖
@@ -2443,14 +2552,39 @@
             }
         }
 
+        // 判斷項目是否適合用於測驗
+        function isValidQuizItem(item) {
+            // 排除標記為 noSound 的項目（說明性內容）
+            if (item.noSound === true) return false;
+            
+            // 排除沒有例句的項目
+            if (!item.ex || item.ex === '') return false;
+            
+            // 排除 es 開頭是 emoji 或特殊符號的項目（標題）
+            const emojiPattern = /^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}📌📖🎵🎯✅💡🔥⭐👥📍]/u;
+            if (emojiPattern.test(item.es)) return false;
+            
+            return true;
+        }
+
         // Quiz Functions
         function startQuiz() {
             const dayIndex = select.value;
             const items = curriculum[dayIndex].items;
             
-            let questions = [...items];
+            // 過濾出適合測驗的項目
+            const validItems = items.filter(isValidQuizItem);
+            
+            // 如果可用題目少於3題，顯示警告
+            if (validItems.length < 3) {
+                alert('本日課程可測驗的項目較少，建議先完成更多課程再進行測驗！');
+                closeQuiz();
+                return;
+            }
+            
+            let questions = [...validItems];
             questions.sort(() => Math.random() - 0.5);
-            quizQueue = questions.slice(0, Math.min(5, items.length));
+            quizQueue = questions.slice(0, Math.min(5, validItems.length));
             
             currentQuizIndex = 0;
             score = 0;
@@ -2467,9 +2601,12 @@
             const q = quizQueue[currentQuizIndex];
             const allItems = curriculum[select.value].items;
             
+            // 使用共用函數過濾出有效的項目作為選項
+            const validItems = allItems.filter(isValidQuizItem);
+            
             let options = [q];
-            while (options.length < 3 && options.length < allItems.length) {
-                const randomItem = allItems[Math.floor(Math.random() * allItems.length)];
+            while (options.length < 3 && options.length < validItems.length) {
+                const randomItem = validItems[Math.floor(Math.random() * validItems.length)];
                 if (!options.includes(randomItem)) {
                     options.push(randomItem);
                 }
@@ -2581,11 +2718,16 @@
         const speedValue = document.getElementById('speedValue');
         const presetBtns = document.querySelectorAll('.preset-btn');
         
+        // 格式化語速顯示（去掉不必要的尾隨零）
+        function formatSpeed(speed) {
+            return speed.toFixed(2).replace(/\.?0+$/, '') + 'x';
+        }
+        
         if (speedSlider && speedValue) {
             // 滑桿變化事件
             speedSlider.addEventListener('input', (e) => {
                 speechRate = parseFloat(e.target.value);
-                speedValue.textContent = speechRate.toFixed(1);
+                speedValue.textContent = formatSpeed(speechRate);
                 
                 // 更新快捷按鈕的active狀態
                 updatePresetButtons(speechRate);
@@ -2597,7 +2739,7 @@
                     const speed = parseFloat(btn.dataset.speed);
                     speechRate = speed;
                     speedSlider.value = speed;
-                    speedValue.textContent = speed.toFixed(1);
+                    speedValue.textContent = formatSpeed(speed);
                     
                     // 更新按鈕active狀態
                     updatePresetButtons(speed);
