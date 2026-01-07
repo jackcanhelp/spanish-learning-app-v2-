@@ -1297,6 +1297,8 @@
         <h3>🔊 啟用聲音功能</h3>
         <p>請點擊下方按鈕以啟用語音播放功能</p>
         <button class="btn-unlock-audio" id="unlockAudioBtn">啟用聲音</button>
+        <button class="btn-unlock-audio" id="testSpeakBtn" style="margin-top: 10px; background: #2196F3;">🎤 直接測試播音</button>
+        <button class="btn-unlock-audio" id="diagnosticBtn" style="margin-top: 10px; background: #666;">診斷語音問題</button>
     </div>
 
     <script>
@@ -2382,6 +2384,22 @@
         let selectedVoice = null; // 選擇的語音
         let availableVoices = []; // 可用的語音列表
         let audioUnlocked = false; // 音頻是否已解鎖
+        let USE_AUDIO_FILES = false; // 不使用預錄音檔
+        let currentAudio = null; // 當前播放的音檔物件
+        
+        // TTS 策略設定（本地優先）
+        const USE_LOCAL_TTS_FIRST = true; // 優先使用本地 TTS
+        const USE_API_TTS = true; // 啟用 API TTS 作為備用
+        const VOICERSS_API_KEY = 'YOUR_VOICERSS_API_KEY'; // 請替換為你的 VoiceRSS API key
+        const audioCache = {}; // 音檔快取（減少重複請求）
+        
+        // 記住用戶的 TTS 狀態（避免重複測試）
+        let localTTSAvailable = null; // null=未測試, true=可用, false=不可用
+        
+        // 三星設備檢測
+        let isSamsung = false;
+        let samsungModel = '';
+        let ttsGuideShown = false;
 
         // Initialize
         curriculum.forEach((day, index) => {
@@ -2416,7 +2434,7 @@
                 main.className = 'card-main';
                 // 只有非規則項目才可以點擊發音
                 if (!item.noSound) {
-                    main.onclick = () => speak(item.es);
+                    main.onclick = () => speak(item.es, item.audioFile);
                 }
 
                 main.innerHTML = `
@@ -2441,7 +2459,7 @@
                             <div>${item.ex}</div>
                             <span class="ex-zh">${item.ex_zh || ''}</span>
                         </div>
-                        <button class="btn-ex-speak" onclick="speak('${item.ex.replace(/'/g, "\\'")}')">🔊</button>
+                        <button class="btn-ex-speak" onclick="speak('${item.ex.replace(/'/g, "\\'")}', '${item.audioFile || ''}')">🔊</button>
                     </div>
                 ` : '';
                 
@@ -2464,26 +2482,898 @@
             container.appendChild(quizDiv);
         }
 
-        // Speech Synthesis
-        function speak(text) {
+        // Speech Synthesis - 本地優先，API 備用
+        function speak(text, audioFile) {
+            console.log('=== speak() 被調用 ===');
+            console.log('文字:', text);
+            console.log('策略: 本地 TTS 優先 → API TTS 備用');
+            
             // 檢查音頻是否已解鎖（主要針對手機）
             if (!audioUnlocked && isMobileDevice()) {
+                console.log('❌ 音頻未解鎖，顯示解鎖橫幅');
                 showAudioUnlockBanner();
                 return;
             }
 
-            window.speechSynthesis.cancel();
-            const msg = new SpeechSynthesisUtterance();
-            msg.text = text;
-            msg.lang = 'es-ES';
-            msg.rate = speechRate; // 使用動態語速
-            
-            // 使用選擇的語音
-            if (selectedVoice) {
-                msg.voice = selectedVoice;
+            // 停止當前播放
+            stopCurrentPlayback();
+
+            // 如果記錄顯示本地 TTS 不可用，直接用 API
+            if (localTTSAvailable === false) {
+                console.log('⚡ 本地 TTS 已知不可用，直接使用 API');
+                if (USE_API_TTS && VOICERSS_API_KEY && VOICERSS_API_KEY !== 'YOUR_VOICERSS_API_KEY') {
+                    playWithAPITTS(text);
+                } else {
+                    console.error('❌ API TTS 未配置');
+                    showTTSError();
+                }
+                return;
             }
             
-            window.speechSynthesis.speak(msg);
+            // 優先嘗試本地 TTS
+            if (USE_LOCAL_TTS_FIRST) {
+                console.log('🎯 嘗試本地 TTS...');
+                speakWithLocalTTS(text)
+                    .catch(error => {
+                        console.error('❌ 本地 TTS 失敗:', error);
+                        
+                        // 記錄本地 TTS 不可用
+                        localTTSAvailable = false;
+                        localStorage.setItem('localTTSAvailable', 'false');
+                        
+                        // 降級到 API TTS
+                        if (USE_API_TTS && VOICERSS_API_KEY && VOICERSS_API_KEY !== 'YOUR_VOICERSS_API_KEY') {
+                            console.log('📢 降級到 API TTS...');
+                            playWithAPITTS(text);
+                        } else {
+                            console.error('❌ API TTS 未配置，無法播放');
+                            showTTSError();
+                        }
+                    });
+            } else {
+                // 如果禁用本地優先，直接用 API
+                if (USE_API_TTS && VOICERSS_API_KEY && VOICERSS_API_KEY !== 'YOUR_VOICERSS_API_KEY') {
+                    playWithAPITTS(text);
+                } else {
+                    speakWithLocalTTS(text);
+                }
+            }
+        }
+        
+        // 使用本地 TTS 播放（返回 Promise）
+        function speakWithLocalTTS(text) {
+            return new Promise((resolve, reject) => {
+                console.log('=== 本地 TTS 播放 ===');
+                console.log('文字:', text);
+                
+                // 檢查語音是否可用
+                if (availableVoices.length === 0) {
+                    console.log('語音列表為空，重新載入...');
+                    availableVoices = window.speechSynthesis.getVoices();
+                }
+                
+                // 確保有選擇的語音
+                if (!selectedVoice) {
+                    const spanishVoices = availableVoices.filter(voice => 
+                        voice.lang.startsWith('es') || voice.lang.startsWith('ES')
+                    );
+                    
+                    if (spanishVoices.length > 0) {
+                        selectedVoice = spanishVoices[0];
+                        console.log('✅ 自動選擇語音:', selectedVoice.name);
+                    } else {
+                        reject(new Error('沒有可用的西班牙語語音'));
+                        return;
+                    }
+                }
+                
+                try {
+                    const msg = new SpeechSynthesisUtterance();
+                    msg.text = text;
+                    msg.lang = 'es-ES';
+                    msg.rate = speechRate;
+                    msg.volume = 1.0;
+                    msg.pitch = 1.0;
+                    msg.voice = selectedVoice;
+                    
+                    let hasStarted = false;
+                    let timeout;
+                    
+                    // 成功開始播放
+                    msg.onstart = function() {
+                        console.log('✅ 本地 TTS 開始播放');
+                        hasStarted = true;
+                        clearTimeout(timeout);
+                        
+                        // 記錄本地 TTS 可用
+                        if (localTTSAvailable === null) {
+                            localTTSAvailable = true;
+                            localStorage.setItem('localTTSAvailable', 'true');
+                        }
+                        
+                        resolve();
+                    };
+                    
+                    msg.onend = function() {
+                        console.log('✅ 本地 TTS 播放完成');
+                    };
+                    
+                    // 播放錯誤
+                    msg.onerror = function(event) {
+                        console.error('❌ 本地 TTS 錯誤:', event.error);
+                        clearTimeout(timeout);
+                        reject(new Error(`TTS error: ${event.error}`));
+                    };
+                    
+                    // 超時檢測（2 秒內沒開始視為失敗）
+                    timeout = setTimeout(() => {
+                        if (!hasStarted) {
+                            console.error('❌ 本地 TTS 超時（2秒未開始播放）');
+                            window.speechSynthesis.cancel();
+                            reject(new Error('TTS timeout'));
+                        }
+                    }, 2000);
+                    
+                    // 開始播放
+                    window.speechSynthesis.speak(msg);
+                    console.log('✅ 本地 TTS speak() 已執行');
+                    
+                } catch (error) {
+                    console.error('❌ 本地 TTS 初始化錯誤:', error);
+                    reject(error);
+                }
+            });
+        }
+        
+        // 顯示 TTS 錯誤提示
+        function showTTSError() {
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'tts-error-banner';
+            errorMsg.innerHTML = `
+                <div style="background: #ff6b6b; color: white; padding: 15px; border-radius: 8px; margin: 10px; text-align: center;">
+                    <h3>❌ 語音播放失敗</h3>
+                    <p>本地 TTS 和 API TTS 都無法使用。</p>
+                    <p>請檢查：</p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>✓ 系統 TTS 設定（設定 → 文字轉語音）</li>
+                        <li>✓ API key 是否正確配置</li>
+                        <li>✓ 網路連線是否正常</li>
+                    </ul>
+                    <button onclick="this.parentElement.remove()" style="margin-top: 10px; padding: 8px 16px; background: white; border: none; border-radius: 4px; cursor: pointer;">
+                        關閉
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(errorMsg);
+            
+            // 5 秒後自動移除
+            setTimeout(() => {
+                if (errorMsg.parentElement) {
+                    errorMsg.remove();
+                }
+            }, 5000);
+        }
+        
+        // ===== 三星設備智能引導系統 =====
+        
+        // 檢測是否為三星設備
+        function isSamsungDevice() {
+            const ua = navigator.userAgent.toLowerCase();
+            return ua.includes('samsung') || 
+                   ua.includes('sm-') || 
+                   ua.includes('galaxy');
+        }
+        
+        // 獲取三星型號
+        function getSamsungModel() {
+            const ua = navigator.userAgent;
+            const match = ua.match(/SM-[A-Z0-9]+|Galaxy [A-Z0-9\s]+/i);
+            return match ? match[0] : 'Samsung 設備';
+        }
+        
+        // 測試 TTS 是否正常工作
+        function testTTSAvailability() {
+            return new Promise((resolve, reject) => {
+                console.log('🧪 測試 TTS 可用性...');
+                
+                const msg = new SpeechSynthesisUtterance('test');
+                let started = false;
+                let timeout;
+                
+                msg.onstart = function() {
+                    started = true;
+                    clearTimeout(timeout);
+                    window.speechSynthesis.cancel();
+                    console.log('✅ TTS 測試成功');
+                    resolve(true);
+                };
+                
+                msg.onerror = function(e) {
+                    clearTimeout(timeout);
+                    console.log('❌ TTS 測試失敗:', e.error);
+                    reject(false);
+                };
+                
+                timeout = setTimeout(() => {
+                    if (!started) {
+                        window.speechSynthesis.cancel();
+                        console.log('❌ TTS 測試超時');
+                        reject(false);
+                    }
+                }, 3000);
+                
+                window.speechSynthesis.speak(msg);
+            });
+        }
+        
+        // 顯示三星 TTS 設定引導
+        function showSamsungTTSGuide() {
+            // 避免重複顯示
+            if (ttsGuideShown || document.querySelector('.samsung-tts-guide')) {
+                return;
+            }
+            
+            ttsGuideShown = true;
+            console.log('📱 顯示三星 TTS 設定引導');
+            
+            const guide = document.createElement('div');
+            guide.className = 'samsung-tts-guide';
+            
+            // 點擊遮罩關閉
+            guide.onclick = function(e) {
+                if (e.target === guide) {
+                    dismissSamsungGuide();
+                }
+            };
+            
+            guide.innerHTML = `
+                <style>
+                    .samsung-tts-guide {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: rgba(0, 0, 0, 0.85);
+                        z-index: 10000;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 20px;
+                        animation: fadeIn 0.3s ease;
+                    }
+                    
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    
+                    @keyframes fadeOut {
+                        from { opacity: 1; }
+                        to { opacity: 0; }
+                    }
+                    
+                    .guide-card {
+                        background: white;
+                        border-radius: 16px;
+                        max-width: 500px;
+                        width: 100%;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                        padding: 24px;
+                        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                        animation: slideUp 0.3s ease;
+                    }
+                    
+                    @keyframes slideUp {
+                        from {
+                            opacity: 0;
+                            transform: translateY(20px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                    
+                    .guide-card h2 {
+                        margin: 0 0 16px 0;
+                        font-size: 24px;
+                        color: #d35400;
+                        text-align: center;
+                    }
+                    
+                    .guide-intro {
+                        text-align: center;
+                        margin-bottom: 20px;
+                        padding: 16px;
+                        background: #fff3e0;
+                        border-radius: 8px;
+                    }
+                    
+                    .guide-intro p {
+                        margin: 8px 0;
+                        color: #555;
+                    }
+                    
+                    .guide-intro strong {
+                        color: #d35400;
+                    }
+                    
+                    .guide-steps {
+                        margin: 20px 0;
+                    }
+                    
+                    .step {
+                        display: flex;
+                        gap: 16px;
+                        margin-bottom: 20px;
+                        padding: 16px;
+                        background: #f8f9fa;
+                        border-radius: 8px;
+                        border-left: 4px solid #d35400;
+                    }
+                    
+                    .step-number {
+                        flex-shrink: 0;
+                        width: 32px;
+                        height: 32px;
+                        background: #d35400;
+                        color: white;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        font-size: 18px;
+                    }
+                    
+                    .step-content h3 {
+                        margin: 0 0 8px 0;
+                        font-size: 16px;
+                        color: #333;
+                    }
+                    
+                    .step-content p {
+                        margin: 4px 0;
+                        font-size: 14px;
+                        color: #666;
+                    }
+                    
+                    .guide-actions {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 12px;
+                        margin-top: 24px;
+                    }
+                    
+                    .guide-actions button {
+                        padding: 14px 20px;
+                        border: none;
+                        border-radius: 8px;
+                        font-size: 16px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: transform 0.2s, box-shadow 0.2s;
+                    }
+                    
+                    .guide-actions button:active {
+                        transform: scale(0.98);
+                    }
+                    
+                    .btn-primary {
+                        background: #d35400;
+                        color: white;
+                        box-shadow: 0 2px 8px rgba(211, 84, 0, 0.3);
+                    }
+                    
+                    .btn-primary:hover {
+                        background: #e67e22;
+                        box-shadow: 0 4px 12px rgba(211, 84, 0, 0.4);
+                    }
+                    
+                    .btn-secondary {
+                        background: #3498db;
+                        color: white;
+                        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+                    }
+                    
+                    .btn-secondary:hover {
+                        background: #5dade2;
+                        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+                    }
+                    
+                    .btn-text {
+                        background: transparent;
+                        color: #666;
+                    }
+                    
+                    .btn-text:hover {
+                        background: #f0f0f0;
+                    }
+                    
+                    .guide-note {
+                        text-align: center;
+                        margin-top: 20px;
+                        padding: 12px;
+                        background: #e8f5e9;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        color: #2e7d32;
+                    }
+                </style>
+                
+                <div class="guide-card">
+                    <h2>🎤 語音設定提示</h2>
+                    
+                    <div class="guide-intro">
+                        <p>偵測到您使用 <strong>${samsungModel}</strong></p>
+                        <p>為了獲得最佳語音體驗，建議設定 Google TTS</p>
+                    </div>
+                    
+                    <div class="guide-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>切換到 Google TTS</h3>
+                                <p><strong>設定</strong> → <strong>🔍搜尋</strong> → <strong>文字轉語音</strong></p>
+                                <p>將<strong>「慣用語音辨識引擎」</strong>改為<br>「<strong>Google語音辨識及合成</strong>」</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>下載西班牙語語音</h3>
+                                <p>點擊 <strong>⚙️</strong>（設定圖示）</p>
+                                <p>→ <strong>安裝語音資料</strong></p>
+                                <p>→ 搜尋並下載「<strong>西班牙文（西班牙）</strong>」</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>重新啟動應用</h3>
+                                <p>設定完成後，關閉並重新開啟本 app</p>
+                                <p>🌵 仙人掌按鈕將自動消失</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-actions">
+                        <button class="btn-primary" onclick="window.openTTSSettings()">
+                            📱 前往設定（推薦）
+                        </button>
+                    </div>
+                    
+                    <div class="guide-note">
+                        💡 提示：設定完成後將永久生效，只需設定一次！<br>
+                        <span style="font-size: 12px; color: #666; margin-top: 8px; display: block;">點擊卡片外部可關閉</span>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(guide);
+        }
+        
+        // 打開 TTS 設定頁面
+        window.openTTSSettings = function() {
+            console.log('嘗試打開 TTS 設定...');
+            
+            // 記錄用戶選擇
+            localStorage.setItem('samsungGuideAction', 'settings');
+            localStorage.setItem('ttsSettingsAttempted', Date.now());
+            
+            // 關閉引導
+            dismissSamsungGuide();
+            
+            // 嘗試使用 Android Intent（在 TWA 中有效）
+            const intentUrl = 'intent:#Intent;action=com.android.settings.TTS_SETTINGS;end';
+            
+            try {
+                window.location.href = intentUrl;
+                
+                // 如果 2 秒後還在頁面，說明不是 TWA
+                setTimeout(() => {
+                    // 顯示手動步驟提示
+                    alert('請按照以下步驟設定：\n\n【步驟 1】切換引擎\n設定 → 🔍搜尋 → 文字轉語音\n→ 將「慣用語音辨識引擎」改為\n   「Google語音辨識及合成」\n\n【步驟 2】下載語音\n點擊 ⚙️ → 安裝語音資料\n→ 搜尋並下載「西班牙文（西班牙）」\n\n【步驟 3】重新啟動\n設定完成後，關閉並重新開啟本 app\n\n🌵 設定完成後，仙人掌按鈕將自動消失！');
+                }, 2000);
+                
+            } catch (e) {
+                // 不是 TWA，顯示手動步驟
+                alert('請按照以下步驟設定：\n\n【步驟 1】切換引擎\n設定 → 🔍搜尋 → 文字轉語音\n→ 將「慣用語音辨識引擎」改為\n   「Google語音辨識及合成」\n\n【步驟 2】下載語音\n點擊 ⚙️ → 安裝語音資料\n→ 搜尋並下載「西班牙文（西班牙）」\n\n【步驟 3】重新啟動\n設定完成後，關閉並重新開啟本 app\n\n🌵 設定完成後，仙人掌按鈕將自動消失！');
+            }
+        };
+        
+        // 使用 API TTS
+        window.useSamsungAPITTS = function() {
+            console.log('用戶選擇使用 API TTS');
+            
+            // 記錄偏好
+            localStorage.setItem('preferAPITTS', 'true');
+            localStorage.setItem('samsungGuideAction', 'api');
+            
+            // 強制使用 API
+            localTTSAvailable = false;
+            
+            // 關閉引導
+            dismissSamsungGuide();
+            
+            // 隱藏右上角按鈕
+            hideTTSHelpButton();
+            
+            // 顯示提示
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #2e7d32; color: white; padding: 12px 24px; border-radius: 8px; z-index: 10001; animation: fadeIn 0.3s ease;';
+            toast.textContent = '✅ 已切換到線上語音模式';
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        };
+        
+        // 關閉引導
+        window.dismissSamsungGuide = function() {
+            console.log('關閉三星引導界面');
+            
+            // 移除引導界面
+            const guide = document.querySelector('.samsung-tts-guide');
+            if (guide) {
+                guide.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    guide.remove();
+                    ttsGuideShown = false;
+                }, 300);
+            }
+        };
+        
+        // 隱藏右上角的幫助按鈕（當問題解決後）
+        function hideTTSHelpButton() {
+            const button = document.querySelector('.tts-help-button');
+            if (button) {
+                button.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    button.remove();
+                }, 300);
+            }
+        }
+        
+        // 自動檢測和引導（在頁面載入時執行）
+        async function initSamsungTTSGuide() {
+            console.log('=== 🔍 初始化三星 TTS 檢測 ===');
+            console.log('時間:', new Date().toLocaleString());
+            
+            // 檢測三星設備
+            isSamsung = isSamsungDevice();
+            console.log('📱 是否為三星設備:', isSamsung);
+            
+            if (!isSamsung) {
+                console.log('✅ 非三星設備，跳過 TTS 檢測');
+                console.log('User Agent:', navigator.userAgent);
+                return;
+            }
+            
+            samsungModel = getSamsungModel();
+            console.log('📱 三星型號:', samsungModel);
+            console.log('User Agent:', navigator.userAgent);
+            
+            // 檢查用戶是否選擇使用 API
+            const preferAPI = localStorage.getItem('preferAPITTS');
+            console.log('💾 用戶 API 偏好:', preferAPI);
+            
+            if (preferAPI === 'true') {
+                console.log('✅ 用戶偏好使用 API TTS，跳過檢測');
+                localTTSAvailable = false;
+                return;
+            }
+            
+            // 測試 TTS
+            console.log('🧪 開始測試 TTS 可用性...');
+            try {
+                await testTTSAvailability();
+                console.log('✅ TTS 測試成功 - 語音正常工作');
+                console.log('   → 不需要顯示仙人掌按鈕');
+                localTTSAvailable = true;
+            } catch (e) {
+                console.error('❌ TTS 測試失敗:', e);
+                console.log('   → 即將顯示仙人掌按鈕');
+                localTTSAvailable = false;
+                
+                // 顯示右上角的仙人掌按鈕
+                showTTSHelpButton();
+            }
+            
+            console.log('=== 🔍 檢測完成 ===');
+        }
+        
+        // 強制顯示按鈕（用於測試）
+        window.forceShowCactusButton = function() {
+            console.log('🌵 強制顯示仙人掌按鈕');
+            showTTSHelpButton();
+        };
+        
+        // 測試 TTS 狀態（用於調試）
+        window.testTTSStatus = async function() {
+            console.log('=== 🧪 TTS 狀態測試 ===');
+            console.log('是否為三星:', isSamsungDevice());
+            console.log('型號:', getSamsungModel());
+            console.log('User Agent:', navigator.userAgent);
+            console.log('API 偏好:', localStorage.getItem('preferAPITTS'));
+            
+            try {
+                await testTTSAvailability();
+                console.log('✅ TTS 可用');
+                localTTSAvailable = true;
+                return true;
+            } catch (e) {
+                console.error('❌ TTS 不可用:', e);
+                localTTSAvailable = false;
+                return false;
+            }
+        };
+        
+        // 顯示右上角的"發音異常"按鈕
+        function showTTSHelpButton() {
+            // 避免重複添加
+            if (document.querySelector('.tts-help-button')) {
+                return;
+            }
+            
+            console.log('🌵 創建發音異常按鈕');
+            
+            const button = document.createElement('button');
+            button.className = 'tts-help-button';
+            button.innerHTML = '🌵';
+            button.title = '發音異常 - 點擊查看解決方案';
+            button.onclick = showSamsungTTSGuide;
+            
+            // 添加樣式
+            const style = document.createElement('style');
+            style.textContent = `
+                .tts-help-button {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+                    color: white;
+                    border: none;
+                    padding: 12px 16px;
+                    border-radius: 50%;
+                    font-size: 28px;
+                    cursor: pointer;
+                    z-index: 9999;
+                    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+                    transition: all 0.3s ease;
+                    animation: pulse 2s ease-in-out infinite;
+                    width: 56px;
+                    height: 56px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    line-height: 1;
+                }
+                
+                .tts-help-button:hover {
+                    transform: translateY(-2px) scale(1.05);
+                    box-shadow: 0 6px 16px rgba(46, 204, 113, 0.5);
+                }
+                
+                .tts-help-button:active {
+                    transform: translateY(0) scale(0.98);
+                }
+                
+                @keyframes pulse {
+                    0%, 100% {
+                        box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+                        transform: scale(1);
+                    }
+                    50% {
+                        box-shadow: 0 4px 20px rgba(46, 204, 113, 0.7);
+                        transform: scale(1.05);
+                    }
+                }
+                
+                /* 手機適配 */
+                @media (max-width: 600px) {
+                    .tts-help-button {
+                        top: 15px;
+                        right: 15px;
+                        width: 50px;
+                        height: 50px;
+                        font-size: 24px;
+                        padding: 10px;
+                    }
+                }
+            `;
+            
+            document.head.appendChild(style);
+            document.body.appendChild(button);
+            
+            console.log('✅ 仙人掌按鈕已顯示在右上角');
+            
+            // 在 Console 顯示明顯的提示
+            console.log('%c🌵 發音異常按鈕已顯示！', 'font-size: 20px; color: #2ecc71; font-weight: bold;');
+        }
+        
+        // 使用第三方 API TTS 播放
+        function playWithAPITTS(text) {
+            console.log('=== API TTS 播放 ===');
+            console.log('文字:', text);
+            
+            // 檢查快取
+            const cacheKey = `${text}_${speechRate}`;
+            if (audioCache[cacheKey]) {
+                console.log('✅ 使用快取的音檔');
+                playAudioFile(audioCache[cacheKey], text);
+                return;
+            }
+            
+            try {
+                // 構建 VoiceRSS API URL
+                const apiUrl = 'https://api.voicerss.org/';
+                const params = new URLSearchParams({
+                    key: VOICERSS_API_KEY,
+                    hl: 'es-es',  // 西班牙語（西班牙）
+                    src: text,
+                    r: Math.round((speechRate - 1) * 10).toString(),  // 語速轉換
+                    c: 'MP3',
+                    f: '44khz_16bit_stereo'
+                });
+                
+                const audioUrl = `${apiUrl}?${params.toString()}`;
+                console.log('API URL 已構建');
+                
+                // 創建音檔物件
+                currentAudio = new Audio(audioUrl);
+                
+                // 事件處理
+                currentAudio.onloadstart = function() {
+                    console.log('⏳ API TTS 開始載入...');
+                };
+                
+                currentAudio.onloadeddata = function() {
+                    console.log('✅ API TTS 載入成功');
+                    // 加入快取
+                    audioCache[cacheKey] = audioUrl;
+                };
+                
+                currentAudio.oncanplay = function() {
+                    console.log('✅ API TTS 可以播放');
+                };
+                
+                currentAudio.onplay = function() {
+                    console.log('✅ API TTS 開始播放');
+                };
+                
+                currentAudio.onended = function() {
+                    console.log('✅ API TTS 播放完成');
+                    currentAudio = null;
+                };
+                
+                currentAudio.onerror = function(e) {
+                    console.error('❌ API TTS 載入失敗:', e);
+                    console.error('錯誤代碼:', currentAudio.error ? currentAudio.error.code : 'unknown');
+                    
+                    currentAudio = null;
+                    
+                    // API 也失敗了，顯示錯誤
+                    console.error('❌ API TTS 也失敗，無法播放');
+                    showTTSError();
+                };
+                
+                // 開始播放
+                currentAudio.play().then(() => {
+                    console.log('✅ API TTS 播放指令成功');
+                }).catch(err => {
+                    console.error('❌ API TTS 播放失敗:', err);
+                    currentAudio = null;
+                    showTTSError();
+                });
+                
+            } catch (error) {
+                console.error('❌ API TTS 錯誤:', error);
+                currentAudio = null;
+                showTTSError();
+            }
+        }
+        
+        // 停止當前播放（音檔或TTS）
+        function stopCurrentPlayback() {
+            // 停止音檔播放
+            if (currentAudio) {
+                try {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                    currentAudio = null;
+                    console.log('✅ 已停止音檔播放');
+                } catch (e) {
+                    console.error('停止音檔時出錯:', e);
+                }
+            }
+            
+            // 停止 TTS 播放
+            try {
+                window.speechSynthesis.cancel();
+                console.log('✅ 已停止 TTS 播放');
+            } catch (e) {
+                console.error('停止 TTS 時出錯:', e);
+            }
+        }
+        
+        // 播放音檔
+        function playAudioFile(audioFile, text) {
+            console.log('準備播放音檔:', audioFile);
+            
+            try {
+                currentAudio = new Audio(audioFile);
+                
+                // 設置播放速度
+                currentAudio.playbackRate = speechRate;
+                console.log('音檔播放速度:', speechRate);
+                
+                // 事件處理
+                currentAudio.onloadeddata = function() {
+                    console.log('✅ 音檔載入成功');
+                };
+                
+                currentAudio.oncanplay = function() {
+                    console.log('✅ 音檔可以播放');
+                };
+                
+                currentAudio.onplay = function() {
+                    console.log('✅ 音檔開始播放');
+                };
+                
+                currentAudio.onended = function() {
+                    console.log('✅ 音檔播放完成');
+                    currentAudio = null;
+                };
+                
+                currentAudio.onerror = function(e) {
+                    console.error('❌ 音檔載入失敗:', e);
+                    console.error('錯誤代碼:', currentAudio.error ? currentAudio.error.code : 'unknown');
+                    console.log('📢 回退到 TTS 播放...');
+                    
+                    currentAudio = null;
+                    
+                    // 回退到 TTS
+                    speakWithTTS(text);
+                };
+                
+                // 開始播放
+                currentAudio.play().then(() => {
+                    console.log('✅ 音檔播放指令成功');
+                }).catch(err => {
+                    console.error('❌ 音檔播放失敗:', err);
+                    console.log('📢 回退到 TTS 播放...');
+                    
+                    currentAudio = null;
+                    
+                    // 回退到 TTS
+                    speakWithTTS(text);
+                });
+                
+            } catch (error) {
+                console.error('❌ 音檔播放錯誤:', error);
+                console.log('📢 回退到 TTS 播放...');
+                
+                currentAudio = null;
+                
+                // 回退到 TTS
+                speakWithTTS(text);
+            }
+        }
+        
+        // 使用 TTS 播放（原本的 speak 邏輯）
+        // speakWithTTS - 為了向後兼容保留的包裝器
+        function speakWithTTS(text) {
+            console.log('=== speakWithTTS (包裝器) ===');
+            // 調用新的 speakWithLocalTTS
+            speakWithLocalTTS(text).catch(error => {
+                console.error('TTS 播放失敗:', error);
+            });
         }
 
         // 檢測是否為移動設備
@@ -2507,34 +3397,108 @@
             }
         }
 
-        // 解鎖音頻
+        // 解鎖音頻 - 簡化強化版
         function unlockAudio() {
-            // 播放一個靜音來解鎖音頻上下文
-            const msg = new SpeechSynthesisUtterance('');
-            msg.volume = 0;
-            window.speechSynthesis.speak(msg);
+            console.log('=== 開始解鎖音頻 ===');
             
-            // 等待一下確保解鎖
-            setTimeout(() => {
-                // 播放一個測試音來確認
-                const testMsg = new SpeechSynthesisUtterance('Hola');
-                testMsg.lang = 'es-ES';
-                testMsg.rate = speechRate;
-                if (selectedVoice) {
+            // 立即標記為已解鎖（不等待事件）
+            audioUnlocked = true;
+            console.log('✅ 音頻已標記為解鎖');
+            
+            // 儲存解鎖狀態
+            try {
+                localStorage.setItem('audioUnlocked', 'true');
+                console.log('✅ 解鎖狀態已儲存');
+            } catch (e) {
+                console.log('⚠️ 無法儲存音頻解鎖狀態:', e);
+            }
+            
+            // 隱藏橫幅
+            hideAudioUnlockBanner();
+            console.log('✅ 解鎖橫幅已隱藏');
+            
+            try {
+                // 確保語音列表已載入
+                if (availableVoices.length === 0) {
+                    console.log('重新載入語音列表...');
+                    availableVoices = window.speechSynthesis.getVoices();
+                    console.log('找到', availableVoices.length, '個語音');
+                }
+                
+                // 重新選擇語音（確保有有效的語音）
+                const spanishVoices = availableVoices.filter(voice => 
+                    voice.lang.startsWith('es') || voice.lang.startsWith('ES')
+                );
+                
+                console.log('找到', spanishVoices.length, '個西班牙語語音');
+                
+                if (spanishVoices.length > 0) {
+                    if (!selectedVoice) {
+                        selectedVoice = spanishVoices[0];
+                        console.log('✅ 選擇預設語音:', selectedVoice.name);
+                    } else {
+                        console.log('✅ 使用已選擇的語音:', selectedVoice.name);
+                    }
+                    
+                    // 播放測試音（不依賴onstart事件）
+                    console.log('播放測試音...');
+                    const testMsg = new SpeechSynthesisUtterance('Hola');
+                    testMsg.lang = 'es-ES';
+                    testMsg.rate = 0.8;
                     testMsg.voice = selectedVoice;
+                    
+                    // 添加事件監聽用於日誌（但不依賴它們來設置解鎖狀態）
+                    testMsg.onstart = function() {
+                        console.log('✅ 測試音開始播放');
+                    };
+                    
+                    testMsg.onend = function() {
+                        console.log('✅ 測試音播放完成');
+                        // 顯示成功提示
+                        showSuccessMessage();
+                    };
+                    
+                    testMsg.onerror = function(event) {
+                        console.error('❌ 測試音播放錯誤:', event.error);
+                        // 即使測試音失敗，解鎖狀態仍然保持
+                        showErrorMessage(event.error);
+                    };
+                    
+                    window.speechSynthesis.speak(testMsg);
+                } else {
+                    console.warn('⚠️ 沒有可用的西班牙語語音');
+                    alert('未找到西班牙語語音。\n\n請到手機設定中安裝西班牙語語音包：\n設定 → Google → 語音輸入 → 語言 → 西班牙語（西班牙）');
                 }
-                window.speechSynthesis.speak(testMsg);
                 
-                audioUnlocked = true;
-                hideAudioUnlockBanner();
-                
-                // 儲存解鎖狀態
-                try {
-                    localStorage.setItem('audioUnlocked', 'true');
-                } catch (e) {
-                    console.log('無法儲存音頻解鎖狀態');
-                }
-            }, 100);
+            } catch (error) {
+                console.error('❌ 音頻解鎖錯誤:', error);
+                // 即使出錯，解鎖狀態也保持為true
+                alert('音頻解鎖完成，但測試音播放時出現問題。您仍可嘗試點擊🔊按鈕播放語音。');
+            }
+            
+            console.log('=== 解鎖流程完成 ===');
+        }
+        
+        // 顯示成功訊息
+        function showSuccessMessage() {
+            const banner = document.getElementById('audioUnlockBanner');
+            if (banner && !banner.classList.contains('show')) {
+                // 暫時顯示成功訊息
+                const tempDiv = document.createElement('div');
+                tempDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#4CAF50;color:white;padding:15px 30px;border-radius:8px;z-index:10001;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
+                tempDiv.textContent = '✅ 語音功能已啟用！';
+                document.body.appendChild(tempDiv);
+                setTimeout(() => tempDiv.remove(), 2000);
+            }
+        }
+        
+        // 顯示錯誤訊息
+        function showErrorMessage(error) {
+            const tempDiv = document.createElement('div');
+            tempDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#f44336;color:white;padding:15px 30px;border-radius:8px;z-index:10001;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-size:14px;max-width:80%;text-align:center;';
+            tempDiv.innerHTML = `⚠️ 測試音播放失敗<br><small>但您仍可嘗試點擊🔊按鈕</small>`;
+            document.body.appendChild(tempDiv);
+            setTimeout(() => tempDiv.remove(), 3000);
         }
 
         // Toggle Detail
@@ -2763,38 +3727,223 @@
 
         // Audio Unlock Initialization
         const unlockAudioBtn = document.getElementById('unlockAudioBtn');
+        const diagnosticBtn = document.getElementById('diagnosticBtn');
+        const testSpeakBtn = document.getElementById('testSpeakBtn');
         
         if (unlockAudioBtn) {
             unlockAudioBtn.addEventListener('click', unlockAudio);
         }
+        
+        // 直接測試播音按鈕
+        if (testSpeakBtn) {
+            testSpeakBtn.addEventListener('click', function() {
+                console.log('=== 直接測試播音 ===');
+                
+                // 先確保解鎖
+                if (!audioUnlocked) {
+                    audioUnlocked = true;
+                    try {
+                        localStorage.setItem('audioUnlocked', 'true');
+                    } catch (e) {}
+                    console.log('✅ 音頻已解鎖');
+                }
+                
+                // 測試短句
+                const testTexts = [
+                    'Hola',
+                    'Buenos días',
+                    'Gracias'
+                ];
+                
+                const randomText = testTexts[Math.floor(Math.random() * testTexts.length)];
+                console.log('測試文字:', randomText);
+                
+                // 直接調用speak函數
+                speak(randomText);
+            });
+        }
+        
+        // 診斷語音系統
+        if (diagnosticBtn) {
+            diagnosticBtn.addEventListener('click', function() {
+                console.log('=== 開始診斷 ===');
+                
+                // 點擊診斷按鈕也算是用戶互動，可以解鎖音頻
+                if (!audioUnlocked && isMobileDevice()) {
+                    console.log('診斷時自動解鎖音頻');
+                    audioUnlocked = true;
+                    try {
+                        localStorage.setItem('audioUnlocked', 'true');
+                    } catch (e) {
+                        console.log('無法儲存解鎖狀態');
+                    }
+                }
+                
+                let diagnosticInfo = '🔍 語音系統診斷報告\n\n';
+                
+                // 1. 檢查語音合成API支援
+                diagnosticInfo += '1. 語音合成API: ';
+                if ('speechSynthesis' in window) {
+                    diagnosticInfo += '✅ 支援\n';
+                } else {
+                    diagnosticInfo += '❌ 不支援\n';
+                }
+                
+                // 2. 檢查可用語音數量
+                const voices = window.speechSynthesis.getVoices();
+                diagnosticInfo += '\n2. 可用語音總數: ' + voices.length + '\n';
+                
+                // 3. 檢查西班牙語語音
+                const spanishVoices = voices.filter(v => 
+                    v.lang.startsWith('es') || v.lang.startsWith('ES')
+                );
+                diagnosticInfo += '\n3. 西班牙語語音: ' + spanishVoices.length + '\n';
+                if (spanishVoices.length > 0) {
+                    spanishVoices.forEach(v => {
+                        diagnosticInfo += '   - ' + v.name + ' (' + v.lang + ')\n';
+                    });
+                }
+                
+                // 4. 當前選擇的語音
+                diagnosticInfo += '\n4. 當前語音: ';
+                if (selectedVoice) {
+                    diagnosticInfo += selectedVoice.name + ' (' + selectedVoice.lang + ')\n';
+                } else {
+                    diagnosticInfo += '❌ 未選擇\n';
+                }
+                
+                // 5. 設備資訊
+                diagnosticInfo += '\n5. 設備類型: ';
+                diagnosticInfo += isMobileDevice() ? '📱 行動裝置\n' : '💻 桌面裝置\n';
+                diagnosticInfo += '\n6. 用戶代理: ' + navigator.userAgent.substring(0, 50) + '...\n';
+                
+                // 7. 音頻解鎖狀態
+                diagnosticInfo += '\n7. 音頻解鎖: ' + (audioUnlocked ? '✅ 已解鎖' : '❌ 未解鎖') + '\n';
+                
+                // 8. 當前語速
+                diagnosticInfo += '\n8. 當前語速: ' + speechRate + 'x\n';
+                
+                // 顯示診斷資訊
+                alert(diagnosticInfo);
+                
+                // 也輸出到console
+                console.log(diagnosticInfo);
+                
+                // 嘗試播放測試音
+                console.log('嘗試播放測試音...');
+                const testMsg = new SpeechSynthesisUtterance('Hola, esto es una prueba');
+                testMsg.lang = 'es-ES';
+                testMsg.rate = 0.8;
+                
+                if (selectedVoice) {
+                    testMsg.voice = selectedVoice;
+                }
+                
+                testMsg.onstart = function() {
+                    console.log('✅ 測試音開始播放');
+                };
+                
+                testMsg.onend = function() {
+                    console.log('✅ 測試音播放完成');
+                };
+                
+                testMsg.onerror = function(event) {
+                    console.error('❌ 測試音播放錯誤:', event);
+                    alert('測試音播放失敗！錯誤: ' + event.error);
+                };
+                
+                window.speechSynthesis.speak(testMsg);
+            });
+        }
 
         // 檢查是否已經解鎖過（僅在桌面或已解鎖的移動設備）
+        console.log('初始化音頻系統...');
+        console.log('設備類型:', isMobileDevice() ? '行動裝置' : '桌面裝置');
+        console.log('用戶代理:', navigator.userAgent);
+        
         if (!isMobileDevice()) {
             audioUnlocked = true;
+            console.log('桌面設備，自動解鎖音頻');
         } else {
             try {
                 const wasUnlocked = localStorage.getItem('audioUnlocked');
                 if (wasUnlocked === 'true') {
                     audioUnlocked = true;
+                    console.log('從localStorage讀取到已解鎖狀態');
+                } else {
+                    console.log('行動裝置，需要用戶手動解鎖音頻');
+                    // 立即顯示解鎖橫幅
+                    setTimeout(() => {
+                        showAudioUnlockBanner();
+                        console.log('顯示音頻解鎖橫幅');
+                    }, 1000); // 等待1秒後顯示，讓頁面完全載入
                 }
             } catch (e) {
-                console.log('無法讀取音頻解鎖狀態');
+                console.log('無法讀取音頻解鎖狀態:', e);
+                // 如果讀取失敗，也顯示橫幅
+                setTimeout(() => {
+                    showAudioUnlockBanner();
+                }, 1000);
             }
+        }
+        
+        // 檢查語音合成API
+        if ('speechSynthesis' in window) {
+            console.log('✅ 語音合成API支援');
+        } else {
+            console.error('❌ 語音合成API不支援');
+            alert('您的設備不支援語音合成功能，將無法播放語音。');
         }
 
         // Voice Selection Initialization
         const voiceSelect = document.getElementById('voiceSelect');
+        let voicesLoaded = false;
+        let voiceChangeListenerAdded = false; // 追蹤是否已添加監聽器
         
         function loadVoices() {
+            console.log('嘗試載入語音...');
+            
+            // 如果使用 API TTS，顯示提示
+            if (USE_API_TTS && VOICERSS_API_KEY && VOICERSS_API_KEY !== 'YOUR_VOICERSS_API_KEY') {
+                console.log('✅ 使用第三方 API TTS');
+                if (voiceSelect) {
+                    voiceSelect.innerHTML = '<option>🌐 使用第三方 TTS API（高品質）</option>';
+                    voiceSelect.disabled = true;
+                }
+                return true;
+            }
+            
+            // 如果 API key 未設定，顯示提示
+            if (USE_API_TTS && (!VOICERSS_API_KEY || VOICERSS_API_KEY === 'YOUR_VOICERSS_API_KEY')) {
+                console.warn('⚠️ API TTS 已啟用但未設定 API key，使用本地 TTS');
+                if (voiceSelect) {
+                    voiceSelect.innerHTML = '<option>⚠️ API key 未設定，使用本地 TTS</option>';
+                }
+            }
+            
             availableVoices = window.speechSynthesis.getVoices();
+            console.log('找到', availableVoices.length, '個語音');
+            
+            // 列出所有語音用於調試
+            if (availableVoices.length > 0) {
+                console.log('所有可用語音:');
+                availableVoices.forEach((v, i) => {
+                    console.log(`  ${i}: ${v.name} (${v.lang}) ${v.localService ? '[本地]' : '[遠端]'}`);
+                });
+            }
             
             // 過濾出西班牙語語音
             const spanishVoices = availableVoices.filter(voice => 
                 voice.lang.startsWith('es') || voice.lang.startsWith('ES')
             );
             
+            console.log('找到', spanishVoices.length, '個西班牙語語音');
+            
             if (voiceSelect && spanishVoices.length > 0) {
                 voiceSelect.innerHTML = '';
+                voicesLoaded = true;
+                
+                let foundMale = false;
                 
                 spanishVoices.forEach((voice, index) => {
                     const option = document.createElement('option');
@@ -2817,10 +3966,14 @@
                     option.textContent = `${voice.name} (${voice.lang})${genderBadge}`;
                     voiceSelect.appendChild(option);
                     
+                    console.log(`語音選項 ${index}:`, voice.name, voice.lang, voice.localService ? '本地' : '遠端');
+                    
                     // 預設選擇第一個男聲（如果有的話）
-                    if (isMale && !selectedVoice) {
+                    if (isMale && !foundMale && !selectedVoice) {
                         selectedVoice = voice;
                         option.selected = true;
+                        foundMale = true;
+                        console.log('✅ 選擇預設男聲:', voice.name, voice.lang);
                     }
                 });
                 
@@ -2828,29 +3981,155 @@
                 if (!selectedVoice && spanishVoices.length > 0) {
                     selectedVoice = spanishVoices[0];
                     voiceSelect.selectedIndex = 0;
+                    console.log('✅ 使用第一個語音:', selectedVoice.name, selectedVoice.lang);
                 }
                 
-                // 監聽語音選擇變化
-                voiceSelect.addEventListener('change', (e) => {
-                    const voiceIndex = parseInt(e.target.value);
-                    selectedVoice = spanishVoices[voiceIndex];
-                    
-                    // 試聽選擇的語音
-                    speak('Hola');
-                });
+                // 只添加一次監聽器
+                if (!voiceChangeListenerAdded) {
+                    voiceSelect.addEventListener('change', (e) => {
+                        const voiceIndex = parseInt(e.target.value);
+                        selectedVoice = spanishVoices[voiceIndex];
+                        console.log('=== 切換語音 ===');
+                        console.log('新語音:', selectedVoice.name, selectedVoice.lang);
+                        console.log('本地服務:', selectedVoice.localService);
+                        
+                        // 試聽選擇的語音
+                        speak('Hola');
+                    });
+                    voiceChangeListenerAdded = true;
+                    console.log('✅ 語音選擇監聽器已添加');
+                }
             } else if (voiceSelect) {
-                voiceSelect.innerHTML = '<option>無可用的西班牙語語音</option>';
+                if (spanishVoices.length === 0) {
+                    console.warn('⚠️ 沒有找到西班牙語語音');
+                    voiceSelect.innerHTML = '<option>無可用的西班牙語語音（請檢查系統設定）</option>';
+                }
             }
+            
+            return spanishVoices.length > 0;
         }
         
         // 載入語音（某些瀏覽器需要等待）
+        // 從 localStorage 讀取 TTS 狀態
+        const storedTTSStatus = localStorage.getItem('localTTSAvailable');
+        if (storedTTSStatus) {
+            localTTSAvailable = storedTTSStatus === 'true';
+            console.log('從緩存讀取 TTS 狀態:', localTTSAvailable ? '可用' : '不可用');
+        }
+        
+        // 多次嘗試載入語音，因為有些設備需要時間
+        let voiceLoadAttempts = 0;
+        const maxVoiceLoadAttempts = 5;
+        
+        function tryLoadVoices() {
+            const loaded = loadVoices();
+            voiceLoadAttempts++;
+            
+            if (!loaded && voiceLoadAttempts < maxVoiceLoadAttempts) {
+                console.log('語音尚未載入，第', voiceLoadAttempts, '次嘗試...');
+                setTimeout(tryLoadVoices, 500);
+            } else if (loaded) {
+                console.log('語音載入成功！');
+            } else {
+                console.warn('無法載入語音，已嘗試', maxVoiceLoadAttempts, '次');
+            }
+        }
+        
         if (window.speechSynthesis.onvoiceschanged !== undefined) {
             window.speechSynthesis.onvoiceschanged = loadVoices;
         }
-        loadVoices(); // 立即嘗試載入
+        
+        // 立即嘗試載入，如果失敗則重試
+        tryLoadVoices();
 
         // Initial Render
         renderContent();
+        
+        // 初始化三星 TTS 引導（延遲執行，等待頁面完全載入）
+        setTimeout(async () => {
+            await initSamsungTTSGuide();
+            
+            // 在三星設備上自動顯示調試面板（幫助排查問題）
+            // 或者當 URL 包含 ?debug 時也顯示
+            if (isSamsung || window.location.search.includes('debug')) {
+                setTimeout(() => {
+                    showDebugPanel();
+                }, 500);
+            }
+        }, 1000);
+        
+        // 調試面板（顯示檢測結果）
+        function showDebugPanel() {
+            // 避免重複創建
+            if (document.querySelector('.debug-panel')) {
+                return;
+            }
+            
+            const panel = document.createElement('div');
+            panel.className = 'debug-panel';
+            panel.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.95);
+                color: #0f0;
+                padding: 15px;
+                border-radius: 8px;
+                font-family: monospace;
+                font-size: 12px;
+                z-index: 9998;
+                max-width: 320px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+                border: 2px solid #2ecc71;
+            `;
+            
+            updateDebugPanel(panel);
+            
+            document.body.appendChild(panel);
+            
+            console.log('🔍 調試面板已顯示在左下角');
+        }
+        
+        // 更新調試面板內容
+        function updateDebugPanel(panel) {
+            if (!panel) {
+                panel = document.querySelector('.debug-panel');
+            }
+            if (!panel) return;
+            
+            const ttsStatusColor = localTTSAvailable === null ? '#ff0' : localTTSAvailable ? '#0f0' : '#f00';
+            const ttsStatusText = localTTSAvailable === null ? '測試中...' : localTTSAvailable ? '✅ 正常' : '❌ 異常';
+            const cactusButtonExists = !!document.querySelector('.tts-help-button');
+            
+            panel.innerHTML = `
+                <div style="color: #fff; font-weight: bold; margin-bottom: 10px; font-size: 14px;">🔍 TTS 檢測狀態</div>
+                <div style="margin-bottom: 5px;">三星設備: <span style="color: ${isSamsung ? '#0f0' : '#f00'}; font-weight: bold;">${isSamsung ? '✅ 是' : '❌ 否'}</span></div>
+                <div style="margin-bottom: 5px;">型號: <span style="color: #0ff">${samsungModel || '未檢測到'}</span></div>
+                <div style="margin-bottom: 5px;">TTS 狀態: <span style="color: ${ttsStatusColor}; font-weight: bold;">${ttsStatusText}</span></div>
+                <div style="margin-bottom: 5px;">API 偏好: <span style="color: #0ff">${localStorage.getItem('preferAPITTS') === 'true' ? '已啟用' : '未設定'}</span></div>
+                <div style="margin-bottom: 10px;">🌵 按鈕: <span style="color: ${cactusButtonExists ? '#0f0' : '#f00'}; font-weight: bold;">${cactusButtonExists ? '✅ 已顯示' : '❌ 未顯示'}</span></div>
+                <div style="border-top: 1px solid #555; padding-top: 10px; margin-top: 10px;">
+                    <button onclick="window.forceShowCactusButton(); setTimeout(() => updateDebugPanel(), 100);" style="padding: 6px 12px; background: #2ecc71; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; margin-bottom: 5px; width: 100%;">
+                        🌵 強制顯示仙人掌
+                    </button>
+                    <button onclick="window.testTTSStatus().then(() => setTimeout(() => updateDebugPanel(), 200));" style="padding: 6px 12px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; margin-bottom: 5px; width: 100%;">
+                        🔄 重新測試 TTS
+                    </button>
+                    <button onclick="localStorage.clear(); location.reload();" style="padding: 6px 12px; background: #f39c12; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; margin-bottom: 5px; width: 100%;">
+                        🗑️ 清除緩存並重載
+                    </button>
+                    <button onclick="this.parentElement.parentElement.remove()" style="padding: 6px 12px; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; width: 100%;">
+                        ❌ 關閉面板
+                    </button>
+                </div>
+                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #555; font-size: 10px; color: #888;">
+                    提示：在 Console 輸入 <span style="color: #0ff;">forceShowCactusButton()</span> 也可以顯示按鈕
+                </div>
+            `;
+        }
+        
+        // 讓 updateDebugPanel 可以在全域使用
+        window.updateDebugPanel = updateDebugPanel;
     </script>
 </body>
 </html>
