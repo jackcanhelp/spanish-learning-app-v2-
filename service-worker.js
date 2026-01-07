@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spanish-learning-v1.0.5'; //index.html更新(三星手機播音改善指引)
+const CACHE_NAME = 'spanish-learning-v1.0.6'; //index.html更新(三星手機播音改善指引)
 const urlsToCache = [
   './',
   './index.html',
