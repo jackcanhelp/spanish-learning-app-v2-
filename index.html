@@ -2387,12 +2387,6 @@
         let USE_AUDIO_FILES = false; // 不使用預錄音檔
         let currentAudio = null; // 當前播放的音檔物件
         
-        // TTS 策略設定（本地優先）
-        const USE_LOCAL_TTS_FIRST = true; // 優先使用本地 TTS
-        const USE_API_TTS = true; // 啟用 API TTS 作為備用
-        const VOICERSS_API_KEY = 'YOUR_VOICERSS_API_KEY'; // 請替換為你的 VoiceRSS API key
-        const audioCache = {}; // 音檔快取（減少重複請求）
-        
         // 記住用戶的 TTS 狀態（避免重複測試）
         let localTTSAvailable = null; // null=未測試, true=可用, false=不可用
         
@@ -2486,7 +2480,7 @@
         function speak(text, audioFile) {
             console.log('=== speak() 被調用 ===');
             console.log('文字:', text);
-            console.log('策略: 本地 TTS 優先 → API TTS 備用');
+            console.log('策略: 只使用本地 TTS');
             
             // 檢查音頻是否已解鎖（主要針對手機）
             if (!audioUnlocked && isMobileDevice()) {
@@ -2497,47 +2491,21 @@
 
             // 停止當前播放
             stopCurrentPlayback();
-
-            // 如果記錄顯示本地 TTS 不可用，直接用 API
-            if (localTTSAvailable === false) {
-                console.log('⚡ 本地 TTS 已知不可用，直接使用 API');
-                if (USE_API_TTS && VOICERSS_API_KEY && VOICERSS_API_KEY !== 'YOUR_VOICERSS_API_KEY') {
-                    playWithAPITTS(text);
-                } else {
-                    console.error('❌ API TTS 未配置');
-                    showTTSError();
-                }
-                return;
-            }
             
-            // 優先嘗試本地 TTS
-            if (USE_LOCAL_TTS_FIRST) {
-                console.log('🎯 嘗試本地 TTS...');
-                speakWithLocalTTS(text)
-                    .catch(error => {
-                        console.error('❌ 本地 TTS 失敗:', error);
-                        
-                        // 記錄本地 TTS 不可用
-                        localTTSAvailable = false;
-                        localStorage.setItem('localTTSAvailable', 'false');
-                        
-                        // 降級到 API TTS
-                        if (USE_API_TTS && VOICERSS_API_KEY && VOICERSS_API_KEY !== 'YOUR_VOICERSS_API_KEY') {
-                            console.log('📢 降級到 API TTS...');
-                            playWithAPITTS(text);
-                        } else {
-                            console.error('❌ API TTS 未配置，無法播放');
-                            showTTSError();
-                        }
-                    });
-            } else {
-                // 如果禁用本地優先，直接用 API
-                if (USE_API_TTS && VOICERSS_API_KEY && VOICERSS_API_KEY !== 'YOUR_VOICERSS_API_KEY') {
-                    playWithAPITTS(text);
-                } else {
-                    speakWithLocalTTS(text);
-                }
-            }
+            // 使用本地 TTS
+            console.log('🎯 使用本地 TTS...');
+            speakWithLocalTTS(text)
+                .catch(error => {
+                    console.error('❌ 本地 TTS 失敗:', error);
+                    
+                    // 記錄本地 TTS 不可用
+                    localTTSAvailable = false;
+                    localStorage.setItem('localTTSAvailable', 'false');
+                    
+                    // 顯示錯誤提示
+                    console.error('❌ TTS 無法使用，請檢查設定');
+                    showTTSError();
+                });
         }
         
         // 使用本地 TTS 播放（返回 Promise）
@@ -2632,13 +2600,8 @@
             errorMsg.innerHTML = `
                 <div style="background: #ff6b6b; color: white; padding: 15px; border-radius: 8px; margin: 10px; text-align: center;">
                     <h3>❌ 語音播放失敗</h3>
-                    <p>本地 TTS 和 API TTS 都無法使用。</p>
-                    <p>請檢查：</p>
-                    <ul style="list-style: none; padding: 0;">
-                        <li>✓ 系統 TTS 設定（設定 → 文字轉語音）</li>
-                        <li>✓ API key 是否正確配置</li>
-                        <li>✓ 網路連線是否正常</li>
-                    </ul>
+                    <p>本地 TTS 無法使用。</p>
+                    <p>請點擊右上角 🌵 按鈕查看設定步驟</p>
                     <button onclick="this.parentElement.remove()" style="margin-top: 10px; padding: 8px 16px; background: white; border: none; border-radius: 4px; cursor: pointer;">
                         關閉
                     </button>
@@ -2986,34 +2949,6 @@
             }
         };
         
-        // 使用 API TTS
-        window.useSamsungAPITTS = function() {
-            console.log('用戶選擇使用 API TTS');
-            
-            // 記錄偏好
-            localStorage.setItem('preferAPITTS', 'true');
-            localStorage.setItem('samsungGuideAction', 'api');
-            
-            // 強制使用 API
-            localTTSAvailable = false;
-            
-            // 關閉引導
-            dismissSamsungGuide();
-            
-            // 隱藏右上角按鈕
-            hideTTSHelpButton();
-            
-            // 顯示提示
-            const toast = document.createElement('div');
-            toast.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #2e7d32; color: white; padding: 12px 24px; border-radius: 8px; z-index: 10001; animation: fadeIn 0.3s ease;';
-            toast.textContent = '✅ 已切換到線上語音模式';
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
-        };
-        
         // 關閉引導
         window.dismissSamsungGuide = function() {
             console.log('關閉三星引導界面');
@@ -3028,17 +2963,6 @@
                 }, 300);
             }
         };
-        
-        // 隱藏右上角的幫助按鈕（當問題解決後）
-        function hideTTSHelpButton() {
-            const button = document.querySelector('.tts-help-button');
-            if (button) {
-                button.style.animation = 'fadeOut 0.3s ease';
-                setTimeout(() => {
-                    button.remove();
-                }, 300);
-            }
-        }
         
         // 自動檢測和引導（在頁面載入時執行）
         async function initSamsungTTSGuide() {
@@ -3058,16 +2982,6 @@
             samsungModel = getSamsungModel();
             console.log('📱 三星型號:', samsungModel);
             console.log('User Agent:', navigator.userAgent);
-            
-            // 檢查用戶是否選擇使用 API
-            const preferAPI = localStorage.getItem('preferAPITTS');
-            console.log('💾 用戶 API 偏好:', preferAPI);
-            
-            if (preferAPI === 'true') {
-                console.log('✅ 用戶偏好使用 API TTS，跳過檢測');
-                localTTSAvailable = false;
-                return;
-            }
             
             // 測試 TTS
             console.log('🧪 開始測試 TTS 可用性...');
@@ -3100,7 +3014,6 @@
             console.log('是否為三星:', isSamsungDevice());
             console.log('型號:', getSamsungModel());
             console.log('User Agent:', navigator.userAgent);
-            console.log('API 偏好:', localStorage.getItem('preferAPITTS'));
             
             try {
                 await testTTSAvailability();
@@ -3195,88 +3108,6 @@
             
             // 在 Console 顯示明顯的提示
             console.log('%c🌵 發音異常按鈕已顯示！', 'font-size: 20px; color: #2ecc71; font-weight: bold;');
-        }
-        
-        // 使用第三方 API TTS 播放
-        function playWithAPITTS(text) {
-            console.log('=== API TTS 播放 ===');
-            console.log('文字:', text);
-            
-            // 檢查快取
-            const cacheKey = `${text}_${speechRate}`;
-            if (audioCache[cacheKey]) {
-                console.log('✅ 使用快取的音檔');
-                playAudioFile(audioCache[cacheKey], text);
-                return;
-            }
-            
-            try {
-                // 構建 VoiceRSS API URL
-                const apiUrl = 'https://api.voicerss.org/';
-                const params = new URLSearchParams({
-                    key: VOICERSS_API_KEY,
-                    hl: 'es-es',  // 西班牙語（西班牙）
-                    src: text,
-                    r: Math.round((speechRate - 1) * 10).toString(),  // 語速轉換
-                    c: 'MP3',
-                    f: '44khz_16bit_stereo'
-                });
-                
-                const audioUrl = `${apiUrl}?${params.toString()}`;
-                console.log('API URL 已構建');
-                
-                // 創建音檔物件
-                currentAudio = new Audio(audioUrl);
-                
-                // 事件處理
-                currentAudio.onloadstart = function() {
-                    console.log('⏳ API TTS 開始載入...');
-                };
-                
-                currentAudio.onloadeddata = function() {
-                    console.log('✅ API TTS 載入成功');
-                    // 加入快取
-                    audioCache[cacheKey] = audioUrl;
-                };
-                
-                currentAudio.oncanplay = function() {
-                    console.log('✅ API TTS 可以播放');
-                };
-                
-                currentAudio.onplay = function() {
-                    console.log('✅ API TTS 開始播放');
-                };
-                
-                currentAudio.onended = function() {
-                    console.log('✅ API TTS 播放完成');
-                    currentAudio = null;
-                };
-                
-                currentAudio.onerror = function(e) {
-                    console.error('❌ API TTS 載入失敗:', e);
-                    console.error('錯誤代碼:', currentAudio.error ? currentAudio.error.code : 'unknown');
-                    
-                    currentAudio = null;
-                    
-                    // API 也失敗了，顯示錯誤
-                    console.error('❌ API TTS 也失敗，無法播放');
-                    showTTSError();
-                };
-                
-                // 開始播放
-                currentAudio.play().then(() => {
-                    console.log('✅ API TTS 播放指令成功');
-                }).catch(err => {
-                    console.error('❌ API TTS 播放失敗:', err);
-                    currentAudio = null;
-                    showTTSError();
-                });
-                
-            } catch (error) {
-                console.error('❌ API TTS 錯誤:', error);
-                currentAudio = null;
-                showTTSError();
-            }
         }
         
         // 停止當前播放（音檔或TTS）
@@ -3903,24 +3734,6 @@
         function loadVoices() {
             console.log('嘗試載入語音...');
             
-            // 如果使用 API TTS，顯示提示
-            if (USE_API_TTS && VOICERSS_API_KEY && VOICERSS_API_KEY !== 'YOUR_VOICERSS_API_KEY') {
-                console.log('✅ 使用第三方 API TTS');
-                if (voiceSelect) {
-                    voiceSelect.innerHTML = '<option>🌐 使用第三方 TTS API（高品質）</option>';
-                    voiceSelect.disabled = true;
-                }
-                return true;
-            }
-            
-            // 如果 API key 未設定，顯示提示
-            if (USE_API_TTS && (!VOICERSS_API_KEY || VOICERSS_API_KEY === 'YOUR_VOICERSS_API_KEY')) {
-                console.warn('⚠️ API TTS 已啟用但未設定 API key，使用本地 TTS');
-                if (voiceSelect) {
-                    voiceSelect.innerHTML = '<option>⚠️ API key 未設定，使用本地 TTS</option>';
-                }
-            }
-            
             availableVoices = window.speechSynthesis.getVoices();
             console.log('找到', availableVoices.length, '個語音');
             
@@ -4106,7 +3919,6 @@
                 <div style="margin-bottom: 5px;">三星設備: <span style="color: ${isSamsung ? '#0f0' : '#f00'}; font-weight: bold;">${isSamsung ? '✅ 是' : '❌ 否'}</span></div>
                 <div style="margin-bottom: 5px;">型號: <span style="color: #0ff">${samsungModel || '未檢測到'}</span></div>
                 <div style="margin-bottom: 5px;">TTS 狀態: <span style="color: ${ttsStatusColor}; font-weight: bold;">${ttsStatusText}</span></div>
-                <div style="margin-bottom: 5px;">API 偏好: <span style="color: #0ff">${localStorage.getItem('preferAPITTS') === 'true' ? '已啟用' : '未設定'}</span></div>
                 <div style="margin-bottom: 10px;">🌵 按鈕: <span style="color: ${cactusButtonExists ? '#0f0' : '#f00'}; font-weight: bold;">${cactusButtonExists ? '✅ 已顯示' : '❌ 未顯示'}</span></div>
                 <div style="border-top: 1px solid #555; padding-top: 10px; margin-top: 10px;">
                     <button onclick="window.forceShowCactusButton(); setTimeout(() => updateDebugPanel(), 100);" style="padding: 6px 12px; background: #2ecc71; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; margin-bottom: 5px; width: 100%;">
@@ -4121,9 +3933,6 @@
                     <button onclick="this.parentElement.parentElement.remove()" style="padding: 6px 12px; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; width: 100%;">
                         ❌ 關閉面板
                     </button>
-                </div>
-                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #555; font-size: 10px; color: #888;">
-                    提示：在 Console 輸入 <span style="color: #0ff;">forceShowCactusButton()</span> 也可以顯示按鈕
                 </div>
             `;
         }
