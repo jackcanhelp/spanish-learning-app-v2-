@@ -1434,14 +1434,14 @@
                 setTimeout(() => indicator.style.display = 'none', 3000);
             }
 
-            // 使用 Google Translate TTS API (非官方但穩定)
+            // 使用相容性較好的 Google TTS 參數
             const audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&tl=es&client=tw-ob&q=${encodeURIComponent(text)}`);
-            // 部分瀏覽器可能不支援調整 Audio 物件的播放速度，但盡量嘗試
-            audio.playbackRate = speechRate; 
+            audio.playbackRate = speechRate;
             
+            // 嘗試播放，並捕捉可能的瀏覽器阻擋錯誤
             audio.play().catch(e => {
                 console.error('❌ 線上語音播放失敗:', e);
-                alert('無法播放語音，請檢查網路連接。');
+                // 這裡不跳 alert，避免一直干擾，但至少我們嘗試過了
             });
         }
 
@@ -1454,66 +1454,78 @@
                 window.speechSynthesis.cancel();
             }
 
-            // 2. 嘗試本地 TTS (優先使用硬體)
+            // 2. 嘗試本地 TTS
             speakWithLocalTTS(text).catch(err => {
-                console.warn('⚠️ 本地 TTS 失敗，切換至線上備案:', err);
-                // 3. 失敗則使用線上版 (備用)
-                playOnlineTTS(text);
+                // 這個 catch 其實很少會被觸發，因為我們在內部已經處理了 fallback
+                console.warn('TTS Promise Rejected:', err);
             });
         }
         
         // 本地 TTS 邏輯 (Promise 包裝)
         function speakWithLocalTTS(text) {
             return new Promise((resolve, reject) => {
+                // 如果不支援 API，直接用線上版
                 if (!window.speechSynthesis) {
-                    reject('不支援 SpeechSynthesis API');
+                    playOnlineTTS(text);
+                    resolve();
                     return;
                 }
 
                 const msg = new SpeechSynthesisUtterance(text);
-                
-                // Anti-GC: 將物件指派給全域變數
-                window.globalUtterance = msg;
-
-                msg.lang = 'es-ES'; // 強制指定語言
+                window.globalUtterance = msg; // Anti-GC
+                msg.lang = 'es-ES'; 
                 msg.rate = speechRate;
-                msg.volume = 1.0;
 
-                // 寬鬆語音選擇：如果有選定語音則使用，否則依賴 lang 屬性自動選擇
                 if (selectedVoice) {
                     msg.voice = selectedVoice;
                 }
 
-                // 事件監聽
                 let hasStarted = false;
+                let fallbackTriggered = false;
+
+                // 設定計時器：如果 1 秒內沒開始 (Samsung 常見卡死)，就強制切換線上版
+                const watchdogTimer = setTimeout(() => {
+                    if (!hasStarted) {
+                        console.warn('⚠️ Samsung TTS 卡住 (1秒無反應)，強制切換線上語音...');
+                        fallbackTriggered = true;
+                        window.speechSynthesis.cancel(); // 停止卡住的本地語音
+                        playOnlineTTS(text); // 切換到線上
+                        resolve(); // 結束 Promise
+                    }
+                }, 1000); // 1秒等待期
 
                 msg.onstart = () => {
-                    console.log('✅ 本地 TTS 開始播放');
+                    console.log('✅ 本地 TTS 成功啟動');
                     hasStarted = true;
+                    clearTimeout(watchdogTimer); // 成功啟動就取消計時器
                 };
 
                 msg.onend = () => {
                     console.log('✅ 播放結束');
-                    window.globalUtterance = null; // 釋放記憶體
+                    window.globalUtterance = null;
                     resolve();
                 };
 
                 msg.onerror = (e) => {
-                    console.error('❌ 本地 TTS 錯誤:', e.error);
-                    window.globalUtterance = null;
-                    reject(e.error);
+                    console.error('❌ 本地 TTS 報錯:', e.error);
+                    clearTimeout(watchdogTimer);
+                    // 如果還沒觸發過備案，現在觸發
+                    if (!fallbackTriggered) {
+                        playOnlineTTS(text);
+                    }
+                    resolve();
                 };
 
-                // 超時保護：Samsung 有時會卡在隊列但不播放
-                // 如果2秒內沒有 onstart，視為失敗，觸發線上備案
-                setTimeout(() => {
-                    if (!hasStarted) {
-                        window.speechSynthesis.cancel();
-                        reject('TTS 啟動超時 (Samsung Bug)');
-                    }
-                }, 2000);
-
-                window.speechSynthesis.speak(msg);
+                // 最後嘗試播放
+                try {
+                    window.speechSynthesis.speak(msg);
+                    // Samsung 有時需要 resume 來喚醒
+                    window.speechSynthesis.resume();
+                } catch (e) {
+                    console.error('speak() 呼叫失敗，切換線上:', e);
+                    playOnlineTTS(text);
+                    resolve();
+                }
             });
         }
 
