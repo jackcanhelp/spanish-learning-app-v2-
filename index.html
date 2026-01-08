@@ -2520,46 +2520,94 @@
                 });
         }
         
-        // 使用 Google Translate TTS 播放（備用方案）
+        // 使用 Google Translate TTS 播放（備用方案，帶智能記憶）
         function speakWithGoogleTTS(text) {
             return new Promise((resolve, reject) => {
-                console.log('=== Google TTS 播放 ===');
+                console.log('=== Google TTS 播放（智能優化） ===');
                 console.log('文字:', text);
                 
                 try {
                     // Google Translate TTS URL（非官方 API）
-                    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=es&q=${encodeURIComponent(text)}`;
+                    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=es&q=${encodeURIComponent(text)}`;
                     
-                    const audio = new Audio(url);
+                    // 所有備用方案
+                    const allOptions = [
+                        { url: ttsUrl, name: '直接請求', id: 'direct' },
+                        { url: `https://api.allorigins.win/raw?url=${encodeURIComponent(ttsUrl)}`, name: 'AllOrigins', id: 'allorigins' },
+                        { url: `https://corsproxy.io/?${encodeURIComponent(ttsUrl)}`, name: 'CORSProxy', id: 'corsproxy' }
+                    ];
                     
-                    // 設置播放速度（如果支援）
-                    audio.playbackRate = speechRate;
+                    // 讀取上次成功的方案
+                    const lastSuccess = localStorage.getItem('googleTTSSuccess');
                     
-                    audio.oncanplaythrough = function() {
-                        console.log('✅ Google TTS 音檔可以播放');
-                        audio.play()
-                            .then(() => {
-                                console.log('✅ Google TTS 播放成功');
-                                resolve();
-                            })
-                            .catch(error => {
-                                console.error('❌ Google TTS 播放失敗:', error);
-                                reject(error);
-                            });
-                    };
-                    
-                    audio.onerror = function(e) {
-                        console.error('❌ Google TTS 載入失敗:', e);
-                        reject(new Error('Google TTS 載入失敗'));
-                    };
-                    
-                    // 超時機制（5 秒）
-                    setTimeout(() => {
-                        if (audio.readyState < 3) { // HAVE_FUTURE_DATA
-                            console.error('❌ Google TTS 載入超時');
-                            reject(new Error('Google TTS 載入超時'));
+                    // 重新排序：把上次成功的放第一
+                    let urlOptions = [...allOptions];
+                    if (lastSuccess) {
+                        const successIndex = urlOptions.findIndex(opt => opt.id === lastSuccess);
+                        if (successIndex > 0) {
+                            const successOption = urlOptions.splice(successIndex, 1)[0];
+                            urlOptions.unshift(successOption);
+                            console.log(`💡 優先使用上次成功的: ${successOption.name}`);
                         }
-                    }, 5000);
+                    }
+                    
+                    let currentIndex = 0;
+                    let resolved = false;
+                    
+                    function tryNextUrl() {
+                        if (resolved) return;
+                        
+                        if (currentIndex >= urlOptions.length) {
+                            console.error('❌ 所有備用方案都失敗');
+                            reject(new Error('所有 TTS 備用方案都失敗'));
+                            return;
+                        }
+                        
+                        const option = urlOptions[currentIndex];
+                        console.log(`🔄 嘗試 ${currentIndex + 1}/${urlOptions.length}: ${option.name}`);
+                        currentIndex++;
+                        
+                        const audio = new Audio(option.url);
+                        audio.playbackRate = speechRate;
+                        
+                        audio.oncanplaythrough = function() {
+                            if (resolved) return;
+                            console.log(`✅ ${option.name} 音檔載入`);
+                            
+                            audio.play()
+                                .then(() => {
+                                    if (resolved) return;
+                                    resolved = true;
+                                    console.log(`✅ ${option.name} 播放成功`);
+                                    
+                                    // 記住成功的方案
+                                    localStorage.setItem('googleTTSSuccess', option.id);
+                                    
+                                    resolve();
+                                })
+                                .catch(error => {
+                                    if (resolved) return;
+                                    console.log(`❌ ${option.name} 播放失敗`);
+                                    tryNextUrl();
+                                });
+                        };
+                        
+                        audio.onerror = function(e) {
+                            if (resolved) return;
+                            console.log(`❌ ${option.name} 載入失敗`);
+                            tryNextUrl();
+                        };
+                        
+                        // 優化：減少超時到 1.5 秒（更快失敗，更快嘗試下一個）
+                        setTimeout(() => {
+                            if (!resolved && audio.readyState < 3) {
+                                console.log(`⏱️ ${option.name} 超時`);
+                                tryNextUrl();
+                            }
+                        }, 1500);
+                    }
+                    
+                    tryNextUrl();
                     
                 } catch (error) {
                     console.error('❌ Google TTS 錯誤:', error);
@@ -3999,6 +4047,9 @@
                 <div style="margin-bottom: 5px;">TTS 狀態: <span style="color: ${ttsStatusColor}; font-weight: bold;">${ttsStatusText}</span></div>
                 <div style="margin-bottom: 10px;">🌵 按鈕: <span style="color: ${cactusButtonExists ? '#0f0' : '#f00'}; font-weight: bold;">${cactusButtonExists ? '✅ 已顯示' : '❌ 未顯示'}</span></div>
                 <div style="border-top: 1px solid #555; padding-top: 10px; margin-top: 10px;">
+                    <button onclick="window.testGoogleTTS();" style="padding: 6px 12px; background: #9b59b6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; margin-bottom: 5px; width: 100%;">
+                        🔊 測試 Google TTS
+                    </button>
                     <button onclick="window.forceShowCactusButton(); setTimeout(() => updateDebugPanel(), 100);" style="padding: 6px 12px; background: #2ecc71; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; margin-bottom: 5px; width: 100%;">
                         🌵 強制顯示仙人掌
                     </button>
@@ -4012,11 +4063,28 @@
                         ❌ 關閉面板
                     </button>
                 </div>
+                <div id="test-result" style="margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.5); border-radius: 4px; font-size: 11px; display: none;"></div>
             `;
         }
         
         // 讓 updateDebugPanel 可以在全域使用
         window.updateDebugPanel = updateDebugPanel;
+        
+        // 測試 Google TTS（頁面內可視化）
+        window.testGoogleTTS = async function() {
+            const resultDiv = document.getElementById('test-result');
+            if (!resultDiv) return;
+            
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<div style="color: #fff;">🧪 測試 Google TTS...</div>';
+            
+            try {
+                await speakWithGoogleTTS('Hola');
+                resultDiv.innerHTML = '<div style="color: #2ecc71; font-weight: bold;">✅ Google TTS 測試成功！</div><div style="color: #aaa; font-size: 10px; margin-top: 5px;">應該聽到「Hola」</div>';
+            } catch (error) {
+                resultDiv.innerHTML = `<div style="color: #e74c3c; font-weight: bold;">❌ Google TTS 測試失敗</div><div style="color: #aaa; font-size: 10px; margin-top: 5px;">${error.message}</div>`;
+            }
+        };
     </script>
 </body>
 </html>
