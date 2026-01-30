@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spanish-learning-v1.0.10'; //index.html更新(三星手機自動用雲端TTS)
+const CACHE_NAME = 'spanish-learning-v1.0.10'; // index.html更新(三星手機自動用雲端TTS)
 const urlsToCache = [
   './',
   './index.html',
@@ -20,6 +20,23 @@ self.addEventListener('install', event => {
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', event => {
+
+  // 🔥🔥🔥 【通用型防禦代碼】開始 🔥🔥🔥
+  
+  // 1. 取得這個 Service Worker 的管轄範圍 (例如: https://.../spanish-app/)
+  const scope = self.registration.scope;
+  
+  // 2. 智慧判斷邏輯：
+  //    如果請求的網址「不是」以 Scope 開頭 (代表是去別的 Repo，如 /kidney-health/)
+  //    且「不是」我們允許的外部資源 (如 Google Fonts)
+  //    -> 那就不關我的事，直接 return，讓瀏覽器自己去連線，不攔截！
+  if (!event.request.url.startsWith(scope) && !event.request.url.includes('fonts.googleapis.com')) {
+    return; 
+  }
+  
+  // 🔥🔥🔥 【通用型防禦代碼】結束 🔥🔥🔥
+
+
   event.respondWith(
     caches.match(event.request)
       .then(response => {
