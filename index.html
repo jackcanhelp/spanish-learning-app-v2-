@@ -77,8 +77,17 @@
         /* Header Section */
         .app-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            padding: 0;
             animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .app-title {
@@ -1233,14 +1242,631 @@
                 font-size: 1rem;
             }
         }
+
+        /* ===== 每日情境對話 ===== */
+        .dialogue-section {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-top: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .dialogue-header {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .dialogue-header h3 {
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+
+        .dialogue-scene {
+            font-size: 0.95rem;
+            color: #8D6E63;
+            margin-bottom: 14px;
+            font-style: italic;
+        }
+
+        .dialogue-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-play-dialogue,
+        .btn-toggle-zh {
+            border: none;
+            border-radius: 30px;
+            padding: 10px 22px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-play-dialogue {
+            background: var(--gradient-primary);
+            color: #fff;
+        }
+
+        .btn-play-dialogue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(255,107,53,0.4);
+        }
+
+        .btn-play-dialogue.playing {
+            background: linear-gradient(135deg, #EF5350 0%, #C62828 100%);
+        }
+
+        .btn-toggle-zh {
+            background: var(--gradient-dark);
+            color: #fff;
+        }
+
+        .btn-toggle-zh:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(26,35,126,0.4);
+        }
+
+        .btn-toggle-zh.active {
+            background: linear-gradient(135deg, #66BB6A 0%, #388E3C 100%);
+        }
+
+        .dialogue-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .dialogue-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            max-width: 85%;
+            transition: all 0.3s ease;
+        }
+
+        .dialogue-line.male {
+            align-self: flex-start;
+        }
+
+        .dialogue-line.female {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .speaker-avatar {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f5f5f5;
+        }
+
+        .dialogue-bubble {
+            border-radius: 18px;
+            padding: 10px 16px;
+            position: relative;
+        }
+
+        .dialogue-line.male .dialogue-bubble {
+            background: #E3F2FD;
+            border-top-left-radius: 4px;
+        }
+
+        .dialogue-line.female .dialogue-bubble {
+            background: #FCE4EC;
+            border-top-right-radius: 4px;
+        }
+
+        .speaker-name {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .dialogue-line.male .speaker-name {
+            color: #1565C0;
+        }
+
+        .dialogue-line.female .speaker-name {
+            color: #C2185B;
+        }
+
+        .dialogue-es {
+            font-size: 1rem;
+            margin: 0;
+            line-height: 1.5;
+            color: var(--charcoal);
+        }
+
+        .dialogue-zh {
+            font-size: 0.85rem;
+            margin: 4px 0 0;
+            color: #888;
+            line-height: 1.4;
+        }
+
+        .dialogue-line.dialogue-playing {
+            transform: scale(1.03);
+        }
+
+        .dialogue-line.dialogue-playing .dialogue-bubble {
+            box-shadow: 0 0 0 3px rgba(255,107,53,0.5);
+        }
+
+        @media (max-width: 600px) {
+            .dialogue-section {
+                padding: 18px 14px;
+            }
+            .dialogue-line {
+                max-width: 92%;
+            }
+            .btn-play-dialogue,
+            .btn-toggle-zh {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+        /* ===== Ser vs Estar Game ===== */
+        .game-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(12px);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .game-card {
+            background: white;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 24px;
+            padding: 35px 30px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .game-timer-bar {
+            width: 100%;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .game-timer-fill {
+            height: 100%;
+            background: var(--gradient-accent);
+            border-radius: 4px;
+            width: 100%;
+            animation: timerShrink 5s linear forwards;
+        }
+
+        .game-sentence {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .game-sentence .blank {
+            display: inline-block;
+            min-width: 80px;
+            border-bottom: 3px dashed var(--sunset-orange);
+            margin: 0 4px;
+            color: transparent;
+        }
+
+        .game-hint {
+            font-size: 1rem;
+            color: #777;
+            margin-bottom: 28px;
+        }
+
+        .game-choices {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+
+        .game-choice-btn {
+            flex: 1;
+            max-width: 180px;
+            padding: 18px 24px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+        }
+
+        .game-choice-btn.btn-ser {
+            background: var(--gradient-dark);
+        }
+
+        .game-choice-btn.btn-estar {
+            background: var(--gradient-primary);
+        }
+
+        .game-choices-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .game-choice-btn.btn-waiter {
+            background: linear-gradient(135deg, #00897B, #26A69A);
+            font-size: 1rem;
+            padding: 14px 12px;
+        }
+
+        .game-choice-btn.btn-bomb {
+            background: linear-gradient(135deg, #E65100, #FF6D00);
+            font-size: 1rem;
+            padding: 14px 12px;
+        }
+
+        .game-choice-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .game-choice-btn:active {
+            transform: translateY(0);
+        }
+
+        .game-choice-btn.correct {
+            background: var(--success) !important;
+            animation: none;
+        }
+
+        .game-choice-btn.wrong {
+            background: var(--error) !important;
+            animation: none;
+        }
+
+        .game-choice-btn:disabled {
+            cursor: default;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .game-progress {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .game-progress-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .game-progress-dot.filled {
+            background: var(--success);
+            color: white;
+        }
+
+        .game-progress-label {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .game-status {
+            font-size: 0.9rem;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        .game-result {
+            padding: 20px 0;
+        }
+
+        .game-result-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .game-result-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--charcoal);
+        }
+
+        .game-result-msg {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .game-result-btn {
+            padding: 14px 36px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            margin: 0 6px;
+            transition: all 0.2s ease;
+        }
+
+        .game-result-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .game-result-btn.primary {
+            background: var(--gradient-primary);
+        }
+
+        .game-result-btn.secondary {
+            background: #999;
+        }
+
+        .btn-boss-level {
+            display: block;
+            width: 100%;
+            padding: 18px 24px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            background: linear-gradient(135deg, #7B1FA2 0%, #E91E63 50%, #FF5722 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            box-shadow: 0 6px 25px rgba(123, 31, 162, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 12px;
+        }
+
+        .btn-boss-level:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(123, 31, 162, 0.4);
+        }
+
+        .btn-boss-level:disabled {
+            background: linear-gradient(135deg, #bbb 0%, #999 100%);
+            animation: none;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes timerShrink {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        @keyframes shakeCard {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-12px); }
+            40% { transform: translateX(12px); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(8px); }
+        }
+
+        .game-card.shake {
+            animation: shakeCard 0.5s ease;
+        }
+
+        /* ===== Level 4: Taxi Arrow Buttons ===== */
+        .game-taxi-arrows {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 18px;
+        }
+        .game-choice-btn.btn-taxi {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1976D2, #42A5F5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+            padding: 0;
+        }
+        .game-choice-btn.btn-taxi:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(25, 118, 210, 0.4);
+        }
+
+        /* ===== Level 5: Doctor Stickman ===== */
+        .game-stickman-container {
+            width: 200px;
+            height: 320px;
+            position: relative;
+            margin: 16px auto;
+        }
+        .body-hotspot {
+            position: absolute;
+            border: 2px dashed rgba(33, 150, 243, 0.6);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: hotspotGlow 1.5s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: rgba(33, 150, 243, 0.7);
+            background: rgba(33, 150, 243, 0.05);
+        }
+        .body-hotspot:hover {
+            background: rgba(33, 150, 243, 0.15);
+            border-color: #2196F3;
+        }
+        @keyframes hotspotGlow {
+            0%, 100% { box-shadow: 0 0 4px rgba(33, 150, 243, 0.2); }
+            50% { box-shadow: 0 0 12px rgba(33, 150, 243, 0.5); }
+        }
+        .body-hotspot.correct {
+            border-color: var(--success);
+            background: rgba(76, 175, 80, 0.15);
+            animation: none;
+        }
+        .body-hotspot.correct::after {
+            content: '🩹';
+            font-size: 1.4rem;
+        }
+        .body-hotspot.wrong {
+            border-color: var(--error);
+            background: rgba(244, 67, 54, 0.15);
+            animation: none;
+        }
+        .body-hotspot.disabled {
+            pointer-events: none;
+            animation: none;
+            opacity: 0.5;
+        }
+
+        /* ===== Level 6: Social Chat ===== */
+        .game-chat-container {
+            margin-top: 12px;
+        }
+        .chat-context {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .chat-bubble-incoming {
+            background: #e8e8e8;
+            color: #333;
+            padding: 12px 18px;
+            border-radius: 18px 18px 18px 4px;
+            max-width: 80%;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            display: inline-block;
+            text-align: left;
+        }
+        .chat-reply-area {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .game-choice-btn.btn-social {
+            background: linear-gradient(135deg, #7B1FA2, #AB47BC);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 18px 18px 4px 18px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            max-width: 85%;
+            text-align: right;
+            box-shadow: 0 3px 12px rgba(123, 31, 162, 0.25);
+        }
+        .game-choice-btn.btn-social:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(123, 31, 162, 0.35);
+        }
+
+        @media (max-width: 600px) {
+            .game-card {
+                padding: 25px 20px;
+            }
+            .game-sentence {
+                font-size: 1.3rem;
+            }
+            .game-choice-btn {
+                font-size: 1.1rem;
+                padding: 15px 18px;
+            }
+            .game-choice-btn.btn-waiter,
+            .game-choice-btn.btn-bomb {
+                font-size: 0.9rem;
+                padding: 12px 8px;
+            }
+            .game-choices-4 {
+                gap: 8px;
+            }
+            .game-choice-btn.btn-taxi {
+                width: 72px;
+                height: 72px;
+                font-size: 1.8rem;
+            }
+            .game-taxi-arrows {
+                gap: 12px;
+            }
+            .game-stickman-container {
+                width: 170px;
+                height: 270px;
+            }
+            .game-choice-btn.btn-social {
+                font-size: 0.9rem;
+                padding: 10px 16px;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <header class="app-header">
-            <span class="flag-emoji">🇪🇸</span>
-            <h1 class="app-title">西班牙語速成學院</h1>
-            <p class="app-subtitle">30天從零到實戰對話 | 發音 → 6W問句 → 數字時間 → 生存必備</p>
+            <img src="header-illustration.jpg" alt="西班牙語速成學院" class="header-img">
         </header>
 
         <!-- Lessons Section -->
@@ -1285,6 +1911,11 @@
         <div class="quiz-card" id="quizCard"></div>
     </div>
 
+    <!-- Game Overlay -->
+    <div class="game-overlay" id="gameOverlay">
+        <div class="game-card" id="gameCard"></div>
+    </div>
+
     <!-- Install Banner -->
     <div class="install-banner" id="installBanner">
         <span>📱 安裝應用程式以離線使用</span>
@@ -1323,16 +1954,16 @@
                     { es: "📌 特殊字母", zh: "需要特別記憶", tip: "這些字母的發音規則比較特殊，需要特別記憶。", ex: "", ex_zh: "", noSound: true },
                     { es: "H", zh: "永遠不發音（啞音）", tip: "H在西班牙語中永遠不發音！", ex: "Hola", ex_zh: "你好（讀作 ola）" },
                     { es: "Ñ", zh: "發「尼-呀」", tip: "像英文的 onion，舌頭抵上顎", ex: "Mañana", ex_zh: "明天" },
-                    { es: "LL", zh: "發「耶」或「夜」", tip: "拉丁美洲多發「耶」，西班牙發「夜」", ex: "Llamar", ex_zh: "叫" },
+                    { es: "LL", zh: "發「耶」或「夜」", tip: "拉丁美洲多發「耶」，西班牙發「夜」", ex: "Llamar", ex_zh: "呼叫 / 打電話" },
                     { es: "J", zh: "發「呵」（喉音）", tip: "從喉嚨發出的氣音", ex: "Jefe", ex_zh: "老闆" },
                     { es: "RR", zh: "彈舌音（顫音）", tip: "舌尖快速震動", ex: "Perro", ex_zh: "狗" },
                     
                     { es: "📌 重要輔音", zh: "依據位置變化", tip: "這些輔音的發音會依據後面接的字母而改變。", ex: "", ex_zh: "", noSound: true },
-                    { es: "Ce, Ci", zh: "發「斯」", tip: "C在e或i前面發「斯」。聽聽這兩個音節。", ex: "Cena, Cinco, Cielo", ex_zh: "晚餐、五、天空" },
+                    { es: "Ce, Ci", zh: "發「咬舌音」(類似英文 th)，拉美口音發 S", tip: "C在e或i前面，西班牙口音發咬舌音（θ，類似英文 th），拉丁美洲口音發 S。聽聽這兩個音節。", ex: "Cena, Cinco, Cielo", ex_zh: "晚餐、五、天空" },
                     { es: "Ca, Co, Cu", zh: "發「K」", tip: "C在a/o/u前面發「K」音。聽聽這三個音節。", ex: "Casa, Comer, Cuánto", ex_zh: "家、吃、多少" },
                     { es: "Ge, Gi", zh: "發「呵」", tip: "G在e或i前面發「呵」（喉音）。聽聽這兩個音節。", ex: "Gente, General, Gitano", ex_zh: "人們、將軍、吉普賽人" },
                     { es: "Ga, Go, Gu", zh: "發「G」", tip: "G在a/o/u前面發硬G音。聽聽這三個音節的發音。", ex: "Gato, Amigo, Gustar", ex_zh: "貓、朋友、喜歡" },
-                    { es: "Z", zh: "發「斯」", tip: "西班牙發齒間音，拉美發S", ex: "Zapato", ex_zh: "鞋" },
+                    { es: "Z", zh: "發「咬舌音」(類似英文 th)，拉美口音發 S", tip: "西班牙口音發咬舌音（θ，類似英文 th），拉丁美洲口音發 S。", ex: "Zapato", ex_zh: "鞋" },
                     { es: "Va, Ve, Vi, Vo, Vu", zh: "與 B 發音相同", tip: "V和B在西班牙語中發音幾乎一樣,都是較輕的B音。聽聽這五個音節。", ex: "Vino, Venir, Vivir", ex_zh: "酒、來、住" },
                     
                     { es: "📌 重音規則", zh: "三大規則", tip: "西班牙語的重音有固定規則：<br><br>1️⃣ 有重音符號（áéíóú）→ 重音在該母音<br>2️⃣ 無符號+結尾n/s/母音 → 倒數第二音節<br>3️⃣ 無符號+結尾其他輔音 → 最後音節", ex: "", ex_zh: "", noSound: true },
@@ -1341,7 +1972,7 @@
                     { es: "Hotel", zh: "旅館", tip: "結尾是l → 重音最後音節（tel）", ex: "hotel", ex_zh: "旅館" },
                     
                     { es: "🎯 練習時間", zh: "試著唸出以下單字", tip: "點擊🔊聽正確發音，建議用慢速（0.7x-0.9x）仔細聽！", ex: "", ex_zh: "", noSound: true },
-                    { es: "¡Buenas noches!", zh: "晚安！", tip: "注意：H不發音，ue發「ue」", ex: "¡Buenas noches!", ex_zh: "晚安！" },
+                    { es: "¡Buenas noches!", zh: "晚安！", tip: "注意：H不發音，ue 發音類似「ㄨㄟ」(we)", ex: "¡Buenas noches!", ex_zh: "晚安！" },
                     { es: "¿Cómo estás?", zh: "你好嗎？", tip: "重音在Có和tás", ex: "¿Cómo estás?", ex_zh: "你好嗎？" },
                     { es: "Muchas gracias", zh: "非常感謝", tip: "ch發「吃」的音，ci發「西」", ex: "Muchas gracias", ex_zh: "非常感謝" },
                     
@@ -1358,7 +1989,20 @@
                     { es: "Hasta luego.", zh: "待會見", tip: "最常用的道別。", ex: "Me voy, hasta luego.", ex_zh: "我走了，待會見。" },
                     { es: "Por favor.", zh: "請 / 麻煩了。", tip: "為了(Por) 恩惠(Favor)。", ex: "Un café, por favor.", ex_zh: "請給我一杯咖啡。" },
                     { es: "Perdón.", zh: "不好意思 / 借過。", tip: "撞到人、要過路時用。", ex: "Perdón, ¿puedo pasar?", ex_zh: "不好意思，我可以過嗎？" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在馬德里街頭偶遇",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "¡Hola! Buenos días.", zh: "嗨！早安。" },
+                        { speaker: "F", name: "Ana", es: "Buenos días. ¿Cómo estás?", zh: "早安。你好嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Muy bien, gracias. ¿Y tú?", zh: "很好，謝謝。你呢？" },
+                        { speaker: "F", name: "Ana", es: "Bien, gracias.", zh: "很好，謝謝。" },
+                        { speaker: "M", name: "Carlos", es: "Soy Carlos. Mucho gusto.", zh: "我是 Carlos。很高興認識你。" },
+                        { speaker: "F", name: "Ana", es: "Soy Ana. Mucho gusto.", zh: "我是 Ana。很高興認識你。" },
+                        { speaker: "M", name: "Carlos", es: "Hasta luego, Ana.", zh: "待會見，Ana。" },
+                        { speaker: "F", name: "Ana", es: "Adiós. Hasta luego.", zh: "再見。待會見。" }
+                    ]
+                }
             },
             {
                 title: "Day 2: 自我介紹與基礎交流",
@@ -1388,7 +2032,20 @@
                     { es: "¿Qué significa...?", zh: "...是什麼意思？", tip: "指著看不懂的字問。", ex: "¿Qué significa 'Salida'?", ex_zh: "「Salida」是什麼意思？" },
                     { es: "Sí / No", zh: "是 / 否", tip: "Sí 有重音符號。", ex: "Sí, por favor.", ex_zh: "是的，麻煩了。" },
                     { es: "Gracias.", zh: "謝謝。", tip: "最重要的禮貌用語。", ex: "Muchas gracias.", ex_zh: "非常感謝。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在青年旅館自我介紹",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "¡Hola! Me llamo Carlos. ¿Y tú?", zh: "嗨！我叫 Carlos。你呢？" },
+                        { speaker: "F", name: "Ana", es: "Me llamo Ana. Mucho gusto.", zh: "我叫 Ana。很高興認識你。" },
+                        { speaker: "M", name: "Carlos", es: "Mucho gusto. ¿De dónde eres?", zh: "很高興認識你。你從哪裡來？" },
+                        { speaker: "F", name: "Ana", es: "Soy de Taiwán. ¿Y tú?", zh: "我來自台灣。你呢？" },
+                        { speaker: "M", name: "Carlos", es: "Soy de España. ¿Hablas español?", zh: "我來自西班牙。你會說西班牙語嗎？" },
+                        { speaker: "F", name: "Ana", es: "Hablo un poco. Más despacio, por favor.", zh: "我會說一點點。請慢一點。" },
+                        { speaker: "M", name: "Carlos", es: "Sí, no hay problema. Soy turista también.", zh: "好的，沒問題。我也是遊客。" },
+                        { speaker: "F", name: "Ana", es: "Gracias. Hasta luego.", zh: "謝謝。待會見。" }
+                    ]
+                }
             },
             {
                 title: "Day 3: 6W 問句完整攻略",
@@ -1416,7 +2073,20 @@
                     { es: "¿Cómo se dice?", zh: "怎麼說？", tip: "不知道怎麼說時用這句。Se dice = 它被說。", ex: "¿Cómo se dice 'book' en español?", ex_zh: "書用西班牙文怎麼說？" },
                     { es: "📌 Cuál 系列", zh: "哪一個？", tip: "Cuál 用來在多個選項中做選擇。<br><br>跟 Qué 的差別：<br>Qué 問「什麼」（開放式）<br>Cuál 問「哪一個」（有限選項）<br><br>例如：<br>¿Qué quieres? (你要什麼？)<br>¿Cuál quieres? (你要哪一個？)", ex: "", ex_zh: "", noSound: true },
                     { es: "¿Cuál?", zh: "哪一個？", tip: "Which - 在多個選項中選擇。", ex: "¿Cuál prefieres?", ex_zh: "你比較喜歡哪一個？" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在旅遊中心問路",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "Perdón, ¿dónde está el baño?", zh: "不好意思，廁所在哪裡？" },
+                        { speaker: "M", name: "Carlos", es: "Está allí, a la derecha.", zh: "在那邊，右邊。" },
+                        { speaker: "F", name: "Ana", es: "Gracias. ¿Cuándo abre el museo?", zh: "謝謝。博物館什麼時候開？" },
+                        { speaker: "M", name: "Carlos", es: "A las diez de la mañana.", zh: "早上十點。" },
+                        { speaker: "F", name: "Ana", es: "¿Cuánto cuesta la entrada?", zh: "門票多少錢？" },
+                        { speaker: "M", name: "Carlos", es: "No sé. ¿Por qué no preguntas allí?", zh: "我不知道。你為什麼不去那邊問？" },
+                        { speaker: "F", name: "Ana", es: "Buena idea. ¿Cómo se llama el museo?", zh: "好主意。博物館叫什麼名字？" },
+                        { speaker: "M", name: "Carlos", es: "Se llama el Museo del Prado.", zh: "叫做普拉多博物館。" }
+                    ]
+                }
             },
             {
                 title: "Day 4: 數字系統完全攻略",
@@ -1499,7 +2169,22 @@
                     { es: "📌 規則八：百萬", zh: "記得加 de！", tip: "百萬的用法：(1) 單數：Un millón（一百萬）。(2) 複數：Dos millones、Tres millones（要加 -es）。(3) 最重要：後面接名詞時必須加 de！例如：Un millón de euros（一百萬歐元）、Dos millones de personas（兩百萬人）。絕對不能省略 de！", ex: "", ex_zh: "", noSound: true },
                     { es: "Un millón", zh: "100萬", tip: "Million。複數是 millones。", ex: "Un millón de dólares.", ex_zh: "一百萬美元（記得加de）。" },
                     { es: "Dos millones", zh: "200萬", tip: "複數：Millones。要加 de！", ex: "Dos millones de habitantes.", ex_zh: "兩百萬居民。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在市場買水果",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "¡Hola! ¿Cuánto cuestan las naranjas?", zh: "嗨！橘子多少錢？" },
+                        { speaker: "M", name: "Carlos", es: "Dos euros el kilo.", zh: "每公斤兩歐元。" },
+                        { speaker: "F", name: "Ana", es: "Quiero tres kilos, por favor.", zh: "我要三公斤，麻煩了。" },
+                        { speaker: "M", name: "Carlos", es: "Tres kilos... son seis euros.", zh: "三公斤……六歐元。" },
+                        { speaker: "F", name: "Ana", es: "¿Y las manzanas?", zh: "蘋果呢？" },
+                        { speaker: "M", name: "Carlos", es: "Un euro cincuenta el kilo.", zh: "每公斤一歐元五十分。" },
+                        { speaker: "F", name: "Ana", es: "Dos kilos de manzanas también.", zh: "也要兩公斤蘋果。" },
+                        { speaker: "M", name: "Carlos", es: "Son nueve euros en total.", zh: "總共九歐元。" },
+                        { speaker: "F", name: "Ana", es: "Aquí tiene diez euros.", zh: "這裡是十歐元。" },
+                        { speaker: "M", name: "Carlos", es: "Un euro de cambio. ¡Gracias!", zh: "找您一歐元。謝謝！" }
+                    ]
+                }
             },
             
             // ===== Day 5-7: 動詞基礎與第一週複習 =====
@@ -1527,7 +2212,7 @@
                     { es: "Es importante.", zh: "這很重要。", tip: "Ser 表示重要性。", ex: "Es importante llegar a tiempo.", ex_zh: "準時到達很重要。" },
                     { es: "Son las tres.", zh: "三點了。", tip: "Ser 表示時間。", ex: "¿Qué hora es? Son las cinco.", ex_zh: "幾點？五點。" },
                     
-                    { es: "📌 Estar 動詞完整變化表（現在式）", zh: "Estar的六個變化", tip: "Yo estoy（我在/我是）<br>Tú estás（你在/你是）<br>Él/Ella/Usted está（他/她/您在/是）<br>Nosotros/as estamos（我們在/是）<br>Vosotros/as estáis（你們在/是，西班牙）<br>Ellos/Ellas/Ustedes están（他們/她們/您們在/是）<br><br>💡 記憶技巧：<br>Estoy → 我在這裡<br>Estás → 你好嗎<br>Está → 關閉了<br>Estamos → 我們很好<br>Están → 他們很忙<br><br>⚠️ Estar也是不規則動詞！注意重音符號：estás, está, están", ex: "", ex_zh: "", noSound: true },
+                    { es: "📌 Estar 動詞完整變化表（現在式）", zh: "Estar的六個變化", tip: "Yo estoy（我在/我是）<br>Tú estás（你在/你是）<br>Él/Ella/Usted está（他/她/您在/是）<br>Nosotros/as estamos（我們在/是）<br>Vosotros/as estáis（你們在/是，西班牙）<br>Ellos/Ellas/Ustedes están（他們/她們/您們在/是）<br><br>💡 記憶技巧：<br>Estoy → 我在這裡<br>Estás → 你好嗎<br>Está → 他/她/它在（這裡）<br>Estamos → 我們很好<br>Están → 他們很忙<br><br>⚠️ Estar也是不規則動詞！注意重音符號：estás, está, están", ex: "", ex_zh: "", noSound: true },
                     
                     { es: "Yo estoy aquí.", zh: "我在這裡。", tip: "Estar第一人稱單數。", ex: "Estoy en Madrid.", ex_zh: "我在馬德里。" },
                     { es: "Tú estás cansado.", zh: "你累了。", tip: "Estar第二人稱單數。", ex: "¿Estás bien?", ex_zh: "你還好嗎？" },
@@ -1544,7 +2229,20 @@
                     { es: "Está ocupado.", zh: "忙碌/佔用。", tip: "Estar 表示忙碌或被佔用的狀態。", ex: "El baño está ocupado.", ex_zh: "廁所有人。" },
                     
                     { es: "📌 同一形容詞的不同意思", zh: "Ser vs Estar 意思大不同", tip: "有些形容詞配Ser和Estar意思完全不同！<br>Ser bueno = 人好/東西好（本質）、Estar bueno = 好吃/性感<br>Ser listo = 聰明、Estar listo = 準備好<br>Ser aburrido = 無聊的人、Estar aburrido = 感到無聊<br>Ser malo = 壞的（本質）、Estar malo = 生病/變質", ex: "", ex_zh: "", noSound: true }
-                ]
+                ],
+                dialogue: {
+                    scene: "描述飯店房間問題",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "Perdón, la habitación está sucia.", zh: "不好意思，房間很髒。" },
+                        { speaker: "M", name: "Carlos", es: "Lo siento. ¿Cuál es su habitación?", zh: "抱歉。您的房間號碼是？" },
+                        { speaker: "F", name: "Ana", es: "Es la habitación doce.", zh: "是十二號房。" },
+                        { speaker: "M", name: "Carlos", es: "La habitación doce es grande y bonita.", zh: "十二號房又大又漂亮。" },
+                        { speaker: "F", name: "Ana", es: "Sí, es bonita, pero está sucia.", zh: "對，很漂亮，但是很髒。" },
+                        { speaker: "M", name: "Carlos", es: "Perdón. Voy a enviar a alguien para limpiar.", zh: "抱歉。我派人去清理。" },
+                        { speaker: "F", name: "Ana", es: "Gracias. ¿Dónde está el restaurante?", zh: "謝謝。餐廳在哪裡？" },
+                        { speaker: "M", name: "Carlos", es: "Está en el primer piso. Está abierto.", zh: "在一樓。現在是開的。" }
+                    ]
+                }
             },
             {
                 title: "Day 6: 動詞基礎 - Tener vs Hacer（含完整變化表）",
@@ -1586,7 +2284,20 @@
                     { es: "Hace dos días.", zh: "兩天前。", tip: "Hace + 時間 = ...前。", ex: "Llegué hace dos días.", ex_zh: "我兩天前到的。" },
                     
                     { es: "📌 Tener + que（必須）", zh: "表示義務", tip: "Tener + que + 動詞原形 = 必須做某事<br>這是表達義務或必要性的最常用方式。<br>例如：Tengo que estudiar（我必須學習）、Tienes que ver esto（你必須看這個）、Tenemos que ir（我們必須走）<br><br>⚠️ 注意：que後面要接動詞原形！", ex: "", ex_zh: "", noSound: true }
-                ]
+                ],
+                dialogue: {
+                    scene: "討論天氣和今日行程",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "Buenos días. Hace mucho calor hoy.", zh: "早安。今天好熱。" },
+                        { speaker: "F", name: "Ana", es: "Sí, tengo mucha sed.", zh: "對，我好渴。" },
+                        { speaker: "M", name: "Carlos", es: "Yo también tengo hambre.", zh: "我也很餓。" },
+                        { speaker: "F", name: "Ana", es: "¿Qué quieres hacer hoy?", zh: "你今天想做什麼？" },
+                        { speaker: "M", name: "Carlos", es: "Tengo ganas de ir a la playa.", zh: "我想去海邊。" },
+                        { speaker: "F", name: "Ana", es: "Buena idea. Pero tengo que comprar agua.", zh: "好主意。但我必須先買水。" },
+                        { speaker: "M", name: "Carlos", es: "Hace sol. Tenemos que llevar gafas de sol.", zh: "出太陽了。我們得帶太陽眼鏡。" },
+                        { speaker: "F", name: "Ana", es: "Sí, tienes razón. ¡Vamos!", zh: "對，你說得對。走吧！" }
+                    ]
+                }
             },
             {
                 title: "Day 7: 常用動詞變化大全",
@@ -1642,7 +2353,20 @@
                     { es: "Nos gusta la comida española.", zh: "我們喜歡西班牙食物。", tip: "Nos gusta（我們喜歡）。", ex: "Nos gustan las tapas.", ex_zh: "我們喜歡小菜。" },
                     
                     { es: "📌 重要提醒", zh: "動詞變化總結", tip: "規則動詞：看詞尾（-AR, -ER, -IR）套用規則<br>不規則動詞：Ser, Estar, Tener, Hacer, Ir, Querer, Poder都要背！<br>ie變化：Querer（quiero, quieres, quiere...）<br>ue變化：Poder（puedo, puedes, puede...）<br>完全不規則：Ser, Estar, Ir要硬背<br>特殊結構：Gustar主詞是「被喜歡的東西」<br><br>💡 學習技巧：<br>1. 先背第一人稱（Yo）<br>2. 再背第三人稱（Él/Ella）<br>3. 最後記Nosotros<br>4. 練習時多造句，不要只背表格！", ex: "", ex_zh: "", noSound: true }
-                ]
+                ],
+                dialogue: {
+                    scene: "在咖啡廳討論喜好",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "¿Qué quieres tomar?", zh: "你想喝什麼？" },
+                        { speaker: "F", name: "Ana", es: "Quiero un café con leche, por favor.", zh: "我想要一杯拿鐵，麻煩。" },
+                        { speaker: "M", name: "Carlos", es: "A mí me gusta el café solo.", zh: "我喜歡黑咖啡。" },
+                        { speaker: "F", name: "Ana", es: "¿Puedes pedir para mí?", zh: "你可以幫我點嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí, claro. ¿Quieres comer algo?", zh: "好的，當然。你想吃點什麼嗎？" },
+                        { speaker: "F", name: "Ana", es: "No, gracias. No tengo hambre.", zh: "不，謝謝。我不餓。" },
+                        { speaker: "M", name: "Carlos", es: "Yo necesito levantarme temprano mañana.", zh: "我明天需要早起。" },
+                        { speaker: "F", name: "Ana", es: "Yo también. Tengo que ir al museo.", zh: "我也是。我得去博物館。" }
+                    ]
+                }
             },
             {
                 title: "Day 8: 第一週複習",
@@ -1670,7 +2394,20 @@
                     
                     { es: "Por favor, gracias.", zh: "禮貌用語", tip: "最重要的兩句。", ex: "Un café, por favor. Muchas gracias.", ex_zh: "請給我一杯咖啡。非常感謝。" },
                     { es: "No entiendo.", zh: "我聽不懂", tip: "遇到困難時用。", ex: "Lo siento, no entiendo.", ex_zh: "抱歉，我聽不懂。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "綜合複習：在廣場閒聊",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "¡Hola Ana! ¿Cómo estás hoy?", zh: "嗨 Ana！你今天好嗎？" },
+                        { speaker: "F", name: "Ana", es: "Muy bien, gracias. Hace buen tiempo.", zh: "很好，謝謝。天氣真好。" },
+                        { speaker: "M", name: "Carlos", es: "Sí, no hace calor. ¿Qué quieres hacer?", zh: "對，不熱。你想做什麼？" },
+                        { speaker: "F", name: "Ana", es: "Quiero ir de compras. ¿Dónde está el mercado?", zh: "我想去買東西。市場在哪裡？" },
+                        { speaker: "M", name: "Carlos", es: "Está cerca. Tengo que comprar fruta.", zh: "很近。我得買水果。" },
+                        { speaker: "F", name: "Ana", es: "¿Cuánto cuestan las naranjas aquí?", zh: "這裡的橘子多少錢？" },
+                        { speaker: "M", name: "Carlos", es: "No sé, pero son muy buenas.", zh: "我不知道，但非常好吃。" },
+                        { speaker: "F", name: "Ana", es: "Bueno, vamos. Hasta luego.", zh: "好，走吧。待會見。" }
+                    ]
+                }
             },
             
             // ===== Day 8-9: 餐飲擴充 =====
@@ -1703,7 +2440,22 @@
                     { es: "La cuenta, por favor.", zh: "請結帳。", tip: "Cuenta = Bill。", ex: "La cuenta, por favor.", ex_zh: "請結帳。" },
                     { es: "¿Puedo pagar con tarjeta?", zh: "可以刷卡嗎？", tip: "Tarjeta = Card。", ex: "¿Puedo pagar con tarjeta de crédito?", ex_zh: "可以用信用卡付款嗎？" },
                     { es: "¿Dónde está el baño?", zh: "廁所在哪？", tip: "Baño = Bathroom。", ex: "Perdón, ¿dónde está el baño?", ex_zh: "不好意思，廁所在哪裡？" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在餐廳訂位點餐",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "Buenas noches. Quiero reservar una mesa.", zh: "晚安。我想訂位。" },
+                        { speaker: "F", name: "Ana", es: "¿Para cuántas personas?", zh: "幾位？" },
+                        { speaker: "M", name: "Carlos", es: "Para dos, por favor.", zh: "兩位，麻煩了。" },
+                        { speaker: "F", name: "Ana", es: "Muy bien. Aquí está el menú.", zh: "好的。這是菜單。" },
+                        { speaker: "M", name: "Carlos", es: "¿Qué recomienda?", zh: "你推薦什麼？" },
+                        { speaker: "F", name: "Ana", es: "La paella está muy buena hoy.", zh: "今天的西班牙燉飯很好吃。" },
+                        { speaker: "M", name: "Carlos", es: "Una paella y una ensalada, por favor.", zh: "一份燉飯和一份沙拉，麻煩了。" },
+                        { speaker: "F", name: "Ana", es: "¿Para beber?", zh: "要喝什麼？" },
+                        { speaker: "M", name: "Carlos", es: "Agua con gas, por favor.", zh: "氣泡水，麻煩了。" },
+                        { speaker: "F", name: "Ana", es: "Muy bien. ¡Buen provecho!", zh: "好的。請慢用！" }
+                    ]
+                }
             },
             {
                 title: "Day 10: 飲料與甜點",
@@ -1729,7 +2481,20 @@
                     { es: "Para llevar.", zh: "外帶。", tip: "Llevar = Take away。", ex: "Un café para llevar.", ex_zh: "一杯咖啡外帶。" },
                     { es: "Para aquí.", zh: "內用。", tip: "Aquí = Here。", ex: "Para aquí, por favor.", ex_zh: "內用，謝謝。" },
                     { es: "¿Qué sabor?", zh: "什麼口味？", tip: "Sabor = Flavor。", ex: "¿Qué sabor de helado quiere?", ex_zh: "你要什麼口味的冰淇淋？" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在咖啡廳點飲料",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "Hola, quiero un café con leche.", zh: "嗨，我想要一杯拿鐵。" },
+                        { speaker: "M", name: "Carlos", es: "¿Grande o pequeño?", zh: "大杯還是小杯？" },
+                        { speaker: "F", name: "Ana", es: "Grande, por favor. ¿Tienen churros?", zh: "大杯，麻煩了。你們有吉拿棒嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí, con chocolate caliente.", zh: "有，配熱巧克力。" },
+                        { speaker: "F", name: "Ana", es: "¡Perfecto! Un café y churros con chocolate.", zh: "太好了！一杯咖啡和巧克力吉拿棒。" },
+                        { speaker: "M", name: "Carlos", es: "¿Quieres algo más? ¿Un zumo de naranja?", zh: "還要別的嗎？一杯柳橙汁？" },
+                        { speaker: "F", name: "Ana", es: "No, gracias. ¿Cuánto es?", zh: "不了，謝謝。多少錢？" },
+                        { speaker: "M", name: "Carlos", es: "Son seis euros cincuenta.", zh: "六歐元五十分。" }
+                    ]
+                }
             },
             {
                 title: "Day 11: 時間日期完整指南",
@@ -1788,7 +2553,20 @@
                     { es: "¿Qué fecha es hoy?", zh: "今天幾號？", tip: "Fecha = 日期。", ex: "¿Qué fecha es hoy?", ex_zh: "今天幾號？" },
                     { es: "Hoy es 15 de enero.", zh: "今天是一月15號。", tip: "公式：es + 數字 + de + 月份。", ex: "Hoy es quince de enero.", ex_zh: "今天是一月十五號。" },
                     { es: "El primero de enero", zh: "一月一號", tip: "只有一號用 primero（第一）！", ex: "El primero de enero es Año Nuevo.", ex_zh: "一月一號是新年。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "約定見面時間",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "¿Qué hora es?", zh: "現在幾點？" },
+                        { speaker: "F", name: "Ana", es: "Son las tres de la tarde.", zh: "下午三點。" },
+                        { speaker: "M", name: "Carlos", es: "¿Quieres ir al cine mañana?", zh: "你明天想去看電影嗎？" },
+                        { speaker: "F", name: "Ana", es: "Sí. ¿A qué hora?", zh: "好。幾點？" },
+                        { speaker: "M", name: "Carlos", es: "A las siete de la noche.", zh: "晚上七點。" },
+                        { speaker: "F", name: "Ana", es: "¿Qué día es mañana?", zh: "明天星期幾？" },
+                        { speaker: "M", name: "Carlos", es: "Mañana es viernes, quince de enero.", zh: "明天是星期五，一月十五號。" },
+                        { speaker: "F", name: "Ana", es: "Perfecto. Nos vemos a las siete.", zh: "太好了。七點見。" }
+                    ]
+                }
             },
             {
                 title: "Day 12: 購物與殺價",
@@ -1818,7 +2596,20 @@
                     { es: "Pago en efectivo/tarjeta.", zh: "我付現金/刷卡。", tip: "Efectivo = Cash, Tarjeta = Card。", ex: "¿Puedo pagar con tarjeta?", ex_zh: "可以刷卡嗎？" },
                     { es: "¿Puedo devolverlo?", zh: "可以退貨嗎？", tip: "Devolver = Return。", ex: "Si no me gusta, ¿puedo devolverlo?", ex_zh: "如果我不喜歡，可以退貨嗎？" },
                     { es: "¿Puedo cambiarlo?", zh: "可以換貨嗎？", tip: "Cambiar = Exchange。", ex: "¿Puedo cambiarlo por otra talla?", ex_zh: "可以換另一個尺寸嗎？" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在市場殺價",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "¡Hola! ¿Cuánto cuesta este bolso?", zh: "嗨！這個包包多少錢？" },
+                        { speaker: "M", name: "Carlos", es: "Treinta euros.", zh: "三十歐元。" },
+                        { speaker: "F", name: "Ana", es: "¡Es muy caro! ¿Puede hacer descuento?", zh: "太貴了！可以打折嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Es de buena calidad. Veinticinco euros.", zh: "品質很好。二十五歐元。" },
+                        { speaker: "F", name: "Ana", es: "Le doy veinte euros.", zh: "我出二十歐元。" },
+                        { speaker: "M", name: "Carlos", es: "No puedo. Veintidós, es mi último precio.", zh: "不行。二十二，最低價了。" },
+                        { speaker: "F", name: "Ana", es: "Bueno, veintidós euros. ¿Aceptan tarjeta?", zh: "好吧，二十二歐元。你們收信用卡嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Solo efectivo, por favor.", zh: "只收現金，麻煩了。" }
+                    ]
+                }
             },
             {
                 title: "Day 13: 服飾與顏色",
@@ -1850,7 +2641,20 @@
                     { es: "De moda", zh: "流行的", tip: "Fashionable。", ex: "Está muy de moda.", ex_zh: "很流行。" },
                     { es: "¿De qué color?", zh: "什麼顏色？", tip: "問顏色。", ex: "¿De qué color lo quiere?", ex_zh: "你要什麼顏色的？" },
                     { es: "Me gusta en rojo.", zh: "我喜歡紅色的。", tip: "表達顏色喜好。", ex: "Me gusta en azul.", ex_zh: "我喜歡藍色的。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在服飾店逛街",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "Me gusta esta camiseta roja.", zh: "我喜歡這件紅色 T 恤。" },
+                        { speaker: "M", name: "Carlos", es: "¿Qué talla necesitas?", zh: "你需要什麼尺寸？" },
+                        { speaker: "F", name: "Ana", es: "Talla mediana. ¿Puedo probármela?", zh: "中號。我可以試穿嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí, el probador está allí.", zh: "可以，試衣間在那邊。" },
+                        { speaker: "F", name: "Ana", es: "Es muy pequeña. ¿Tienen una más grande?", zh: "太小了。有大一號的嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí, aquí tiene en azul y en negro.", zh: "有，這裡有藍色和黑色的。" },
+                        { speaker: "F", name: "Ana", es: "Prefiero la azul. ¿Cuánto cuesta?", zh: "我比較喜歡藍色的。多少錢？" },
+                        { speaker: "M", name: "Carlos", es: "Quince euros. ¡Le queda muy bien!", zh: "十五歐元。你穿很好看！" }
+                    ]
+                }
             },
             {
                 title: "Day 14: 住宿與飯店",
@@ -1880,7 +2684,20 @@
                     { es: "Quiero cambiar de habitación.", zh: "我想換房間。", tip: "Cambiar = Change。", ex: "¿Puedo cambiar de habitación?", ex_zh: "我可以換房間嗎？" },
                     { es: "Quiero hacer el check-out.", zh: "我要退房。", tip: "用英文也可以。", ex: "Quiero hacer el check-out, por favor.", ex_zh: "我要退房，謝謝。" },
                     { es: "¿Puedo dejar las maletas aquí?", zh: "我可以把行李箱放這嗎？", tip: "Maleta = Suitcase。", ex: "¿Puedo dejar mis maletas hasta las cinco?", ex_zh: "我可以把行李放到五點嗎？" }
-                ]
+                ],
+                dialogue: {
+                    scene: "辦理飯店入住",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "Buenas tardes. Tengo una reserva.", zh: "午安。我有訂房。" },
+                        { speaker: "F", name: "Ana", es: "¿A nombre de quién?", zh: "用誰的名字？" },
+                        { speaker: "M", name: "Carlos", es: "A nombre de Carlos García.", zh: "Carlos García。" },
+                        { speaker: "F", name: "Ana", es: "Sí, una habitación doble para tres noches.", zh: "好的，雙人房三個晚上。" },
+                        { speaker: "M", name: "Carlos", es: "¿La habitación tiene wifi?", zh: "房間有 wifi 嗎？" },
+                        { speaker: "F", name: "Ana", es: "Sí. La contraseña está en la tarjeta.", zh: "有的。密碼在卡片上。" },
+                        { speaker: "M", name: "Carlos", es: "¿A qué hora es el desayuno?", zh: "早餐幾點？" },
+                        { speaker: "F", name: "Ana", es: "De siete a diez de la mañana. Aquí está su llave.", zh: "早上七點到十點。這是您的鑰匙。" }
+                    ]
+                }
             },
             {
                 title: "Day 15: 第二週複習與測驗",
@@ -1900,7 +2717,20 @@
                     { es: "Necesito toallas/más toallas.", zh: "我需要毛巾/更多毛巾。", tip: "客房服務。", ex: "Necesito más toallas.", ex_zh: "我需要更多毛巾。" },
                     { es: "Estar + 狀態", zh: "臨時狀態", tip: "動詞複習。", ex: "Estoy cansado. Está delicioso.", ex_zh: "我累了。很好吃。" },
                     { es: "Tener hambre/sed/frío/calor.", zh: "餓/渴/冷/熱。", tip: "感覺表達。", ex: "Tengo mucha hambre.", ex_zh: "我很餓。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在旅館大廳閒聊第二週經驗",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "¡Hola Carlos! ¿Qué tal la comida anoche?", zh: "嗨 Carlos！昨晚的飯菜怎麼樣？" },
+                        { speaker: "M", name: "Carlos", es: "¡Muy buena! La paella estaba deliciosa.", zh: "非常好！西班牙燉飯很好吃。" },
+                        { speaker: "F", name: "Ana", es: "¿Cuánto costó la cena?", zh: "晚餐多少錢？" },
+                        { speaker: "M", name: "Carlos", es: "Veinte euros por persona.", zh: "每人二十歐元。" },
+                        { speaker: "F", name: "Ana", es: "No está mal. Hoy quiero ir de compras.", zh: "還好。我今天想去買東西。" },
+                        { speaker: "M", name: "Carlos", es: "Yo necesito comprar ropa. Hace frío.", zh: "我需要買衣服。天氣冷。" },
+                        { speaker: "F", name: "Ana", es: "Nos vemos a las cinco en el hotel.", zh: "五點在飯店見。" },
+                        { speaker: "M", name: "Carlos", es: "Perfecto. ¡Hasta luego!", zh: "太好了。待會見！" }
+                    ]
+                }
             },
             
             // ===== 第三週：交通移動 (Day 15-21) =====
@@ -1933,7 +2763,20 @@
                     { es: "¿Este autobús va a...?", zh: "這班公車去...嗎？", tip: "問路線。", ex: "¿Este autobús va al centro?", ex_zh: "這班公車去市中心嗎？" },
                     { es: "¿Dónde compro el billete?", zh: "在哪買票？", tip: "Comprar = Buy。", ex: "¿Dónde compro los billetes?", ex_zh: "在哪裡買票？" },
                     { es: "En la máquina", zh: "在售票機", tip: "Machine。", ex: "Puedes comprar en la máquina.", ex_zh: "你可以在售票機買。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "搭乘地鐵",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "Perdón, ¿dónde está la estación de metro?", zh: "不好意思，地鐵站在哪裡？" },
+                        { speaker: "M", name: "Carlos", es: "Está a dos calles de aquí.", zh: "在兩條街外。" },
+                        { speaker: "F", name: "Ana", es: "¿Qué línea va al centro?", zh: "哪條線去市中心？" },
+                        { speaker: "M", name: "Carlos", es: "La línea tres, dirección Sol.", zh: "三號線，往太陽門方向。" },
+                        { speaker: "F", name: "Ana", es: "¿Cuánto cuesta un billete sencillo?", zh: "單程票多少錢？" },
+                        { speaker: "M", name: "Carlos", es: "Un euro cincuenta. También hay bono de diez viajes.", zh: "一歐元五十分。也有十次券。" },
+                        { speaker: "F", name: "Ana", es: "Quiero un bono de diez viajes, por favor.", zh: "我要一張十次券，麻煩了。" },
+                        { speaker: "M", name: "Carlos", es: "Son doce euros. ¡Buen viaje!", zh: "十二歐元。旅途愉快！" }
+                    ]
+                }
             },
             {
                 title: "Day 17: 問路與方位",
@@ -1963,7 +2806,20 @@
                     { es: "¿Está lejos andando?", zh: "走路會很遠嗎？", tip: "Andar = Walk。", ex: "¿Puedo ir andando?", ex_zh: "我可以走路去嗎？" },
                     { es: "¿Cuántos metros/kilómetros?", zh: "多少公尺/公里？", tip: "距離單位。", ex: "¿Cuántos metros hay?", ex_zh: "有多少公尺？" },
                     { es: "Muchas gracias por la ayuda", zh: "非常感謝幫忙", tip: "禮貌結束。", ex: "Muchas gracias por su ayuda.", ex_zh: "非常感謝您的幫助。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在路上問方向",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "Perdón, ¿cómo llego al museo?", zh: "不好意思，我怎麼去博物館？" },
+                        { speaker: "F", name: "Ana", es: "Siga todo recto dos calles.", zh: "直走兩條街。" },
+                        { speaker: "M", name: "Carlos", es: "¿Y después?", zh: "然後呢？" },
+                        { speaker: "F", name: "Ana", es: "Gire a la derecha en la esquina.", zh: "在轉角右轉。" },
+                        { speaker: "M", name: "Carlos", es: "¿Está lejos?", zh: "很遠嗎？" },
+                        { speaker: "F", name: "Ana", es: "No, está a cinco minutos a pie.", zh: "不遠，走路五分鐘。" },
+                        { speaker: "M", name: "Carlos", es: "¿Está al lado de la iglesia?", zh: "在教堂旁邊嗎？" },
+                        { speaker: "F", name: "Ana", es: "Sí, está entre la iglesia y el parque.", zh: "對，在教堂和公園之間。" }
+                    ]
+                }
             },
             {
                 title: "Day 18: 機場與登機",
@@ -1993,7 +2849,20 @@
                     { es: "¿Hay cambio de moneda?", zh: "有換錢的地方嗎？", tip: "Currency exchange。", ex: "Busco cambio de moneda.", ex_zh: "我在找換錢的地方。" },
                     { es: "La wifi del aeropuerto", zh: "機場WiFi", tip: "Airport WiFi。", ex: "¿Hay wifi gratis?", ex_zh: "有免費WiFi嗎？" },
                     { es: "¿Dónde está el taxi?", zh: "計程車在哪？", tip: "Taxi stand。", ex: "Busco la parada de taxis.", ex_zh: "我在找計程車招呼站。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在機場報到",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "Buenos días. Quiero facturar mi equipaje.", zh: "早安。我要托運行李。" },
+                        { speaker: "F", name: "Ana", es: "Su pasaporte y tarjeta de embarque, por favor.", zh: "請出示您的護照和登機證。" },
+                        { speaker: "M", name: "Carlos", es: "Aquí tiene. ¿Puedo elegir asiento?", zh: "給您。我可以選座位嗎？" },
+                        { speaker: "F", name: "Ana", es: "¿Ventanilla o pasillo?", zh: "靠窗還是走道？" },
+                        { speaker: "M", name: "Carlos", es: "Ventanilla, por favor.", zh: "靠窗，麻煩了。" },
+                        { speaker: "F", name: "Ana", es: "Su puerta de embarque es la B veintitrés.", zh: "您的登機門是 B23。" },
+                        { speaker: "M", name: "Carlos", es: "¿A qué hora es el embarque?", zh: "幾點登機？" },
+                        { speaker: "F", name: "Ana", es: "A las diez y media. ¡Buen vuelo!", zh: "十點半。祝您旅途愉快！" }
+                    ]
+                }
             },
             {
                 title: "Day 19: 租車與加油",
@@ -2018,7 +2887,20 @@
                     { es: "¿Cuánto cuesta aparcar?", zh: "停車多少錢？", tip: "Aparcar = Park。", ex: "¿Cuánto cuesta por hora?", ex_zh: "一小時多少錢？" },
                     { es: "Está prohibido aparcar", zh: "禁止停車", tip: "No parking。", ex: "Aquí está prohibido aparcar.", ex_zh: "這裡禁止停車。" },
                     { es: "Una multa", zh: "罰單", tip: "Fine/Ticket。", ex: "Me pusieron una multa.", ex_zh: "我被開罰單了。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在租車公司",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "Hola, quiero alquilar un coche.", zh: "嗨，我想租一輛車。" },
+                        { speaker: "F", name: "Ana", es: "¿Para cuántos días?", zh: "租幾天？" },
+                        { speaker: "M", name: "Carlos", es: "Para cinco días.", zh: "五天。" },
+                        { speaker: "F", name: "Ana", es: "¿Automático o manual?", zh: "自排還是手排？" },
+                        { speaker: "M", name: "Carlos", es: "Automático, por favor. ¿Incluye seguro?", zh: "自排，麻煩了。含保險嗎？" },
+                        { speaker: "F", name: "Ana", es: "Sí, seguro básico. ¿Necesita GPS?", zh: "含基本保險。需要 GPS 嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí. ¿Dónde está la gasolinera más cercana?", zh: "要。最近的加油站在哪？" },
+                        { speaker: "F", name: "Ana", es: "A dos kilómetros. Tiene que devolver el coche con el tanque lleno.", zh: "兩公里外。您需要加滿油歸還。" }
+                    ]
+                }
             },
             {
                 title: "Day 20: 計程車與共乘",
@@ -2043,7 +2925,20 @@
                     { es: "No conozco el camino", zh: "我不知道路", tip: "Camino = Way。", ex: "No conozco bien esta zona.", ex_zh: "我不太熟這一區。" },
                     { es: "Uber / Cabify", zh: "優步 / Cabify（叫車App）", tip: "App names。", ex: "Voy a pedir un Uber.", ex_zh: "我要叫Uber。" },
                     { es: "Conductor", zh: "司機", tip: "Driver。", ex: "Mi conductor llega en 3 minutos.", ex_zh: "我的司機3分鐘後到。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "搭計程車去機場",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "¡Taxi! Al aeropuerto, por favor.", zh: "計程車！去機場，麻煩了。" },
+                        { speaker: "F", name: "Ana", es: "Sí, señor. ¿Tiene prisa?", zh: "好的，先生。您趕時間嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí, mi vuelo sale a las tres.", zh: "是的，我的航班三點起飛。" },
+                        { speaker: "F", name: "Ana", es: "No hay problema. Llegamos en treinta minutos.", zh: "沒問題。三十分鐘到。" },
+                        { speaker: "M", name: "Carlos", es: "¿Cuánto cuesta al aeropuerto?", zh: "到機場多少錢？" },
+                        { speaker: "F", name: "Ana", es: "Unos veinticinco euros.", zh: "大約二十五歐元。" },
+                        { speaker: "M", name: "Carlos", es: "¿Puede poner el aire acondicionado?", zh: "可以開冷氣嗎？" },
+                        { speaker: "F", name: "Ana", es: "Claro. Ya llegamos. Son veinticuatro euros.", zh: "當然。到了。二十四歐元。" }
+                    ]
+                }
             },
             {
                 title: "Day 21: 觀光景點",
@@ -2073,7 +2968,20 @@
                     { es: "La oficina de turismo", zh: "旅遊服務中心", tip: "Tourist office。", ex: "¿Dónde está la oficina de turismo?", ex_zh: "旅遊服務中心在哪？" },
                     { es: "¿Qué me recomienda ver?", zh: "你推薦我看什麼？", tip: "問推薦景點。", ex: "¿Qué lugares recomienda visitar?", ex_zh: "你推薦參觀哪些地方？" },
                     { es: "Impresionante", zh: "令人印象深刻", tip: "Impressive。", ex: "¡Qué impresionante!", ex_zh: "太令人印象深刻了！" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在觀光景點門口",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "Dos entradas, por favor.", zh: "兩張票，麻煩了。" },
+                        { speaker: "M", name: "Carlos", es: "¿Tiene carné de estudiante?", zh: "您有學生證嗎？" },
+                        { speaker: "F", name: "Ana", es: "No. ¿Cuánto cuesta la entrada normal?", zh: "沒有。普通票多少錢？" },
+                        { speaker: "M", name: "Carlos", es: "Quince euros por persona.", zh: "每人十五歐元。" },
+                        { speaker: "F", name: "Ana", es: "¿Se pueden hacer fotos dentro?", zh: "裡面可以拍照嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí, pero sin flash.", zh: "可以，但不能開閃光燈。" },
+                        { speaker: "F", name: "Ana", es: "¿Hay guía en español?", zh: "有西班牙語導覽嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí, la visita guiada empieza a las once.", zh: "有，導覽十一點開始。" }
+                    ]
+                }
             },
             {
                 title: "Day 22: 第三週複習",
@@ -2093,7 +3001,20 @@
                     { es: "Museo/Catedral/Plaza/Playa", zh: "景點類型", tip: "觀光必知。", ex: "Vamos a la plaza.", ex_zh: "我們去廣場。" },
                     { es: "¿Cuánto cuesta la entrada?", zh: "門票多少錢？", tip: "買票必問。", ex: "¿La entrada es gratis?", ex_zh: "門票免費嗎？" },
                     { es: "¿Se pueden hacer fotos?", zh: "可以拍照嗎？", tip: "拍照禮貌。", ex: "¿Puedo sacar fotos aquí?", ex_zh: "我可以在這拍照嗎？" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在公園聊這週的旅行",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "¿Qué tal tu semana?", zh: "你這週怎麼樣？" },
+                        { speaker: "F", name: "Ana", es: "¡Increíble! Fui al museo y al mercado.", zh: "太棒了！我去了博物館和市場。" },
+                        { speaker: "M", name: "Carlos", es: "Yo alquilé un coche y fui a la playa.", zh: "我租了車去了海邊。" },
+                        { speaker: "F", name: "Ana", es: "¿Cómo llegaste a la playa?", zh: "你怎麼到海邊的？" },
+                        { speaker: "M", name: "Carlos", es: "Conduje dos horas. Fue fácil.", zh: "開了兩小時。很簡單。" },
+                        { speaker: "F", name: "Ana", es: "Yo tomé el metro y el autobús.", zh: "我搭了地鐵和公車。" },
+                        { speaker: "M", name: "Carlos", es: "Mañana quiero ir al aeropuerto temprano.", zh: "我明天想早點去機場。" },
+                        { speaker: "F", name: "Ana", es: "¡Buen viaje! Nos vemos pronto.", zh: "旅途愉快！我們很快再見。" }
+                    ]
+                }
             },
             
             // ===== 第四週：深度體驗 (Day 22-28) =====
@@ -2121,7 +3042,20 @@
                     { es: "El invierno", zh: "冬天", tip: "Winter。", ex: "En invierno nieva.", ex_zh: "冬天下雪。" },
                     { es: "Húmedo / Seco", zh: "潮濕 / 乾燥", tip: "Humid / Dry。", ex: "Hace calor y húmedo.", ex_zh: "又熱又潮濕。" },
                     { es: "El paraguas", zh: "雨傘", tip: "Umbrella。", ex: "Necesito un paraguas.", ex_zh: "我需要雨傘。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "討論旅行天氣",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "¿Qué tiempo hace hoy?", zh: "今天天氣怎麼樣？" },
+                        { speaker: "M", name: "Carlos", es: "Hace sol, pero hace un poco de viento.", zh: "出太陽，但有點風。" },
+                        { speaker: "F", name: "Ana", es: "¿Va a llover mañana?", zh: "明天會下雨嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí, dicen que va a llover por la tarde.", zh: "會，據說下午會下雨。" },
+                        { speaker: "F", name: "Ana", es: "Necesito un paraguas. ¿Qué temperatura hace?", zh: "我需要一把傘。幾度？" },
+                        { speaker: "M", name: "Carlos", es: "Unos veinte grados. Hace buen tiempo.", zh: "大約二十度。天氣不錯。" },
+                        { speaker: "F", name: "Ana", es: "En invierno hace mucho frío aquí, ¿no?", zh: "這裡冬天很冷吧？" },
+                        { speaker: "M", name: "Carlos", es: "Sí, a veces nieva en enero y febrero.", zh: "是的，一月和二月有時會下雪。" }
+                    ]
+                }
             },
             {
                 title: "Day 24: 身體部位與健康",
@@ -2151,7 +3085,20 @@
                     { es: "Tengo diarrea", zh: "我拉肚子", tip: "Diarrea = Diarrhea。", ex: "Tengo diarrea.", ex_zh: "我拉肚子。" },
                     { es: "Tengo náuseas", zh: "我想吐", tip: "Náusea = Nausea。", ex: "Tengo náuseas y mareo.", ex_zh: "我想吐和頭暈。" },
                     { es: "Tengo alergia", zh: "我過敏", tip: "Alergia = Allergy。", ex: "Tengo alergia al polen.", ex_zh: "我對花粉過敏。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "朋友身體不舒服",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "Ana, ¿estás bien? No te ves bien.", zh: "Ana，你還好嗎？你看起來不太好。" },
+                        { speaker: "F", name: "Ana", es: "No, me duele la cabeza.", zh: "不好，我頭痛。" },
+                        { speaker: "M", name: "Carlos", es: "¿Tienes fiebre?", zh: "你有發燒嗎？" },
+                        { speaker: "F", name: "Ana", es: "Sí, un poco. Y me duele la garganta.", zh: "有，一點點。而且我喉嚨痛。" },
+                        { speaker: "M", name: "Carlos", es: "Tienes que descansar.", zh: "你需要休息。" },
+                        { speaker: "F", name: "Ana", es: "También me duele el estómago.", zh: "我肚子也痛。" },
+                        { speaker: "M", name: "Carlos", es: "¿Quieres ir al médico?", zh: "你想去看醫生嗎？" },
+                        { speaker: "F", name: "Ana", es: "Sí, creo que necesito ir a la farmacia.", zh: "好，我想我需要去藥局。" }
+                    ]
+                }
             },
             {
                 title: "Day 25: 看醫生與藥局",
@@ -2181,7 +3128,20 @@
                     { es: "Cada ocho horas", zh: "每八小時", tip: "Cada = Every。", ex: "Una pastilla cada ocho horas.", ex_zh: "每八小時一顆。" },
                     { es: "Antes/Después de comer", zh: "飯前/飯後", tip: "用藥時間。", ex: "Tómelo después de comer.", ex_zh: "飯後吃。" },
                     { es: "El seguro médico", zh: "醫療保險", tip: "Insurance。", ex: "Tengo seguro médico.", ex_zh: "我有醫療保險。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在診所看醫生",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "Buenos días. ¿Qué le pasa?", zh: "早安。您怎麼了？" },
+                        { speaker: "F", name: "Ana", es: "Me duele mucho la cabeza y tengo fiebre.", zh: "我頭很痛而且發燒。" },
+                        { speaker: "M", name: "Carlos", es: "¿Desde cuándo tiene estos síntomas?", zh: "這些症狀從什麼時候開始的？" },
+                        { speaker: "F", name: "Ana", es: "Desde ayer por la noche.", zh: "從昨天晚上開始。" },
+                        { speaker: "M", name: "Carlos", es: "¿Es alérgica a algún medicamento?", zh: "您對什麼藥物過敏嗎？" },
+                        { speaker: "F", name: "Ana", es: "No, no soy alérgica a nada.", zh: "不，我什麼都不過敏。" },
+                        { speaker: "M", name: "Carlos", es: "Le receto estas pastillas. Tome una cada ocho horas.", zh: "我開這些藥給您。每八小時吃一顆。" },
+                        { speaker: "F", name: "Ana", es: "Gracias, doctor. ¿Dónde hay una farmacia?", zh: "謝謝，醫生。哪裡有藥局？" }
+                    ]
+                }
             },
             {
                 title: "Day 26: 緊急狀況與求助",
@@ -2211,7 +3171,20 @@
                     { es: "No puedo moverme", zh: "我不能動", tip: "Moverse = Move。", ex: "Me duele, no puedo moverme.", ex_zh: "我很痛，我動不了。" },
                     { es: "Llamen al 112", zh: "請打112（歐洲緊急電話）", tip: "Emergency number。", ex: "Es urgente, llamen al 112.", ex_zh: "很緊急，請打112。" },
                     { es: "Mi seguro", zh: "我的保險", tip: "Insurance。", ex: "Tengo seguro de viaje.", ex_zh: "我有旅遊保險。" }
-                ]
+                ],
+                dialogue: {
+                    scene: "護照遺失，向警察求助",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "¡Ayuda! ¡He perdido mi pasaporte!", zh: "救命！我弄丟護照了！" },
+                        { speaker: "M", name: "Carlos", es: "Cálmese. ¿Dónde lo perdió?", zh: "冷靜。您在哪裡弄丟的？" },
+                        { speaker: "F", name: "Ana", es: "No sé. Creo que en el metro.", zh: "我不知道。我想是在地鐵。" },
+                        { speaker: "M", name: "Carlos", es: "¿Cuándo fue la última vez que lo vio?", zh: "您最後一次看到護照是什麼時候？" },
+                        { speaker: "F", name: "Ana", es: "Esta mañana en el hotel.", zh: "今天早上在飯店。" },
+                        { speaker: "M", name: "Carlos", es: "Tiene que ir a la comisaría de policía.", zh: "您需要去警察局。" },
+                        { speaker: "F", name: "Ana", es: "¿Dónde está la comisaría más cercana?", zh: "最近的警察局在哪裡？" },
+                        { speaker: "M", name: "Carlos", es: "Está en la calle Mayor. También llame a su embajada.", zh: "在大街上。也打電話給您的大使館。" }
+                    ]
+                }
             },
             {
                 title: "Day 27: 銀行與郵局",
@@ -2236,7 +3209,20 @@
                     { es: "Certificado", zh: "掛號", tip: "Registered。", ex: "Quiero enviarlo certificado.", ex_zh: "我想寄掛號。" },
                     { es: "Un sello", zh: "一張郵票", tip: "Stamp。", ex: "Necesito sellos.", ex_zh: "我需要郵票。" },
                     { es: "La dirección", zh: "地址", tip: "Address。", ex: "¿Cuál es la dirección?", ex_zh: "地址是什麼？" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在銀行換錢",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "Buenos días. Quiero cambiar dólares a euros.", zh: "早安。我想把美元換成歐元。" },
+                        { speaker: "F", name: "Ana", es: "¿Cuánto quiere cambiar?", zh: "您要換多少？" },
+                        { speaker: "M", name: "Carlos", es: "Quinientos dólares.", zh: "五百美元。" },
+                        { speaker: "F", name: "Ana", es: "El tipo de cambio hoy es uno a cero noventa y dos.", zh: "今天的匯率是一比零點九二。" },
+                        { speaker: "M", name: "Carlos", es: "¿Hay comisión?", zh: "有手續費嗎？" },
+                        { speaker: "F", name: "Ana", es: "Sí, tres euros de comisión.", zh: "有，三歐元手續費。" },
+                        { speaker: "M", name: "Carlos", es: "Está bien. También quiero enviar dinero.", zh: "好的。我也想匯款。" },
+                        { speaker: "F", name: "Ana", es: "Necesita su pasaporte. Firme aquí, por favor.", zh: "需要您的護照。請在這裡簽名。" }
+                    ]
+                }
             },
             {
                 title: "Day 28: 打電話與網路",
@@ -2261,7 +3247,20 @@
                     { es: "Está comunicando", zh: "佔線中", tip: "Busy line。", ex: "El número está comunicando.", ex_zh: "號碼佔線中。" },
                     { es: "Número equivocado", zh: "打錯了", tip: "Wrong number。", ex: "Creo que es número equivocado.", ex_zh: "我想你打錯了。" },
                     { es: "¿Puede repetir?", zh: "可以重複一次嗎？", tip: "Repetir = Repeat。", ex: "No le oigo, ¿puede repetir?", ex_zh: "我聽不到，可以重複一次嗎？" }
-                ]
+                ],
+                dialogue: {
+                    scene: "買 SIM 卡和上網",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "Hola, necesito una tarjeta SIM.", zh: "嗨，我需要一張 SIM 卡。" },
+                        { speaker: "M", name: "Carlos", es: "¿Cuántos datos necesita?", zh: "您需要多少流量？" },
+                        { speaker: "F", name: "Ana", es: "Diez gigas para dos semanas.", zh: "兩週十 GB。" },
+                        { speaker: "M", name: "Carlos", es: "Tenemos un plan de quince euros.", zh: "我們有一個十五歐元的方案。" },
+                        { speaker: "F", name: "Ana", es: "¿Incluye llamadas?", zh: "包含通話嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí, llamadas ilimitadas en España.", zh: "是的，在西班牙無限通話。" },
+                        { speaker: "F", name: "Ana", es: "Perfecto. ¿Tienen wifi gratis aquí?", zh: "太好了。這裡有免費 wifi 嗎？" },
+                        { speaker: "M", name: "Carlos", es: "Sí. La contraseña es 'tienda2024'.", zh: "有。密碼是 'tienda2024'。" }
+                    ]
+                }
             },
             {
                 title: "Day 29: 情感表達與社交",
@@ -2291,7 +3290,20 @@
                     { es: "¿Viajas solo/a?", zh: "你一個人旅行嗎？", tip: "Solo = Alone。", ex: "¿Viajas solo o con amigos?", ex_zh: "你一個人旅行還是跟朋友？" },
                     { es: "Vamos a tomar algo", zh: "我們去喝一杯吧", tip: "Tomar algo = Have a drink。", ex: "¿Quieres tomar algo?", ex_zh: "你想去喝一杯嗎？" },
                     { es: "¡Buen viaje!", zh: "旅途愉快！", tip: "祝福用語。", ex: "¡Que tengas buen viaje!", ex_zh: "祝你旅途愉快！" }
-                ]
+                ],
+                dialogue: {
+                    scene: "旅行結束前的告別",
+                    lines: [
+                        { speaker: "M", name: "Carlos", es: "Ana, estoy muy triste. Mañana te vas.", zh: "Ana，我好難過。你明天就走了。" },
+                        { speaker: "F", name: "Ana", es: "Yo también estoy triste. Me encanta España.", zh: "我也很難過。我超愛西班牙。" },
+                        { speaker: "M", name: "Carlos", es: "¡Qué bonitas las vacaciones!", zh: "這假期真美好！" },
+                        { speaker: "F", name: "Ana", es: "Sí, me gusta mucho este país.", zh: "是的，我非常喜歡這個國家。" },
+                        { speaker: "M", name: "Carlos", es: "Espero verte pronto.", zh: "希望很快再見到你。" },
+                        { speaker: "F", name: "Ana", es: "Yo también. Ha sido un placer conocerte.", zh: "我也是。很高興認識你。" },
+                        { speaker: "M", name: "Carlos", es: "¡Buen viaje! ¡Cuídate mucho!", zh: "旅途愉快！多保重！" },
+                        { speaker: "F", name: "Ana", es: "¡Gracias por todo! ¡Hasta pronto!", zh: "謝謝你的一切！很快再見！" }
+                    ]
+                }
             },
             {
                 title: "Day 30: 第四週複習",
@@ -2316,7 +3328,21 @@
                     { es: "¡Qué bonito! ¡Qué rico!", zh: "讚嘆表達", tip: "表達驚嘆。", ex: "¡Qué bonita es esta ciudad!", ex_zh: "這座城市好漂亮！" },
                     { es: "Muchas gracias / De nada", zh: "禮貌用語", tip: "感謝回應。", ex: "Muchas gracias. De nada.", ex_zh: "非常感謝。不客氣。" },
                     { es: "¡Buen viaje!", zh: "祝福語", tip: "道別祝福。", ex: "¡Que tengas buen viaje!", ex_zh: "祝你旅途愉快！" }
-                ]
+                ],
+                dialogue: {
+                    scene: "在機場回顧整趟旅程",
+                    lines: [
+                        { speaker: "F", name: "Ana", es: "¡No puedo creer que ya me voy!", zh: "真不敢相信我要走了！" },
+                        { speaker: "M", name: "Carlos", es: "¿Te gustó España?", zh: "你喜歡西班牙嗎？" },
+                        { speaker: "F", name: "Ana", es: "¡Me encantó! La comida, la gente, todo.", zh: "超愛！食物、人、一切。" },
+                        { speaker: "M", name: "Carlos", es: "¿Qué fue lo que más te gustó?", zh: "你最喜歡什麼？" },
+                        { speaker: "F", name: "Ana", es: "El mercado y los museos. ¡Y los churros!", zh: "市場和博物館。還有吉拿棒！" },
+                        { speaker: "M", name: "Carlos", es: "¡Tu español es muy bueno ahora!", zh: "你的西班牙語現在很棒了！" },
+                        { speaker: "F", name: "Ana", es: "Gracias. Aprendí mucho en treinta días.", zh: "謝謝。我三十天學了很多。" },
+                        { speaker: "M", name: "Carlos", es: "¡Hasta pronto, amiga! ¡Buen viaje!", zh: "朋友，很快再見！旅途愉快！" },
+                        { speaker: "F", name: "Ana", es: "¡Adiós, Carlos! ¡Muchas gracias por todo!", zh: "再見，Carlos！非常感謝你的一切！" }
+                    ]
+                }
             },
             
             {
@@ -2395,21 +3421,51 @@
         let samsungModel = '';
         let ttsGuideShown = false;
 
+        // Boss 關卡定義
+        const gameDays = {
+            4: { emoji: '⚔️', title: 'Ser vs Estar 極速挑戰', level: 'serEstar', ready: true },
+            9: { emoji: '🍽️', title: '瘋狂服務生', level: 'waiter', ready: true },
+            14: { emoji: '💣', title: '拆彈填空', level: 'bomb', ready: true },
+            19: { emoji: '🚕', title: '左右為難的計程車司機', level: 'taxi', ready: true },
+            24: { emoji: '🏥', title: '急診醫生', level: 'doctor', ready: true },
+            29: { emoji: '💬', title: '社交達人', level: 'social', ready: true }
+        };
+
         // Initialize
         curriculum.forEach((day, index) => {
             const option = document.createElement('option');
             option.value = index;
             option.text = day.title;
             select.appendChild(option);
+
+            // 在特定 Day 後插入 Boss 關卡選項
+            if (gameDays[index]) {
+                const boss = gameDays[index];
+                const bossOption = document.createElement('option');
+                bossOption.value = 'boss-' + index;
+                bossOption.text = boss.emoji + ' Boss：' + boss.title + (boss.ready ? '' : '（即將開放）');
+                if (!boss.ready) bossOption.disabled = true;
+                select.appendChild(bossOption);
+            }
         });
 
         // Tab Switching
 
         // Render Lesson Content
         function renderContent() {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
             const dayIndex = select.value;
+
+            // Boss 關卡頁面
+            if (typeof dayIndex === 'string' && dayIndex.startsWith('boss-')) {
+                renderBossPage(dayIndex);
+                return;
+            }
+
             const dayData = curriculum[dayIndex];
-            
+
             const percentage = ((parseInt(dayIndex) + 1) / curriculum.length) * 100;
             progressBar.style.width = percentage + "%";
 
@@ -2474,14 +3530,281 @@
             quizDiv.className = 'quiz-start-area';
             quizDiv.innerHTML = `<button class="btn-quiz-start" onclick="startQuiz()"><span>🧠 開始每日測驗</span></button>`;
             container.appendChild(quizDiv);
+
+            // ===== 渲染對話區塊 =====
+            if (dayData.dialogue) {
+                const dialogueDiv = document.createElement('div');
+                dialogueDiv.className = 'dialogue-section';
+                dialogueDiv.innerHTML = `
+                    <div class="dialogue-header">
+                        <h3>🎭 今日對話練習</h3>
+                        <p class="dialogue-scene">${dayData.dialogue.scene}</p>
+                        <div class="dialogue-controls">
+                            <button class="btn-play-dialogue" id="btnPlayDialogue" onclick="playDialogue()">▶ 播放對話</button>
+                            <button class="btn-toggle-zh" id="btnToggleZh" onclick="toggleDialogueZh()">🙈 顯示中文</button>
+                        </div>
+                    </div>
+                    <div class="dialogue-lines" id="dialogueLines">
+                        ${dayData.dialogue.lines.map((line, i) => `
+                            <div class="dialogue-line ${line.speaker === 'M' ? 'male' : 'female'}" id="dline-${i}">
+                                <span class="speaker-avatar">${line.speaker === 'M' ? '👨' : '👩'}</span>
+                                <div class="dialogue-bubble">
+                                    <span class="speaker-name">${line.name}</span>
+                                    <p class="dialogue-es">${line.es}</p>
+                                    <p class="dialogue-zh" style="display:none">${line.zh}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(dialogueDiv);
+            }
         }
 
-        // Speech Synthesis - 本地優先，API 備用
-        function speak(text, audioFile) {
+        // ===== Boss 關卡頁面 =====
+        function renderBossPage(bossId) {
+            const dayIdx = parseInt(bossId.replace('boss-', ''));
+            const boss = gameDays[dayIdx];
+            if (!boss) return;
+
+            progressBar.style.width = ((dayIdx + 1) / curriculum.length * 100) + '%';
+            container.innerHTML = '';
+
+            const page = document.createElement('div');
+            page.className = 'card';
+            page.style.textAlign = 'center';
+            page.style.padding = '40px 24px';
+
+            if (boss.ready) {
+                page.innerHTML = `
+                    <div style="font-size:4rem;margin-bottom:16px">${boss.emoji}</div>
+                    <h2 style="margin-bottom:8px;color:var(--charcoal)">Boss 關卡</h2>
+                    <h3 style="margin-bottom:16px;color:var(--deep-red)">${boss.title}</h3>
+                    <p style="color:#666;margin-bottom:8px;line-height:1.7">
+                        每題 5 秒限時，需<strong>連續答對 5 題</strong>過關。<br>
+                        答錯或超時會重置連續計數，但不會結束遊戲。<br>
+                        共 10 題，加油！
+                    </p>
+                    <button class="btn-boss-level" onclick="startGame('${boss.level}')" style="margin-top:20px;max-width:360px;display:inline-block">
+                        ${boss.emoji} 開始挑戰
+                    </button>
+                `;
+            } else {
+                page.innerHTML = `
+                    <div style="font-size:4rem;margin-bottom:16px">${boss.emoji}</div>
+                    <h2 style="margin-bottom:8px;color:var(--charcoal)">Boss 關卡</h2>
+                    <h3 style="margin-bottom:16px;color:#999">${boss.title}</h3>
+                    <p style="color:#999;margin-bottom:20px">此關卡即將開放，敬請期待！</p>
+                    <button class="btn-boss-level" disabled style="max-width:360px;display:inline-block">
+                        🔒 即將開放
+                    </button>
+                `;
+            }
+
+            container.appendChild(page);
+        }
+
+        // ===== 對話播放功能 =====
+        let dialoguePlaying = false;
+        let dialogueZhVisible = false;
+
+        function isMaleVoiceName(voiceName) {
+            const name = voiceName.toLowerCase();
+            return name.includes('male') || name.includes('man') || name.includes('diego') ||
+                   name.includes('jorge') || name.includes('carlos') || name.includes('juan');
+        }
+
+        function isFemaleVoiceName(voiceName) {
+            const name = voiceName.toLowerCase();
+            return name.includes('female') || name.includes('woman') || name.includes('monica') ||
+                   name.includes('maria') || name.includes('lucia') || name.includes('paulina');
+        }
+
+        // 快取男女語音，避免每句重複搜尋
+        let cachedMaleVoice = null;
+        let cachedFemaleVoice = null;
+        let voicesCacheReady = false;
+
+        function prepareGenderedVoices() {
+            const spanishVoices = availableVoices.filter(v => v.lang.startsWith('es') || v.lang.startsWith('ES'));
+            if (spanishVoices.length === 0) {
+                cachedMaleVoice = selectedVoice;
+                cachedFemaleVoice = selectedVoice;
+                voicesCacheReady = true;
+                return;
+            }
+
+            const maleVoice = spanishVoices.find(v => isMaleVoiceName(v.name));
+            const femaleVoice = spanishVoices.find(v => isFemaleVoiceName(v.name));
+
+            if (maleVoice && femaleVoice) {
+                // 理想情況：找到不同性別語音
+                cachedMaleVoice = maleVoice;
+                cachedFemaleVoice = femaleVoice;
+            } else if (spanishVoices.length >= 2) {
+                // 有多個語音但無法區分性別：分配不同語音
+                cachedMaleVoice = maleVoice || spanishVoices[0];
+                cachedFemaleVoice = femaleVoice || spanishVoices.find(v => v !== cachedMaleVoice) || spanishVoices[1];
+            } else {
+                // 只有一個語音：靠 pitch 區分
+                cachedMaleVoice = spanishVoices[0];
+                cachedFemaleVoice = spanishVoices[0];
+            }
+            voicesCacheReady = true;
+        }
+
+        function speakWithGender(text, gender) {
+            return new Promise((resolve) => {
+                if (!voicesCacheReady) prepareGenderedVoices();
+
+                const voice = gender === 'M' ? cachedMaleVoice : cachedFemaleVoice;
+
+                // 沒有任何本地語音：降級用 Google TTS（無法區分性別）
+                if (!voice && !selectedVoice) {
+                    speakWithGoogleTTS(text).then(resolve).catch(resolve);
+                    return;
+                }
+
+                const sameVoice = (cachedMaleVoice === cachedFemaleVoice);
+                const msg = new SpeechSynthesisUtterance(text);
+                msg.lang = 'es-ES';
+                msg.rate = speechRate;
+                msg.voice = voice || selectedVoice;
+                // 同一語音時加大 pitch 差異以區分角色
+                if (sameVoice) {
+                    msg.pitch = gender === 'F' ? 1.4 : 0.75;
+                } else {
+                    msg.pitch = gender === 'F' ? 1.15 : 0.9;
+                }
+
+                let resolved = false;
+                const safeResolve = () => {
+                    if (!resolved) { resolved = true; resolve(); }
+                };
+
+                // 安全超時：避免 onend 永不觸發導致整段對話卡住
+                const maxWait = Math.max(text.length * 300 / speechRate, 4000);
+                const timeout = setTimeout(safeResolve, maxWait);
+
+                msg.onend = () => { clearTimeout(timeout); safeResolve(); };
+                msg.onerror = (e) => {
+                    clearTimeout(timeout);
+                    console.warn('本地 TTS 失敗，改用 Google TTS:', e);
+                    speakWithGoogleTTS(text).then(safeResolve).catch(safeResolve);
+                };
+
+                try {
+                    try { window.speechSynthesis.resume(); } catch(e2) {}
+                    window.speechSynthesis.speak(msg);
+                } catch (e) {
+                    clearTimeout(timeout);
+                    speakWithGoogleTTS(text).then(safeResolve).catch(safeResolve);
+                }
+            });
+        }
+
+        function highlightLine(index) {
+            clearHighlights();
+            const el = document.getElementById('dline-' + index);
+            if (el) {
+                el.classList.add('dialogue-playing');
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.dialogue-line.dialogue-playing').forEach(el => {
+                el.classList.remove('dialogue-playing');
+            });
+        }
+
+        let dialogueResumeTimer = null;
+
+        async function playDialogue() {
+            const dayData = curriculum[select.value];
+            if (!dayData || !dayData.dialogue) return;
+
+            // 手機音頻解鎖檢查
+            if (typeof audioUnlocked !== 'undefined' && !audioUnlocked && typeof isMobileDevice === 'function' && isMobileDevice()) {
+                showAudioUnlockBanner();
+                return;
+            }
+
+            const btn = document.getElementById('btnPlayDialogue');
+
+            // 已在播放中 → 停止
+            if (dialoguePlaying) {
+                stopDialogue();
+                return;
+            }
+
+            dialoguePlaying = true;
+            if (btn) {
+                btn.textContent = '⏹ 停止播放';
+                btn.classList.add('playing');
+            }
+
+            // 先停止其他語音
+            window.speechSynthesis.cancel();
+            // Chrome 在 cancel() 後立刻 speak() 會被吃掉，需要短暫延遲
+            await new Promise(r => setTimeout(r, 150));
+
+            // Chrome 15 秒自動暫停修復：定期 resume
+            dialogueResumeTimer = setInterval(() => {
+                if (window.speechSynthesis.paused) {
+                    window.speechSynthesis.resume();
+                }
+            }, 5000);
+
+            for (let i = 0; i < dayData.dialogue.lines.length; i++) {
+                if (!dialoguePlaying) break;
+                const line = dayData.dialogue.lines[i];
+                highlightLine(i);
+                await speakWithGender(line.es, line.speaker);
+                // 句間停頓 500ms
+                if (dialoguePlaying) {
+                    await new Promise(r => setTimeout(r, 500));
+                }
+            }
+
+            if (dialogueResumeTimer) { clearInterval(dialogueResumeTimer); dialogueResumeTimer = null; }
+            dialoguePlaying = false;
+            clearHighlights();
+            if (btn) {
+                btn.textContent = '▶ 播放對話';
+                btn.classList.remove('playing');
+            }
+        }
+
+        function stopDialogue() {
+            dialoguePlaying = false;
+            if (dialogueResumeTimer) { clearInterval(dialogueResumeTimer); dialogueResumeTimer = null; }
+            window.speechSynthesis.cancel();
+            clearHighlights();
+            const btn = document.getElementById('btnPlayDialogue');
+            if (btn) {
+                btn.textContent = '▶ 播放對話';
+                btn.classList.remove('playing');
+            }
+        }
+
+        function toggleDialogueZh() {
+            dialogueZhVisible = !dialogueZhVisible;
+            const btn = document.getElementById('btnToggleZh');
+            document.querySelectorAll('.dialogue-zh').forEach(el => {
+                el.style.display = dialogueZhVisible ? 'block' : 'none';
+            });
+            if (btn) {
+                btn.textContent = dialogueZhVisible ? '🐵 隱藏中文' : '🙈 顯示中文';
+                btn.classList.toggle('active', dialogueZhVisible);
+            }
+        }
+
+        // Speech Synthesis - 本地優先，Google TTS 備用
+        async function speak(text, audioFile) {
             console.log('=== speak() 被調用 ===');
             console.log('文字:', text);
-            console.log('策略: 三層備用（本地 TTS → Google TTS → 引導設定）');
-            
+
             // 檢查音頻是否已解鎖（主要針對手機）
             if (!audioUnlocked && isMobileDevice()) {
                 console.log('❌ 音頻未解鎖，顯示解鎖橫幅');
@@ -2491,124 +3814,105 @@
 
             // 停止當前播放
             stopCurrentPlayback();
-            
+
+            // Chrome 在 cancel() 後立刻 speak() 會被吞掉，需要短暫延遲
+            await new Promise(r => setTimeout(r, 150));
+
+            // Chrome 長時間開啟後 speechSynthesis 會卡住，resume() 可喚醒
+            try { window.speechSynthesis.resume(); } catch(e) {}
+
+            // 若已確認本地 TTS 不可用，直接跳到 Google TTS
+            if (localTTSAvailable === false) {
+                console.log('⏭️ 本地 TTS 已確認不可用，直接使用 Google TTS');
+                try {
+                    await speakWithGoogleTTS(text);
+                    console.log('✅ Google TTS 成功');
+                } catch(e) {
+                    console.log('❌ Google TTS 也失敗:', e);
+                    showTTSError();
+                }
+                return;
+            }
+
             // 第一層：使用本地 TTS
             console.log('🎯 第一層：嘗試本地 TTS...');
-            speakWithLocalTTS(text)
-                .then(() => {
-                    console.log('✅ 本地 TTS 成功');
-                })
-                .catch(error => {
-                    console.log('❌ 本地 TTS 失敗:', error);
-                    
-                    // 第二層：使用 Google TTS
-                    console.log('🎯 第二層：嘗試 Google TTS...');
-                    speakWithGoogleTTS(text)
-                        .then(() => {
-                            console.log('✅ Google TTS 成功');
-                            // 可選：顯示提示「目前使用線上語音」
-                        })
-                        .catch(error => {
-                            console.log('❌ Google TTS 也失敗:', error);
-                            
-                            // 第三層：顯示錯誤和引導
-                            console.log('❌ 所有 TTS 方案都失敗');
-                            localTTSAvailable = false;
-                            localStorage.setItem('localTTSAvailable', 'false');
-                            showTTSError();
-                        });
-                });
+            try {
+                await speakWithLocalTTS(text);
+                console.log('✅ 本地 TTS 成功');
+                localTTSAvailable = true;
+            } catch(error) {
+                console.log('❌ 本地 TTS 失敗:', error);
+                localTTSAvailable = false;
+
+                // 第二層：使用 Google TTS
+                console.log('🎯 第二層：嘗試 Google TTS...');
+                try {
+                    await speakWithGoogleTTS(text);
+                    console.log('✅ Google TTS 成功');
+                } catch(error2) {
+                    console.log('❌ Google TTS 也失敗:', error2);
+                    showTTSError();
+                }
+            }
         }
         
-        // 使用 Google Translate TTS 播放（備用方案，帶智能記憶）
+        // 使用 Google Translate TTS 播放（備用方案，並行嘗試多個來源）
         function speakWithGoogleTTS(text) {
             return new Promise((resolve, reject) => {
-                console.log('=== Google TTS 播放（智能優化） ===');
+                console.log('=== Google TTS 播放 ===');
                 console.log('文字:', text);
-                
+
                 try {
-                    // Google Translate TTS URL（非官方 API）
-                    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=es&q=${encodeURIComponent(text)}`;
-                    
-                    // 所有備用方案
-                    const allOptions = [
-                        { url: ttsUrl, name: '直接請求', id: 'direct' },
-                        { url: `https://api.allorigins.win/raw?url=${encodeURIComponent(ttsUrl)}`, name: 'AllOrigins', id: 'allorigins' },
-                        { url: `https://corsproxy.io/?${encodeURIComponent(ttsUrl)}`, name: 'CORSProxy', id: 'corsproxy' }
+                    // 用 client=gtx，比 tw-ob 更穩定
+                    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=gtx&tl=es&q=${encodeURIComponent(text)}`;
+
+                    // 多個來源並行嘗試，最先成功的勝出
+                    const sources = [
+                        { url: ttsUrl, name: '直接' },
+                        { url: `https://api.allorigins.win/raw?url=${encodeURIComponent(ttsUrl)}`, name: 'AllOrigins' },
+                        { url: `https://corsproxy.io/?${encodeURIComponent(ttsUrl)}`, name: 'CORSProxy' }
                     ];
-                    
-                    // 讀取上次成功的方案
-                    const lastSuccess = localStorage.getItem('googleTTSSuccess');
-                    
-                    // 重新排序：把上次成功的放第一
-                    let urlOptions = [...allOptions];
-                    if (lastSuccess) {
-                        const successIndex = urlOptions.findIndex(opt => opt.id === lastSuccess);
-                        if (successIndex > 0) {
-                            const successOption = urlOptions.splice(successIndex, 1)[0];
-                            urlOptions.unshift(successOption);
-                            console.log(`💡 優先使用上次成功的: ${successOption.name}`);
+
+                    let won = false;
+                    let failCount = 0;
+
+                    function onFail(name) {
+                        failCount++;
+                        console.log(`❌ ${name} 失敗 (${failCount}/${sources.length})`);
+                        if (failCount >= sources.length && !won) {
+                            reject(new Error('所有 Google TTS 來源都失敗'));
                         }
                     }
-                    
-                    let currentIndex = 0;
-                    let resolved = false;
-                    
-                    function tryNextUrl() {
-                        if (resolved) return;
-                        
-                        if (currentIndex >= urlOptions.length) {
-                            console.error('❌ 所有備用方案都失敗');
-                            reject(new Error('所有 TTS 備用方案都失敗'));
-                            return;
-                        }
-                        
-                        const option = urlOptions[currentIndex];
-                        console.log(`🔄 嘗試 ${currentIndex + 1}/${urlOptions.length}: ${option.name}`);
-                        currentIndex++;
-                        
-                        const audio = new Audio(option.url);
-                        audio.playbackRate = speechRate;
-                        
+
+                    sources.forEach(src => {
+                        const audio = new Audio();
+                        audio.preload = 'auto';
+
                         audio.oncanplaythrough = function() {
-                            if (resolved) return;
-                            console.log(`✅ ${option.name} 音檔載入`);
-                            
+                            if (won) return;
                             audio.play()
                                 .then(() => {
-                                    if (resolved) return;
-                                    resolved = true;
-                                    console.log(`✅ ${option.name} 播放成功`);
-                                    
-                                    // 記住成功的方案
-                                    localStorage.setItem('googleTTSSuccess', option.id);
-                                    
+                                    if (won) return;
+                                    won = true;
+                                    audio.playbackRate = speechRate;
+                                    console.log(`✅ ${src.name} 播放成功`);
                                     resolve();
                                 })
-                                .catch(error => {
-                                    if (resolved) return;
-                                    console.log(`❌ ${option.name} 播放失敗`);
-                                    tryNextUrl();
-                                });
+                                .catch(() => onFail(src.name));
                         };
-                        
-                        audio.onerror = function(e) {
-                            if (resolved) return;
-                            console.log(`❌ ${option.name} 載入失敗`);
-                            tryNextUrl();
-                        };
-                        
-                        // 優化：減少超時到 1.5 秒（更快失敗，更快嘗試下一個）
+
+                        audio.onerror = () => onFail(src.name);
+
+                        // 3 秒全域超時
                         setTimeout(() => {
-                            if (!resolved && audio.readyState < 3) {
-                                console.log(`⏱️ ${option.name} 超時`);
-                                tryNextUrl();
+                            if (!won && audio.readyState < 3) {
+                                onFail(src.name + ' 超時');
                             }
-                        }, 1500);
-                    }
-                    
-                    tryNextUrl();
-                    
+                        }, 3000);
+
+                        audio.src = src.url;
+                    });
+
                 } catch (error) {
                     console.error('❌ Google TTS 錯誤:', error);
                     reject(error);
@@ -2621,28 +3925,26 @@
             return new Promise((resolve, reject) => {
                 console.log('=== 本地 TTS 播放 ===');
                 console.log('文字:', text);
-                
+
                 // 檢查語音是否可用
                 if (availableVoices.length === 0) {
                     console.log('語音列表為空，重新載入...');
                     availableVoices = window.speechSynthesis.getVoices();
                 }
-                
-                // 確保有選擇的語音
+
+                // 嘗試選擇語音：優先西班牙語，其次任何可用語音
                 if (!selectedVoice) {
-                    const spanishVoices = availableVoices.filter(voice => 
+                    const spanishVoices = availableVoices.filter(voice =>
                         voice.lang.startsWith('es') || voice.lang.startsWith('ES')
                     );
-                    
                     if (spanishVoices.length > 0) {
                         selectedVoice = spanishVoices[0];
-                        console.log('✅ 自動選擇語音:', selectedVoice.name);
+                        console.log('✅ 自動選擇西班牙語語音:', selectedVoice.name);
                     } else {
-                        reject(new Error('沒有可用的西班牙語語音'));
-                        return;
+                        console.log('⚠️ 無西班牙語語音，嘗試用 lang=es-ES 讓瀏覽器自動處理');
                     }
                 }
-                
+
                 try {
                     const msg = new SpeechSynthesisUtterance();
                     msg.text = text;
@@ -2650,50 +3952,45 @@
                     msg.rate = speechRate;
                     msg.volume = 1.0;
                     msg.pitch = 1.0;
-                    msg.voice = selectedVoice;
-                    
+                    // 有指定語音就用，沒有就讓瀏覽器依 lang 自動選
+                    if (selectedVoice) {
+                        msg.voice = selectedVoice;
+                    }
+
                     let hasStarted = false;
                     let timeout;
-                    
-                    // 成功開始播放
+
                     msg.onstart = function() {
                         console.log('✅ 本地 TTS 開始播放');
                         hasStarted = true;
                         clearTimeout(timeout);
-                        
-                        // 記錄本地 TTS 可用
-                        if (localTTSAvailable === null) {
-                            localTTSAvailable = true;
-                            localStorage.setItem('localTTSAvailable', 'true');
-                        }
-                        
+                        localTTSAvailable = true;
                         resolve();
                     };
-                    
+
                     msg.onend = function() {
                         console.log('✅ 本地 TTS 播放完成');
                     };
-                    
-                    // 播放錯誤
+
                     msg.onerror = function(event) {
                         console.error('❌ 本地 TTS 錯誤:', event.error);
                         clearTimeout(timeout);
-                        reject(new Error(`TTS error: ${event.error}`));
+                        reject(new Error('TTS error: ' + event.error));
                     };
-                    
+
                     // 超時檢測（2 秒內沒開始視為失敗）
                     timeout = setTimeout(() => {
                         if (!hasStarted) {
-                            console.error('❌ 本地 TTS 超時（2秒未開始播放）');
+                            console.error('❌ 本地 TTS 超時');
                             window.speechSynthesis.cancel();
                             reject(new Error('TTS timeout'));
                         }
                     }, 2000);
-                    
-                    // 開始播放
+
+                    try { window.speechSynthesis.resume(); } catch(e) {}
                     window.speechSynthesis.speak(msg);
                     console.log('✅ 本地 TTS speak() 已執行');
-                    
+
                 } catch (error) {
                     console.error('❌ 本地 TTS 初始化錯誤:', error);
                     reject(error);
@@ -3316,13 +4613,14 @@
             }
         }
         
-        // 使用 TTS 播放（原本的 speak 邏輯）
-        // speakWithTTS - 為了向後兼容保留的包裝器
+        // speakWithTTS - 向後兼容包裝器（含 Google TTS 備用）
         function speakWithTTS(text) {
             console.log('=== speakWithTTS (包裝器) ===');
-            // 調用新的 speakWithLocalTTS
             speakWithLocalTTS(text).catch(error => {
-                console.error('TTS 播放失敗:', error);
+                console.log('本地 TTS 失敗，嘗試 Google TTS:', error);
+                speakWithGoogleTTS(text).catch(e => {
+                    console.error('所有 TTS 播放都失敗:', e);
+                });
             });
         }
 
@@ -3902,7 +5200,10 @@
                         genderBadge = ' 👩 女聲';
                     }
                     
-                    option.textContent = `${voice.name} (${voice.lang})${genderBadge}`;
+                    const langLabel = voice.lang === 'es-US' || voice.lang === 'es_US'
+                        ? '拉丁美洲 Latin America'
+                        : voice.lang;
+                    option.textContent = `${voice.name} (${langLabel})${genderBadge}`;
                     voiceSelect.appendChild(option);
                     
                     console.log(`語音選項 ${index}:`, voice.name, voice.lang, voice.localService ? '本地' : '遠端');
@@ -3928,10 +5229,11 @@
                     voiceSelect.addEventListener('change', (e) => {
                         const voiceIndex = parseInt(e.target.value);
                         selectedVoice = spanishVoices[voiceIndex];
+                        voicesCacheReady = false; // 重新偵測男女語音
                         console.log('=== 切換語音 ===');
                         console.log('新語音:', selectedVoice.name, selectedVoice.lang);
                         console.log('本地服務:', selectedVoice.localService);
-                        
+
                         // 試聽選擇的語音
                         speak('Hola');
                     });
@@ -3940,21 +5242,17 @@
                 }
             } else if (voiceSelect) {
                 if (spanishVoices.length === 0) {
-                    console.warn('⚠️ 沒有找到西班牙語語音');
-                    voiceSelect.innerHTML = '<option>無可用的西班牙語語音（請檢查系統設定）</option>';
+                    console.warn('⚠️ 沒有找到西班牙語語音，將使用線上語音');
+                    voiceSelect.innerHTML = '<option>🌐 使用線上語音（自動）</option>';
                 }
             }
-            
+
             return spanishVoices.length > 0;
         }
         
         // 載入語音（某些瀏覽器需要等待）
-        // 從 localStorage 讀取 TTS 狀態
-        const storedTTSStatus = localStorage.getItem('localTTSAvailable');
-        if (storedTTSStatus) {
-            localTTSAvailable = storedTTSStatus === 'true';
-            console.log('從緩存讀取 TTS 狀態:', localTTSAvailable ? '可用' : '不可用');
-        }
+        // 每次重新載入都重新偵測 TTS 狀態（不從 localStorage 讀取舊值）
+        localTTSAvailable = null;
         
         // 多次嘗試載入語音，因為有些設備需要時間
         let voiceLoadAttempts = 0;
@@ -3980,6 +5278,15 @@
         
         // 立即嘗試載入，如果失敗則重試
         tryLoadVoices();
+
+        // Chrome 15 秒自動暫停修復：定期 resume 防止 speechSynthesis 卡住
+        setInterval(() => {
+            try {
+                if (window.speechSynthesis.speaking && window.speechSynthesis.paused) {
+                    window.speechSynthesis.resume();
+                }
+            } catch(e) {}
+        }, 5000);
 
         // Initial Render
         renderContent();
@@ -4085,6 +5392,472 @@
                 resultDiv.innerHTML = `<div style="color: #e74c3c; font-weight: bold;">❌ Google TTS 測試失敗</div><div style="color: #aaa; font-size: 10px; margin-top: 5px;">${error.message}</div>`;
             }
         };
+        // ===== Ser vs Estar Game =====
+        const gameQuestions = [
+            { sentence: 'Yo ___ de Taiwán.', answer: 'Ser', hint: '我來自台灣', form: 'soy' },
+            { sentence: 'Ella ___ bonita.', answer: 'Ser', hint: '她很漂亮', form: 'es' },
+            { sentence: 'Él ___ alto.', answer: 'Ser', hint: '他很高', form: 'es' },
+            { sentence: 'Nosotros ___ turistas.', answer: 'Ser', hint: '我們是遊客', form: 'somos' },
+            { sentence: '___ las tres.', answer: 'Ser', hint: '三點了', form: 'Son' },
+            { sentence: 'Yo ___ aquí.', answer: 'Estar', hint: '我在這裡', form: 'estoy' },
+            { sentence: 'Tú ___ cansado.', answer: 'Estar', hint: '你累了', form: 'estás' },
+            { sentence: 'Ella ___ feliz.', answer: 'Estar', hint: '她很開心', form: 'está' },
+            { sentence: 'El museo ___ cerrado.', answer: 'Estar', hint: '博物館關了', form: 'está' },
+            { sentence: 'Ellos ___ perdidos.', answer: 'Estar', hint: '他們迷路了', form: 'están' }
+        ];
+
+        // ===== Day 10: 瘋狂服務生 =====
+        const waiterQuestions = [
+            { prompt: '我要一杯黑咖啡', answer: 'Un café solo', choices: ['Un café solo', 'Un café con leche', 'Un cortado', 'Un cappuccino'], hint: 'solo = 單獨的 → 黑咖啡' },
+            { prompt: '一杯拿鐵', answer: 'Un café con leche', choices: ['Un café con leche', 'Té verde', 'Zumo de naranja', 'Chocolate caliente'], hint: 'con leche = 加牛奶' },
+            { prompt: '我要薄荷茶', answer: 'Té de menta', choices: ['Té de menta', 'Té verde', 'Té negro', 'Infusión'], hint: 'menta = 薄荷' },
+            { prompt: '一杯柳橙汁', answer: 'Zumo de naranja', choices: ['Zumo de naranja', 'Batido', 'Refresco', 'Agua mineral'], hint: 'zumo = 果汁, naranja = 柳橙' },
+            { prompt: '我要冰淇淋', answer: 'Helado', choices: ['Helado', 'Tarta', 'Flan', 'Churros'], hint: 'helado = 冰的 → 冰淇淋' },
+            { prompt: '一份吉拿棒', answer: 'Churros', choices: ['Churros', 'Pastel', 'Flan', 'Tarta'], hint: 'churros 西班牙經典甜點' },
+            { prompt: '我要內用', answer: 'Para aquí', choices: ['Para aquí', 'Para llevar', 'Un café solo', 'Agua mineral'], hint: 'aquí = 這裡' },
+            { prompt: '一杯礦泉水', answer: 'Agua mineral', choices: ['Agua mineral', 'Refresco', 'Batido', 'Zumo de naranja'], hint: 'agua = 水, mineral = 礦泉' },
+            { prompt: '一塊蛋糕', answer: 'Tarta', choices: ['Tarta', 'Helado', 'Churros', 'Pastel'], hint: 'tarta = 蛋糕/塔' },
+            { prompt: '一杯熱巧克力', answer: 'Chocolate caliente', choices: ['Chocolate caliente', 'Café solo', 'Té negro', 'Batido'], hint: 'caliente = 熱的' }
+        ];
+
+        // ===== Day 15: 拆彈填空 =====
+        const bombQuestions = [
+            { sentence: 'Quiero ___ una mesa para dos.', answer: 'reservar', choices: ['reservar', 'comer', 'pagar', 'beber'], hint: '我想訂兩人的桌位' },
+            { sentence: '¿Qué ___?', answer: 'recomienda', choices: ['recomienda', 'quiere', 'tiene', 'pide'], hint: '你推薦什麼？' },
+            { sentence: '___ picante, por favor.', answer: 'Sin', choices: ['Sin', 'Con', 'Muy', 'Más'], hint: '請不要辣' },
+            { sentence: 'Un café para ___.', answer: 'llevar', choices: ['llevar', 'aquí', 'comer', 'beber'], hint: '一杯咖啡外帶' },
+            { sentence: '¿Cuánto ___?', answer: 'cuesta', choices: ['cuesta', 'tiene', 'vale', 'paga'], hint: '多少錢？' },
+            { sentence: '¿Puedo ___?', answer: 'probármelo', choices: ['probármelo', 'comprarlo', 'verlo', 'tocarlo'], hint: '我可以試穿嗎？' },
+            { sentence: '¿Tiene otra ___?', answer: 'talla', choices: ['talla', 'color', 'marca', 'forma'], hint: '有其他尺寸嗎？' },
+            { sentence: 'Me gusta en ___.', answer: 'azul', choices: ['azul', 'grande', 'barato', 'nuevo'], hint: '我喜歡藍色的' },
+            { sentence: 'No funciona el ___.', answer: 'aire acondicionado', choices: ['aire acondicionado', 'televisor', 'teléfono', 'ascensor'], hint: '冷氣壞了' },
+            { sentence: 'Tengo mucha ___.', answer: 'hambre', choices: ['hambre', 'sed', 'prisa', 'suerte'], hint: '我很餓' }
+        ];
+
+        // ===== Day 20: 左右為難的計程車司機 =====
+        const taxiQuestions = [
+            { prompt: '¡Gira a la derecha!', answer: '➡️', hint: 'derecha = 右邊' },
+            { prompt: '¡Sigue todo recto!', answer: '⬆️', hint: 'recto = 直走' },
+            { prompt: '¡A la izquierda en la esquina!', answer: '⬅️', hint: 'izquierda = 左邊' },
+            { prompt: '¡Gira a la izquierda!', answer: '⬅️', hint: 'gira = 轉' },
+            { prompt: '¡Todo recto hasta el semáforo!', answer: '⬆️', hint: 'semáforo = 紅綠燈' },
+            { prompt: '¡A la derecha después del puente!', answer: '➡️', hint: 'puente = 橋' },
+            { prompt: '¡Siga derecho!', answer: '⬆️', hint: 'derecho = 直的' },
+            { prompt: '¡Doble a la izquierda aquí!', answer: '⬅️', hint: 'doble = 轉彎' },
+            { prompt: '¡Tome la derecha!', answer: '➡️', hint: 'tome = 走（命令式）' },
+            { prompt: '¡Recto, por favor!', answer: '⬆️', hint: 'por favor = 拜託' }
+        ];
+
+        // ===== Day 25: 急診醫生 =====
+        const doctorQuestions = [
+            { prompt: 'Me duele la cabeza.', answer: 'cabeza', hint: '我頭痛' },
+            { prompt: 'Me duele el cuello.', answer: 'cuello', hint: '我脖子痛' },
+            { prompt: 'Tengo dolor en el pecho.', answer: 'pecho', hint: '我胸口痛' },
+            { prompt: 'Me duele el estómago.', answer: 'estomago', hint: '我肚子痛' },
+            { prompt: 'Me duele el brazo.', answer: 'brazo', hint: '我手臂痛' },
+            { prompt: 'Me duele la mano.', answer: 'mano', hint: '我手痛' },
+            { prompt: 'Tengo dolor de espalda.', answer: 'espalda', hint: '我背痛' },
+            { prompt: 'Me duele la pierna.', answer: 'pierna', hint: '我腿痛' },
+            { prompt: 'Me duele la rodilla.', answer: 'rodilla', hint: '我膝蓋痛' },
+            { prompt: 'Me duele el pie.', answer: 'pie', hint: '我腳痛' }
+        ];
+
+        // ===== Day 30: 社交達人 =====
+        const socialQuestions = [
+            { incoming: '¡Muchas gracias por tu ayuda!', answer: '¡De nada!', choices: ['¡De nada!', '¡Lo siento!', '¡Adiós!'], hint: 'gracias = 謝謝', context: '有人感謝你的幫忙' },
+            { incoming: 'Lo siento mucho por llegar tarde.', answer: 'No pasa nada.', choices: ['No pasa nada.', 'Gracias.', 'Buenas noches.'], hint: 'lo siento = 對不起', context: '有人遲到道歉' },
+            { incoming: '¡Hola! ¿Qué tal?', answer: '¡Muy bien, gracias!', choices: ['¡Muy bien, gracias!', 'Lo siento.', 'Hasta luego.'], hint: '¿qué tal? = 你好嗎？', context: '朋友跟你打招呼' },
+            { incoming: '¿Puedes ayudarme?', answer: '¡Claro que sí!', choices: ['¡Claro que sí!', '¡Buen provecho!', 'Me llamo Juan.'], hint: '¿puedes ayudarme? = 你能幫我嗎？', context: '有人請求幫忙' },
+            { incoming: '¡Feliz cumpleaños!', answer: '¡Muchas gracias!', choices: ['¡Muchas gracias!', 'Lo siento.', '¿Cuánto cuesta?'], hint: 'feliz cumpleaños = 生日快樂', context: '有人祝你生日快樂' },
+            { incoming: 'Encantado de conocerte.', answer: 'Igualmente.', choices: ['Igualmente.', 'Buenas noches.', '¿Dónde está?'], hint: 'encantado = 很高興認識你', context: '初次見面打招呼' },
+            { incoming: '¿Quieres ir al cine?', answer: '¡Sí, me encantaría!', choices: ['¡Sí, me encantaría!', 'No pasa nada.', 'De nada.'], hint: '¿quieres ir? = 你想去嗎？', context: '朋友邀請你去看電影' },
+            { incoming: 'Nos vemos mañana.', answer: '¡Hasta mañana!', choices: ['¡Hasta mañana!', '¡Buen provecho!', 'Me duele.'], hint: 'mañana = 明天', context: '朋友說明天見' },
+            { incoming: '¡Buen provecho!', answer: '¡Gracias, igualmente!', choices: ['¡Gracias, igualmente!', 'Lo siento.', '¿Qué hora es?'], hint: 'buen provecho = 請慢用', context: '用餐時有人說請慢用' },
+            { incoming: '¿Cómo te llamas?', answer: 'Me llamo...', choices: ['Me llamo...', 'Tengo hambre.', 'Hace calor.'], hint: '¿cómo te llamas? = 你叫什麼名字？', context: '有人問你的名字' }
+        ];
+
+        let gameState = {
+            questions: [],
+            currentIndex: 0,
+            streak: 0,
+            timer: null,
+            active: false,
+            level: null,
+            wrongAnswers: []
+        };
+
+        const gameOverlay = document.getElementById('gameOverlay');
+        const gameCard = document.getElementById('gameCard');
+
+        function startGame(level) {
+            let pool;
+            if (level === 'serEstar') pool = gameQuestions;
+            else if (level === 'waiter') pool = waiterQuestions;
+            else if (level === 'bomb') pool = bombQuestions;
+            else if (level === 'taxi') pool = taxiQuestions;
+            else if (level === 'doctor') pool = doctorQuestions;
+            else if (level === 'social') pool = socialQuestions;
+            else return;
+            gameState.questions = [...pool].sort(() => Math.random() - 0.5);
+            gameState.currentIndex = 0;
+            gameState.streak = 0;
+            gameState.active = true;
+            gameState.level = level;
+            gameState.wrongAnswers = [];
+            gameOverlay.style.display = 'flex';
+            renderGameQuestion();
+        }
+
+        function renderGameQuestion() {
+            if (gameState.currentIndex >= gameState.questions.length) {
+                showGameResult(false);
+                return;
+            }
+
+            const q = gameState.questions[gameState.currentIndex];
+            const level = gameState.level;
+
+            const progressDots = Array.from({ length: 5 }, (_, i) =>
+                `<div class="game-progress-dot ${i < gameState.streak ? 'filled' : ''}">${i < gameState.streak ? '✓' : ''}</div>`
+            ).join('');
+
+            let questionHtml = '';
+            let choicesHtml = '';
+
+            if (level === 'serEstar') {
+                const sentenceHtml = q.sentence.replace('___', '<span class="blank">____</span>');
+                questionHtml = `
+                    <div class="game-sentence">${sentenceHtml}</div>`;
+                choicesHtml = `
+                    <div class="game-choices">
+                        <button class="game-choice-btn btn-ser" onclick="answerGame('Ser')">Ser</button>
+                        <button class="game-choice-btn btn-estar" onclick="answerGame('Estar')">Estar</button>
+                    </div>`;
+            } else if (level === 'waiter') {
+                const shuffled = [...q.choices].sort(() => Math.random() - 0.5);
+                questionHtml = `
+                    <div class="game-sentence">🍽️ 客人說：「${q.prompt}」</div>`;
+                choicesHtml = `
+                    <div class="game-choices-4">
+                        ${shuffled.map(c => `<button class="game-choice-btn btn-waiter" onclick="answerGame('${c.replace(/'/g, "\\'")}')">${c}</button>`).join('')}
+                    </div>`;
+            } else if (level === 'bomb') {
+                const sentenceHtml = q.sentence.replace('___', '<span class="blank">____</span>');
+                const shuffled = [...q.choices].sort(() => Math.random() - 0.5);
+                questionHtml = `
+                    <div class="game-sentence">💣 ${sentenceHtml}</div>`;
+                choicesHtml = `
+                    <div class="game-choices-4">
+                        ${shuffled.map(c => `<button class="game-choice-btn btn-bomb" onclick="answerGame('${c.replace(/'/g, "\\'")}')">${c}</button>`).join('')}
+                    </div>`;
+            } else if (level === 'taxi') {
+                questionHtml = `
+                    <div class="game-sentence">🚕 乘客說：「${q.prompt}」</div>`;
+                choicesHtml = `
+                    <div class="game-taxi-arrows">
+                        <button class="game-choice-btn btn-taxi" onclick="answerGame('⬅️')">⬅️</button>
+                        <button class="game-choice-btn btn-taxi" onclick="answerGame('⬆️')">⬆️</button>
+                        <button class="game-choice-btn btn-taxi" onclick="answerGame('➡️')">➡️</button>
+                    </div>`;
+            } else if (level === 'doctor') {
+                questionHtml = `
+                    <div class="game-sentence">🏥 病人說：「${q.prompt}」</div>`;
+                choicesHtml = `
+                    <div class="game-stickman-container">
+                        <svg viewBox="0 0 200 320" width="100%" height="100%" style="position:absolute;top:0;left:0">
+                            <circle cx="100" cy="35" r="25" fill="none" stroke="#555" stroke-width="3"/>
+                            <line x1="100" y1="60" x2="100" y2="180" stroke="#555" stroke-width="3"/>
+                            <line x1="100" y1="90" x2="40" y2="150" stroke="#555" stroke-width="3"/>
+                            <line x1="100" y1="90" x2="160" y2="150" stroke="#555" stroke-width="3"/>
+                            <line x1="100" y1="180" x2="55" y2="280" stroke="#555" stroke-width="3"/>
+                            <line x1="100" y1="180" x2="145" y2="280" stroke="#555" stroke-width="3"/>
+                        </svg>
+                        <div class="body-hotspot" data-part="cabeza" onclick="answerDoctor('cabeza')" style="left:70px;top:5px;width:60px;height:55px;border-radius:50%"></div>
+                        <div class="body-hotspot" data-part="cuello" onclick="answerDoctor('cuello')" style="left:82px;top:58px;width:36px;height:25px"></div>
+                        <div class="body-hotspot" data-part="pecho" onclick="answerDoctor('pecho')" style="left:72px;top:83px;width:56px;height:45px"></div>
+                        <div class="body-hotspot" data-part="estomago" onclick="answerDoctor('estomago')" style="left:76px;top:128px;width:48px;height:40px"></div>
+                        <div class="body-hotspot" data-part="brazo" onclick="answerDoctor('brazo')" style="left:130px;top:90px;width:40px;height:55px;transform:rotate(-30deg)"></div>
+                        <div class="body-hotspot" data-part="mano" onclick="answerDoctor('mano')" style="left:145px;top:138px;width:30px;height:30px;border-radius:50%"></div>
+                        <div class="body-hotspot" data-part="espalda" onclick="answerDoctor('espalda')" style="left:30px;top:90px;width:40px;height:55px;transform:rotate(30deg)"></div>
+                        <div class="body-hotspot" data-part="pierna" onclick="answerDoctor('pierna')" style="left:108px;top:190px;width:35px;height:60px;transform:rotate(-10deg)"></div>
+                        <div class="body-hotspot" data-part="rodilla" onclick="answerDoctor('rodilla')" style="left:115px;top:240px;width:30px;height:30px;border-radius:50%"></div>
+                        <div class="body-hotspot" data-part="pie" onclick="answerDoctor('pie')" style="left:125px;top:270px;width:35px;height:25px"></div>
+                    </div>`;
+            } else if (level === 'social') {
+                const shuffled = [...q.choices].sort(() => Math.random() - 0.5);
+                questionHtml = `
+                    <div class="game-chat-container">
+                        <div class="chat-context">💬 ${q.context}</div>
+                        <div><div class="chat-bubble-incoming">${q.incoming}</div></div>
+                    </div>`;
+                choicesHtml = `
+                    <div class="chat-reply-area">
+                        ${shuffled.map(c => `<button class="game-choice-btn btn-social" onclick="answerGame('${c.replace(/'/g, "\\'")}')">${c}</button>`).join('')}
+                    </div>`;
+            }
+
+            gameCard.className = 'game-card';
+            gameCard.innerHTML = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                    <span style="font-size:0.9rem;color:#999">第 ${gameState.currentIndex + 1} / ${gameState.questions.length} 題</span>
+                    <button onclick="closeGame()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#999">✕</button>
+                </div>
+                <div class="game-timer-bar"><div class="game-timer-fill" id="gameTimerFill"></div></div>
+                ${questionHtml}
+                ${choicesHtml}
+                <div class="game-progress">${progressDots}</div>
+                <div class="game-progress-label">連續答對 ${gameState.streak} / 5</div>
+            `;
+
+            // Reset and start timer
+            clearTimeout(gameState.timer);
+            // Force reflow for animation restart
+            const timerFill = document.getElementById('gameTimerFill');
+            if (timerFill) {
+                timerFill.style.animation = 'none';
+                timerFill.offsetHeight;
+                timerFill.style.animation = 'timerShrink 5s linear forwards';
+            }
+            gameState.timer = setTimeout(() => gameTimeout(), 5000);
+        }
+
+        function answerGame(choice) {
+            if (!gameState.active) return;
+            clearTimeout(gameState.timer);
+
+            const q = gameState.questions[gameState.currentIndex];
+            const isCorrect = choice === q.answer;
+            const buttons = gameCard.querySelectorAll('.game-choice-btn');
+
+            // Stop timer animation
+            const timerFill = document.getElementById('gameTimerFill');
+            if (timerFill) {
+                timerFill.style.animation = 'none';
+                timerFill.style.width = timerFill.getBoundingClientRect().width + 'px';
+            }
+
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === q.answer) {
+                    btn.classList.add('correct');
+                }
+                if (!isCorrect && btn.textContent === choice) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            // Show correct form
+            const blankEl = gameCard.querySelector('.blank');
+            if (blankEl) {
+                blankEl.style.color = isCorrect ? 'var(--success)' : 'var(--error)';
+                blankEl.style.borderColor = isCorrect ? 'var(--success)' : 'var(--error)';
+                blankEl.textContent = q.form || q.answer;
+            }
+
+            if (isCorrect) {
+                gameState.streak++;
+                // Update progress dots immediately
+                const dots = gameCard.querySelectorAll('.game-progress-dot');
+                dots.forEach((dot, i) => {
+                    if (i < gameState.streak) {
+                        dot.classList.add('filled');
+                        dot.textContent = '✓';
+                    }
+                });
+                const label = gameCard.querySelector('.game-progress-label');
+                if (label) label.textContent = `連續答對 ${gameState.streak} / 5`;
+
+                if (gameState.streak >= 5) {
+                    setTimeout(() => showGameResult(true), 800);
+                    return;
+                }
+            } else {
+                gameState.streak = 0;
+                gameState.wrongAnswers.push(q);
+                gameCard.classList.add('shake');
+                // Reset progress dots
+                const dots = gameCard.querySelectorAll('.game-progress-dot');
+                dots.forEach(dot => { dot.classList.remove('filled'); dot.textContent = ''; });
+                const label = gameCard.querySelector('.game-progress-label');
+                if (label) label.textContent = '連續答對 0 / 5';
+            }
+
+            gameState.currentIndex++;
+            setTimeout(() => renderGameQuestion(), 800);
+        }
+
+        function answerDoctor(part) {
+            if (!gameState.active) return;
+            clearTimeout(gameState.timer);
+
+            const q = gameState.questions[gameState.currentIndex];
+            const isCorrect = part === q.answer;
+
+            // Stop timer animation
+            const timerFill = document.getElementById('gameTimerFill');
+            if (timerFill) {
+                timerFill.style.animation = 'none';
+                timerFill.style.width = timerFill.getBoundingClientRect().width + 'px';
+            }
+
+            // Disable all hotspots
+            const hotspots = gameCard.querySelectorAll('.body-hotspot');
+            hotspots.forEach(hs => {
+                hs.style.pointerEvents = 'none';
+                hs.classList.remove('glow');
+                hs.style.animation = 'none';
+                if (hs.dataset.part === q.answer) {
+                    hs.classList.add('correct');
+                }
+                if (!isCorrect && hs.dataset.part === part) {
+                    hs.classList.add('wrong');
+                }
+            });
+
+            if (isCorrect) {
+                gameState.streak++;
+                const dots = gameCard.querySelectorAll('.game-progress-dot');
+                dots.forEach((dot, i) => {
+                    if (i < gameState.streak) {
+                        dot.classList.add('filled');
+                        dot.textContent = '✓';
+                    }
+                });
+                const label = gameCard.querySelector('.game-progress-label');
+                if (label) label.textContent = `連續答對 ${gameState.streak} / 5`;
+
+                if (gameState.streak >= 5) {
+                    setTimeout(() => showGameResult(true), 800);
+                    return;
+                }
+            } else {
+                gameState.streak = 0;
+                gameState.wrongAnswers.push(q);
+                gameCard.classList.add('shake');
+                const dots = gameCard.querySelectorAll('.game-progress-dot');
+                dots.forEach(dot => { dot.classList.remove('filled'); dot.textContent = ''; });
+                const label = gameCard.querySelector('.game-progress-label');
+                if (label) label.textContent = '連續答對 0 / 5';
+            }
+
+            gameState.currentIndex++;
+            setTimeout(() => renderGameQuestion(), 800);
+        }
+
+        function gameTimeout() {
+            if (!gameState.active) return;
+
+            const q = gameState.questions[gameState.currentIndex];
+
+            // Handle doctor level hotspots
+            if (gameState.level === 'doctor') {
+                const hotspots = gameCard.querySelectorAll('.body-hotspot');
+                hotspots.forEach(hs => {
+                    hs.style.pointerEvents = 'none';
+                    hs.style.animation = 'none';
+                    if (hs.dataset.part === q.answer) {
+                        hs.classList.add('correct');
+                    }
+                });
+            }
+
+            // Handle regular button levels
+            const buttons = gameCard.querySelectorAll('.game-choice-btn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === q.answer) btn.classList.add('correct');
+            });
+
+            const blankEl = gameCard.querySelector('.blank');
+            if (blankEl) {
+                blankEl.style.color = 'var(--error)';
+                blankEl.style.borderColor = 'var(--error)';
+                blankEl.textContent = q.form || q.answer;
+            }
+
+            gameState.streak = 0;
+            gameState.wrongAnswers.push(q);
+            gameCard.classList.add('shake');
+            const dots = gameCard.querySelectorAll('.game-progress-dot');
+            dots.forEach(dot => { dot.classList.remove('filled'); dot.textContent = ''; });
+            const label = gameCard.querySelector('.game-progress-label');
+            if (label) label.textContent = '連續答對 0 / 5（超時！）';
+
+            gameState.currentIndex++;
+            setTimeout(() => renderGameQuestion(), 800);
+        }
+
+        function buildWrongReview() {
+            if (gameState.wrongAnswers.length === 0) return '';
+            const level = gameState.level;
+            const items = gameState.wrongAnswers.map(q => {
+                let questionText = '';
+                if (level === 'serEstar') {
+                    questionText = q.sentence.replace('___', `<strong>${q.form || q.answer}</strong>`);
+                } else if (level === 'social') {
+                    questionText = `${q.context}：「${q.incoming}」`;
+                } else {
+                    questionText = q.prompt || q.sentence || '';
+                }
+                return `
+                    <div style="background:#f8f8f8;border-radius:10px;padding:12px;margin-bottom:8px;text-align:left">
+                        <div style="font-size:0.9rem;color:#333;margin-bottom:4px">${questionText}</div>
+                        <div style="font-size:0.85rem;color:var(--primary);font-weight:600">✓ 正確答案：${q.answer}</div>
+                        <div style="font-size:0.8rem;color:#888;margin-top:4px">💡 ${q.hint}</div>
+                    </div>`;
+            }).join('');
+            return `
+                <div style="margin-top:20px;text-align:left;max-height:280px;overflow-y:auto">
+                    <div style="font-size:0.95rem;font-weight:600;color:#555;margin-bottom:8px">📝 答錯的題目：</div>
+                    ${items}
+                </div>`;
+        }
+
+        function showGameResult(won) {
+            gameState.active = false;
+            clearTimeout(gameState.timer);
+
+            const winMessages = {
+                serEstar: '你已經掌握 Ser 和 Estar 的用法了！',
+                waiter: '你已經是最強服務生了！',
+                bomb: '炸彈已拆除！你的句型超級熟練！',
+                taxi: '你已經是最可靠的計程車司機了！方向感滿分！',
+                doctor: '你已經是合格的急診醫生了！身體部位全掌握！',
+                social: '你已經是社交達人了！西班牙語對話毫無障礙！'
+            };
+            const winMsg = winMessages[gameState.level] || '恭喜過關！';
+            const wrongReview = buildWrongReview();
+
+            if (won) {
+                gameCard.innerHTML = `
+                    <div class="game-result">
+                        <div class="game-result-icon">🏆</div>
+                        <div class="game-result-title">恭喜過關！</div>
+                        <div class="game-result-msg">${winMsg}<br>連續答對 5 題，太厲害了！</div>
+                        ${wrongReview}
+                        <button class="game-result-btn primary" style="margin-top:16px" onclick="closeGame()">完成</button>
+                    </div>
+                `;
+            } else {
+                gameCard.innerHTML = `
+                    <div class="game-result">
+                        <div class="game-result-icon">💪</div>
+                        <div class="game-result-title">再試一次！</div>
+                        <div class="game-result-msg">10 題用完但未能連續答對 5 題。<br>多練習幾次就能掌握！</div>
+                        ${wrongReview}
+                        <button class="game-result-btn primary" style="margin-top:16px" onclick="startGame('${gameState.level}')">再挑戰一次</button>
+                        <button class="game-result-btn secondary" onclick="closeGame()">返回課程</button>
+                    </div>
+                `;
+            }
+        }
+
+        function closeGame() {
+            gameState.active = false;
+            clearTimeout(gameState.timer);
+            gameOverlay.style.display = 'none';
+        }
+
     </script>
 </body>
 </html>
