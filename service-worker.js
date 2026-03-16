@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spanish-learning-v1.0.11'; // index.html更新(三星手機自動用雲端TTS)
+const CACHE_NAME = 'spanish-learning-v1.0.12'; // 移除Boss關卡即時提示，新增答錯複習區，更新header圖片
 const urlsToCache = [
   './',
   './index.html',
